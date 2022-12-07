@@ -15,7 +15,6 @@ import {useState} from "react";
 function App() {
    const [isAuthenticated, toggleIsAuthenticated] = useState(false);
 
-    console.log("IsAuthenticated: " + isAuthenticated);
     return (
         <>
             <Nav

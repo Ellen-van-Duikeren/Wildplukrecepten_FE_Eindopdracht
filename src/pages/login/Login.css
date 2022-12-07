@@ -12,6 +12,11 @@ form {
     width: 45%;
 }
 
+.login-form input {
+    top: -5px;
+    padding: 10px;
+}
+
 #inlog-header {
     padding-bottom: 30px;
 }
@@ -43,8 +48,3 @@ form {
     margin-left: 20px;
 }
 
-#username-does-not-exist, #password-is-not-right {
-    color: red;
-    padding-top: 20px;
-    font-size: 0.8em;
-}

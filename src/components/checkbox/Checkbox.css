@@ -1,0 +1,8 @@
+.checkboxcomponent {
+    display: inline-block;
+    width: 160px;
+}
+
+.checkboxcomponent input {
+    margin-right: 6px;
+}

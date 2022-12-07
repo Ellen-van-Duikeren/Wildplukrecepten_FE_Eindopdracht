@@ -4,6 +4,7 @@ import {useNavigate} from "react-router-dom";
 import {useForm} from 'react-hook-form';
 import Input from "../../components/input/Input";
 import users from '../../data/users.json';
+import React from "react";
 
 function Login({isAuthenticated, toggleIsAuthenticated}) {
     const navigate = useNavigate();
@@ -56,7 +57,8 @@ function Login({isAuthenticated, toggleIsAuthenticated}) {
                         register={register}
                         errors={errors}
                     />
-                    <p id="username-does-not-exist"></p>
+                    {errors.username && <p>{errors.username.message}</p>}
+
 
                     <Input
                         labelText="Wachtwoord:"
@@ -73,7 +75,7 @@ function Login({isAuthenticated, toggleIsAuthenticated}) {
                         register={register}
                         errors={errors}
                     />
-                    <p id="password-is-not-right"></p>
+                    {errors.password && <p>{errors.password.message}</p>}
 
                     <button type="submit" id="login-button">Versturen</button>
 

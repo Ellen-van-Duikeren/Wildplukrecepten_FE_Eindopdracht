@@ -1,9 +1,47 @@
+.newrecipepage {
+    background-color: var(--yellowpink);
+    padding: 20px 0 20px 0;
+}
 
-
-.newrecipe form {
+.newrecipepage form {
+    width: 80vw;
     display: flex;
     flex-direction: column;
+}
+
+.texts label {
+    position: relative;
+}
+
+.texts input {
+    left: 200px;
     width: 40vw;
+}
+
+#persons-field {
+    width: 50px;
+}
+
+#textarea-field {
+    position: relative;
+    margin-bottom: 80px;
+}
+
+textarea {
+    font-family: merriweather, sans-serif;
+    padding: 5px;
+    position: absolute;
+    top: 0;
+    left: 200px;
+    border-radius: 5px;
+    border: 2px solid lightgray;:
+    width: 40vw;
+}
+
+.newrecipepage p {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 0.8rem;
 }
 
 
