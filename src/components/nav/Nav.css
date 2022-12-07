@@ -1,0 +1,51 @@
+nav {
+    font-size: 14px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+    background-color: var(--green);
+}
+
+nav ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-basis: 600px;
+    list-style-type: none;
+    font-size: 1.2em;
+
+}
+
+nav #logoText {
+    height: 30px;
+}
+
+
+nav a {
+    text-decoration-line: none;
+    color: white;
+}
+
+nav .active-menu-link {
+    border-bottom: 1px solid white;
+}
+
+nav .default-menu-link {
+    border-bottom: 1px solid transparent;
+}
+
+#uitlog-button, #inlog-button {
+    background-color: antiquewhite;
+    color: black;
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+#logonaam {
+    font-style: italic;
+}

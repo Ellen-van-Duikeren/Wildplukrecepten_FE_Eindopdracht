@@ -1,0 +1,75 @@
+import React from 'react';
+import logoText from "../../assets/logoText.png";
+import {NavLink, useNavigate} from 'react-router-dom';
+import './Nav.css';
+
+function Nav({isAuthenticated, toggleIsAuthenticated}) {
+    const navigate = useNavigate();
+
+    function handleClick() {
+        toggleIsAuthenticated(false);
+        navigate("/login");
+    }
+
+    return (
+        <>
+            <nav>
+                <ul>
+                    {/*hieronder nog leuk logo toevoegen?*/}
+                    <li id="logonaam">Wildplukrecepten</li>
+
+                    <NavLink className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}
+                             to="/">
+                        <li>home</li>
+                    </NavLink>
+
+                    {/*{!isAuthenticated &&*/}
+                    {/*<NavLink className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}*/}
+                    {/*         to="/login">*/}
+                    {/*    <li>login</li>*/}
+                    {/*</NavLink>}*/}
+
+                    {isAuthenticated &&
+                        <NavLink className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}
+                                 to="/recipes">
+                            <li>recepten</li>
+                        </NavLink>}
+
+                    {isAuthenticated &&
+                        <NavLink className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}
+                                 to="/newRecipe">
+                            <li>nieuw recept</li>
+                        </NavLink>}
+
+                    {isAuthenticated &&
+                        <NavLink className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}
+                                 to="/admin">
+                            <li>admin</li>
+                        </NavLink>}
+
+                    {!isAuthenticated &&
+                        <button
+                            type="button"
+                            id="inlog-button"
+                            onClick={() => handleClick()}
+                        >
+                            inloggen
+                        </button>}
+
+                    {isAuthenticated &&
+                        <button
+                            type="button"
+                            id="uitlog-button"
+                            onClick={() => handleClick()}
+                        >
+                            uitloggen
+                        </button>}
+                    {/*hieronder zoek button uitgecomment, lelijk ding*/}
+                    {/*<input className="formControl" type="text" placeholder="zoek"></input>*/}
+                </ul>
+            </nav>
+        </>
+    );
+}
+
+export default Nav;

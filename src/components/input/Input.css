@@ -1,0 +1,18 @@
+.inputcomponent {
+    margin-bottom: 30px;
+}
+
+.inputcomponent label {
+    position: relative;
+}
+
+.inputcomponent input {
+    position: absolute;
+    left: 100px;
+    top: -10px;
+    width: 30vw;
+    padding: 10px;
+    border-radius: 5px;
+    border: 2px solid gray;
+}
+
