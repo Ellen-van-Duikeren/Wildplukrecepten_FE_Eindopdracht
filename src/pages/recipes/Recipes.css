@@ -1,0 +1,15 @@
+.recipespage {
+    background-color: var(--yellowpink);
+    padding: 20px 0 20px 20px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.recipespage ol {
+    padding-left: 20px;
+}
+
+.recipespage li {
+    margin-bottom: 10px;
+}

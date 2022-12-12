@@ -13,7 +13,6 @@ function Login({isAuthenticated, toggleIsAuthenticated}) {
     //onderstaande moet er nog uit, dit is een button om meteen zonder inlog en password op te geven in te loggen
     function handleClick() {
         toggleIsAuthenticated(true);
-        console.log("IsAuthenticated is door de inlogbutton zonder ww gezet op: " + isAuthenticated)
         navigate("/recipes");
     }
 

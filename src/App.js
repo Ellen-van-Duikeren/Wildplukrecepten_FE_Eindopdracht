@@ -12,8 +12,9 @@ import Recipe from "./pages/recipe/Recipe";
 import {useState} from "react";
 
 
+
 function App() {
-   const [isAuthenticated, toggleIsAuthenticated] = useState(false);
+    const [isAuthenticated, toggleIsAuthenticated] = useState(false);
 
     return (
         <>
@@ -25,7 +26,7 @@ function App() {
             <Routes>
                 <Route path="/" element={<Home/>}/>
                 <Route
-                    path="/Login"
+                    path="/login"
                     element={<Login
                         isAuthenticated={isAuthenticated}
                         toggleIsAuthenticated={toggleIsAuthenticated}
@@ -34,15 +35,19 @@ function App() {
 
                 <Route
                     path="/recipes"
-                    element={<Recipes/>}
+                    element={<Recipes
+                        isAuthenticated={isAuthenticated}
+                        // toggleIsAuthenticated={toggleIsAuthenticated}
+                    />}
                 />
 
                 <Route
-                    path="/blogpost/:id"
-                    element={<Recipe/>
-                        }
+                    path="/recipe/:id"
+                    element={<Recipe
+                        isAuthenticated={isAuthenticated}
+                        // toggleIsAuthenticated={toggleIsAuthenticated}
+                    />}
                 />
-
 
                 <Route path="/newrecipe" element=
                     {<NewRecipe/>}

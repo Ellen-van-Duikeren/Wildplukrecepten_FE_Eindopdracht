@@ -12,13 +12,32 @@ form {
     width: 45%;
 }
 
+.login-form label {
+    position: relative;
+}
+
 .login-form input {
     top: -5px;
     padding: 10px;
+    position: absolute;
+    left: 100px;
+    width: 30vw;
+    border-radius: 5px;
+    border: 2px solid lightgray;
 }
 
 #inlog-header {
     padding-bottom: 30px;
+}
+
+.login-form button {
+    margin-top: 20px;
+    padding: 10px;
+}
+
+#click-login-button {
+    margin-left: 20px;
+    width: 200px;
 }
 
 .right-side {
@@ -46,5 +65,6 @@ form {
 
 #click-login-button {
     margin-left: 20px;
+    width: 200px;
 }
 

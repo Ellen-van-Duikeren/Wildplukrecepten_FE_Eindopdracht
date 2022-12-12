@@ -16,7 +16,10 @@ function Nav({isAuthenticated, toggleIsAuthenticated}) {
             <nav>
                 <ul>
                     {/*hieronder nog leuk logo toevoegen?*/}
-                    <li id="logonaam">Wildplukrecepten</li>
+                    <NavLink className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}
+                             to="/">
+                        <li>Wildplukrecepten</li>
+                    </NavLink>
 
                     <NavLink className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}
                              to="/">
@@ -38,7 +41,7 @@ function Nav({isAuthenticated, toggleIsAuthenticated}) {
                     {isAuthenticated &&
                         <NavLink className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}
                                  to="/newRecipe">
-                            <li>nieuw recept</li>
+                            <li>recept toevoegen</li>
                         </NavLink>}
 
                     {isAuthenticated &&

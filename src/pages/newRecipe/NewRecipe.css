@@ -1,21 +1,39 @@
+/*page............................................*/
 .newrecipepage {
     background-color: var(--yellowpink);
     padding: 20px 0 20px 0;
 }
 
+/*form................................................*/
 .newrecipepage form {
     width: 80vw;
     display: flex;
     flex-direction: column;
 }
 
+.newrecipepage h1 {
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+
+.newrecipepage button {
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+/*texts.................................................*/
+
 .texts label {
     position: relative;
 }
 
 .texts input {
+    position: absolute;
     left: 200px;
     width: 40vw;
+    padding: 5px;
+    border-radius: 5px;
+    border: 2px solid lightgray;
 }
 
 #persons-field {
@@ -24,7 +42,7 @@
 
 #textarea-field {
     position: relative;
-    margin-bottom: 80px;
+    margin-bottom: 70px;
 }
 
 textarea {
@@ -34,15 +52,90 @@ textarea {
     top: 0;
     left: 200px;
     border-radius: 5px;
-    border: 2px solid lightgray;:
+    border: 2px solid lightgray;
     width: 40vw;
 }
 
-.newrecipepage p {
-    margin-top: 20px;
-    margin-bottom: 20px;
+/*ingredients & requirements.......................................*/
+.ingredients p {
+    margin-bottom: 10px;
     font-size: 0.8rem;
 }
 
+.ingredient {
+    display: flex;
+    flex-direction: row;
+}
 
+#amount, #unit, #ingredientname, #utensil {
+    padding: 5px;
+    border-radius: 5px;
+    border: 2px solid lightgray;
+}
+
+.utensils li {
+    margin-left: 20px;
+    font-size: 0.8rem;
+    font-family: merriweather, sans-serif;
+}
+
+#amount {
+    width: 60px;
+}
+
+#unit {
+    height: 30px;
+}
+
+#ingredient {
+    width: 340px;
+}
+
+/*instructions............................................*/
+.instructions .instruction {
+    display: flex;
+    flex-direction: column;
+}
+
+.instructions .instructionLine {
+    height: 2.5em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.instructions li {
+    margin-left: 20px;
+    font-size: 0.8rem;
+    font-family: merriweather, sans-serif;
+}
+
+.instructions input {
+    width: 400px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 2px solid lightgray;
+}
+
+.instructions button {
+    width: 25px;
+    margin-left: 10px;
+    padding: 5px;
+    border: 1px solid transparent;
+    border-radius: 50%;
+}
+
+/*checkboxes............................................*/
+.checkboxes {
+    margin-top: 20px;
+}
+
+#required {
+    margin-top: 20px;
+}
+
+#submitButton {
+    width: 100px;
+    padding: 10px;
+}
 

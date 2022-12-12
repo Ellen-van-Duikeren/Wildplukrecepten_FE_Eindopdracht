@@ -1,0 +1,172 @@
+.recipepage {
+    background-color: var(--yellowpink);
+    padding: 20px 0 20px 20px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+/*left-side............................................*/
+.recipepage .left-side {
+    position: fixed;
+    top: 100px;
+    background-color: var(--green);
+    width: 32%;
+    border-radius: 10px;
+}
+
+.recipepage #emptydiv {
+    background-color: var(--green);
+    width: 35%;
+    border-radius: 10px;
+}
+
+.recipepage li {
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+.recipepage .recipedescription {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.recipepage button {
+    margin: 0 10px 20px 0;
+    border-radius: 50%;
+    border: 1px transparent solid;
+    background-color: var(--yellowpink);
+    padding: 5px;
+}
+
+.recipepage #counterPersons {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+}
+
+.recipepage #amountOfPersons {
+    margin-right: 10px;
+}
+
+.recipepage .ingredients {
+    position: relative;
+}
+
+.recipepage #ingredient {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: baseline;
+}
+
+.recipepage input[type="checkbox"] {
+  margin-right: 6px;
+}
+
+/*.recipepage input[type="checkbox"]:checked {*/
+/*    background: var(--green);*/
+/*}*/
+
+.recipepage #ingredient p {
+    padding-right: 3px;
+}
+
+.recipepage .counteringredient {
+    background-color: #A8C256;
+    border: 1px solid transparent;
+    color: white;
+    border-radius: 50%;
+    margin-right: 6px;
+    padding: 5px;
+}
+
+.recipepage .descriptions {
+    margin-left: 20px;
+    width: 55%;
+    background-color: var(--yellowpink);
+    padding: 20px;
+}
+
+/*right side.........................................*/
+.recipepage h1 {
+    margin-bottom: 6px;
+}
+
+.recipepage img {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.recipepage p, .recipepage span, .recipepage li {
+    font-size: 0.8rem;
+}
+
+.recipepage #source {
+    font-size: 0.6rem;
+}
+
+.recipepage #months, #utensils, #tags {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.recipepage .times {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: center;
+}
+
+.recipepage .time {
+    display: flex;
+    flex-direction: column;
+    margin-top: 5px;
+}
+
+.recipepage .time p {
+    margin: 0;
+
+    padding: 0;
+}
+
+.recipepage #utensilsheader {
+    margin-top: 10px;
+}
+
+.recipepage #instruction {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.recipepage #step {
+    border: 1px solid transparent;
+    border-radius: 50%;
+    background-color: var(--green);
+    margin-right: 20px;
+    padding: 10px;
+    color: white;
+}
+
+.recipepage #tags {
+    margin-top: 20px;
+}
+
+.recipepage #month, .recipepage #tag {
+    text-align: center;
+    width: 100px;
+    border: 2px solid var(--green);
+    border-radius: 10px;
+    background-color: var(--green);
+    color: white;
+    padding: 2px;
+}
+
+/*bottom.......................................*/
+#backtohome {
+    margin-top: 20px;
+}

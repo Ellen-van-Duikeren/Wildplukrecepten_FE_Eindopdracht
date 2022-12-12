@@ -1,7 +1,7 @@
 import React from 'react';
 import './Input.css';
 
-function Input({ inputType, placeholder, inputName, labelText, inputId, validationRules, register, errors, inputMin, inputMax }) {
+function Input({ inputValue, inputType, placeholder, inputName, labelText, inputId, validationRules, register, errors, inputMin, inputMax, inputStep }) {
 
 
     return (
@@ -14,6 +14,7 @@ function Input({ inputType, placeholder, inputName, labelText, inputId, validati
                     placeholder={placeholder}
                     min={inputMin}
                     max={inputMax}
+                    step={inputStep}
                     {...register(inputName, validationRules)}
                 />
             </label>

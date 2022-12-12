@@ -1,21 +1,134 @@
 [
   {
-    "name": "Bramenjam",
-    "img": ""
+    "id": "1",
+    "title": "Bramenjam1",
+    "imgname": "bramenjam.jpg",
+    "subtitle": "Voor ca. 600 ml bramenjam",
+    "persons": "4",
+    "source": "https://www.laurasbakery.nl/zelf-bramenjam-maken/",
+    "story": "Dit is een heel makkelijk recept en bramen zijn overal te vinden. Ook juist op de ruige plekken.",
+    "preptime": "2 minuten",
+    "cooktime": "10 minuten",
+    "tip": "Ongeopend is de bramenjam tot wel een jaar houdbaar op een koele donkere plek. Na openen zet je de pot in de koelkast.",
+    "ingredient": [
+      {
+        "amount": "500",
+        "unit": "gram",
+        "ingredientname": "bramen"
+      },
+      {
+        "amount": "200",
+        "unit": "gram",
+        "ingredientname": "geleisuiker speciaal"
+      },
+      {
+        "amount": "1",
+        "unit": "eetlepel",
+        "ingredientname": "citroensap"
+      }
+    ],
+    "utensils": [
+      "schone uitgekookte potjes"
+    ],
+    "instructions": [
+      "Was de bramen en pureer deze, bijvoorbeeld met een staafmixer. Als je geen pitjes in je jam wilt, kun je de bramenpuree nog even zeven.",
+      "Doe de bramenpuree met suiker en citroensap in een pan. Breng het mengsel aan de kook terwijl je voortdurend blijft roeren. Als het eenmaal kookt laat je het ongeveer 2 minuten doorkoken, ook nu blijven roeren.",
+      "Giet de bramenjam in de schone potjes, draai de deksel er op en zet ze op hun kop. Laat ze in ieder geval 5 minuten zo staan voordat je ze weer rechtop zet. Je hoort een klik van de deksel als je dit doet. Nu zijn ze vacuüm gezogen."
+    ],
+    "months": ["juli", "augustus", "september", "oktober"],
+    "tags": [
+      "vegetarisch",
+      "lactosevrij",
+      "glutenvrij"
+    ]
   },
   {
-    "name": "Sloegin",
-    "img": ""
+    "id": "2",
+    "title": "Bramenjam2",
+    "imgname": "bramenjam.jpg",
+    "subtitle": "Voor ca. 600 ml bramenjam",
+    "persons": "4",
+    "source": "https://www.laurasbakery.nl/zelf-bramenjam-maken/",
+    "story": "Dit is een heel makkelijk recept en bramen zijn overal te vinden. Ook juist op de ruige plekken.",
+    "preptime": "2 minuten",
+    "cooktime": "10 minuten",
+    "tip": "Ongeopend is de bramenjam tot wel een jaar houdbaar op een koele donkere plek. Na openen zet je de pot in de koelkast.",
+    "ingredient": [
+      {
+        "amount": "500",
+        "unit": "gram",
+        "ingredientname": "bramen"
+      },
+      {
+        "amount": "200",
+        "unit": "gram",
+        "ingredientname": "geleisuiker speciaal"
+      },
+      {
+        "amount": "1",
+        "unit": "eetlepel",
+        "ingredientname": "citroensap"
+      }
+    ],
+    "utensils": [
+      "schone uitgekookte potjes"
+    ],
+    "instructions": [
+      "Was de bramen en pureer deze, bijvoorbeeld met een staafmixer. Als je geen pitjes in je jam wilt, kun je de bramenpuree nog even zeven.",
+      "Doe de bramenpuree met suiker en citroensap in een pan. Breng het mengsel aan de kook terwijl je voortdurend blijft roeren. Als het eenmaal kookt laat je het ongeveer 2 minuten doorkoken, ook nu blijven roeren.",
+      "Giet de bramenjam in de schone potjes, draai de deksel er op en zet ze op hun kop. Laat ze in ieder geval 5 minuten zo staan voordat je ze weer rechtop zet. Je hoort een klik van de deksel als je dit doet. Nu zijn ze vacuüm gezogen."
+    ],
+    "months": ["juli", "augustus", "september", "oktober"],
+    "tags": [
+      "vegetarisch",
+      "lactosevrij",
+      "glutenvrij"
+    ]
   },
   {
-//    "name": "Pompoen met wilde kruiden",
-//    "img": "",
-//    "source": "https://natuurkok.nl/pompoen-met-wilde-kruiden/";
-//    "ingredients": [- 1 pompoen
-//      - 125gr geitenkaas (Bettine blanc of Bucheron)
-//      - 85 gr wilde kruiden (lekker is een mix van bijvoorbeeld Zevenblad, Grote zandkool (= Wilde rucola), Madeliefrozetjes), - 2 el klein gesneden wilde kruiden (bijvoorbeeld een mix van Pinksterbloem, Smalle weegbree, Waterpeper)
-//      - 50 ml rode wijn azijn
-//      - 100 ml olijf olie
-//      - Zeezout en peper ]
-//  }
+    "id": "3",
+    "title": "Bramenjam3",
+    "imgname": "bramenjam.jpg",
+    "subtitle": "Voor ca. 600 ml bramenjam",
+    "persons": "4",
+    "source": "https://www.laurasbakery.nl/zelf-bramenjam-maken/",
+    "story": "Dit is een heel makkelijk recept en bramen zijn overal te vinden. Ook juist op de ruige plekken.",
+    "preptime": "2 minuten",
+    "cooktime": "10 minuten",
+    "tip": "Ongeopend is de bramenjam tot wel een jaar houdbaar op een koele donkere plek. Na openen zet je de pot in de koelkast.",
+    "ingredient": [
+      {
+        "amount": "500",
+        "unit": "gram",
+        "ingredientname": "bramen"
+      },
+      {
+        "amount": "200",
+        "unit": "gram",
+        "ingredientname": "geleisuiker speciaal"
+      },
+      {
+        "amount": "1",
+        "unit": "eetlepel",
+        "ingredientname": "citroensap"
+      }
+    ],
+    "utensils": [
+      "schone uitgekookte potjes"
+    ],
+    "instructions": [
+      "Was de bramen en pureer deze, bijvoorbeeld met een staafmixer. Als je geen pitjes in je jam wilt, kun je de bramenpuree nog even zeven.",
+      "Doe de bramenpuree met suiker en citroensap in een pan. Breng het mengsel aan de kook terwijl je voortdurend blijft roeren. Als het eenmaal kookt laat je het ongeveer 2 minuten doorkoken, ook nu blijven roeren.",
+      "Giet de bramenjam in de schone potjes, draai de deksel er op en zet ze op hun kop. Laat ze in ieder geval 5 minuten zo staan voordat je ze weer rechtop zet. Je hoort een klik van de deksel als je dit doet. Nu zijn ze vacuüm gezogen."
+    ],
+    "months": ["juli", "augustus", "september", "oktober"],
+    "tags": [
+      "vegetarisch",
+      "lactosevrij",
+      "glutenvrij"
+    ]
+  }
 ]
+
+
+

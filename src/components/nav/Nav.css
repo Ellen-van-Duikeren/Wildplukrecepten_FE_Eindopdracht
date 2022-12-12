@@ -14,7 +14,7 @@ nav ul {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    flex-basis: 600px;
+    flex-basis: 80vw;
     list-style-type: none;
     font-size: 1.2em;
 
