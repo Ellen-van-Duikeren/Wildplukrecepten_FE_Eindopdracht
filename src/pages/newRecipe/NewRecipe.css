@@ -101,7 +101,7 @@ textarea {
     height: 2.5em;
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: baseline;
 }
 
 .instructions li {
@@ -128,6 +128,10 @@ textarea {
 /*checkboxes............................................*/
 .checkboxes {
     margin-top: 20px;
+}
+
+.checkboxes h3 {
+margin-top: 20px;
 }
 
 #required {
