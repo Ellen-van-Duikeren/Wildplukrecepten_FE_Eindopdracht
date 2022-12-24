@@ -5,7 +5,10 @@
 }
 
 /*form................................................*/
+
+
 .newrecipepage form {
+    padding-left: 20px;
     width: 80vw;
     display: flex;
     flex-direction: column;
@@ -20,6 +23,14 @@
     margin-top: 20px;
     margin-bottom: 40px;
 }
+
+#photo_upload_button {
+    width: 120px;
+    padding: 10px;
+    border: transparent;
+   margin-left: 170px;
+}
+
 
 /*texts.................................................*/
 
@@ -57,20 +68,59 @@ textarea {
 }
 
 /*ingredients & requirements.......................................*/
+.ingredients {
+    margin-bottom: 40px;
+}
+
+.ingredientLine {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    margin-bottom: -40px;
+}
+
+.ingredients li {
+    margin-left: 20px;
+    font-size: 0.8rem;
+    font-family: merriweather, sans-serif;
+}
+
 .ingredients p {
-    margin-bottom: 10px;
     font-size: 0.8rem;
 }
 
-.ingredient {
-    display: flex;
-    flex-direction: row;
-}
-
-#amount, #unit, #ingredientname, #utensil {
+#amount, #unit, #ingredient_name {
     padding: 5px;
     border-radius: 5px;
     border: 2px solid lightgray;
+}
+
+#amount {
+    width: 60px;
+}
+
+#ingredient {
+    width: 340px;
+}
+
+.ingredients button {
+    width: 25px;
+    margin-left: 10px;
+    padding: 5px;
+    border: 1px solid transparent;
+    border-radius: 50%;
+}
+
+/*utensils................................................*/
+.utensils {
+    margin-bottom: 40px;
+}
+
+.utensilLine {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    margin-bottom: -40px;
 }
 
 .utensils li {
@@ -79,29 +129,29 @@ textarea {
     font-family: merriweather, sans-serif;
 }
 
-#amount {
-    width: 60px;
+.utensils input {
+    width: 400px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 2px solid lightgray;
 }
 
-#unit {
-    height: 30px;
+.utensils button {
+    width: 25px;
+    margin-left: 10px;
+    padding: 5px;
+    border: 1px solid transparent;
+    border-radius: 50%;
 }
 
-#ingredient {
-    width: 340px;
-}
+
 
 /*instructions............................................*/
-.instructions .instruction {
-    display: flex;
-    flex-direction: column;
-}
-
-.instructions .instructionLine {
-    height: 2.5em;
+.instructionLine {
     display: flex;
     flex-direction: row;
     align-items: baseline;
+    margin-bottom: -40px;
 }
 
 .instructions li {
@@ -131,7 +181,7 @@ textarea {
 }
 
 .checkboxes h3 {
-margin-top: 20px;
+    margin-top: 20px;
 }
 
 #required {
@@ -141,5 +191,6 @@ margin-top: 20px;
 #submitButton {
     width: 100px;
     padding: 10px;
+    border: transparent;
 }
 

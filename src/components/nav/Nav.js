@@ -18,19 +18,13 @@ function Nav({isAuthenticated, toggleIsAuthenticated}) {
                     {/*hieronder nog leuk logo toevoegen?*/}
                     <NavLink className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}
                              to="/">
-                        <li>Wildplukrecepten</li>
+                        <li><em>Wildplukrecepten</em></li>
                     </NavLink>
 
                     <NavLink className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}
                              to="/">
                         <li>home</li>
                     </NavLink>
-
-                    {/*{!isAuthenticated &&*/}
-                    {/*<NavLink className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}*/}
-                    {/*         to="/login">*/}
-                    {/*    <li>login</li>*/}
-                    {/*</NavLink>}*/}
 
                     {isAuthenticated &&
                         <NavLink className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}
@@ -42,6 +36,12 @@ function Nav({isAuthenticated, toggleIsAuthenticated}) {
                         <NavLink className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}
                                  to="/newRecipe">
                             <li>recept toevoegen</li>
+                        </NavLink>}
+
+                    {isAuthenticated &&
+                        <NavLink className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}
+                                 to="/aboutme">
+                            <li>about me</li>
                         </NavLink>}
 
                     {isAuthenticated &&

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import './Recipe.css';
-import {Link, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import data from '../../data/data.json';
 import imagerecipe from '../../assets/bramenjam.jpg'
 import {RiKnifeLine} from 'react-icons/ri';
@@ -52,7 +52,7 @@ function Recipe({imgname}) {
                                         <input type="checkbox"/>
                                         <p>{countPersons * parseInt(ingredient.amount) / currentRecipe.persons}</p>
                                         <p>{ingredient.unit}</p>
-                                        <p>{ingredient.ingredientname}</p>
+                                        <p>{ingredient.ingredient_name}</p>
                                     </label>
                                 </div>
                             );
@@ -139,14 +139,14 @@ function Recipe({imgname}) {
 
                     {currentRecipe.source && <p id="source">bron: {currentRecipe.source}</p>}
 
-
                 </article>
+
             </div>
 
-            <article id="backtohome">
-                <Link to="/">Terug naar Home</Link>
-            </article>
+
         </div>
+
+
     )
         ;
 }

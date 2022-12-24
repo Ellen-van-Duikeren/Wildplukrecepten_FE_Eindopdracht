@@ -3,59 +3,80 @@ import Input from '../../components/input/Input';
 import './NewRecipe.css';
 import {useForm} from 'react-hook-form';
 import Checkbox from '../../components/checkbox/checkbox';
+import {Uploader} from "uploader";
+import {UploadButton} from "react-uploader";
+
+//nog checken register photo
+//functies hieronder naar helperfuncties verplaatsen
+//aanpassen css
 
 function NewRecipe() {
     const {register, handleSubmit, formState: {errors}} = useForm();
-    // const [inputList, setInputList] = useState([{instruction: ""}]);
-
-    // const handleInputChange = (e, index) => {
-    //     const list = [...inputList];
-    //     list[index][e.target.name] = e.target.value;
-    //     setInputList(list);
-    // };
-
-    // function handleRemoveClick(index) {
-    //     const list = [...inputList];
-    //     list.splice(index, 1);
-    //     setInputList(list);
-    // };
-    //
-    // function handleAddClick(i) {
-    //     let newField = {instruction: ""}
-    //     setInputList([...inputList, newField]);
-    // };
+    const [instructionList, setInstructionList] = useState([{instruction: ""}]);
+    const [ingredientList, setIngredientList] = useState([{
+        amount: "",
+        unit: "",
+        ingredient_name: ""
+    }]);
+    const [utensilList, setUtensilList] = useState([{utensil: ""}]);
 
     function handleFormSubmit(data) {
         console.log(data);
-        console.log(inputList);
+        console.log(instructionList);
+        console.log(ingredientList);
+        console.log(utensilList);
         document.getElementById("thnx").textContent = 'Dankjewel voor het toevoegen van een nieuw recept. You are awesome.'
     }
 
-    const [inputList, setInputList] = useState([{instruction: ""}]);
 
-// handle input change
-    const handleInputChange = (e, index) => {
+// handle input change for ingredient, utensil & instruction
+    const handleInputChange = (e, index, item, setItem) => {
         const {name, value} = e.target;
-        const list = [...inputList];
+        const list = [...item];
         list[index][name] = value;
-        setInputList(list);
+        setItem(list);
     };
 
-// handle click event of the Remove button
-    const handleRemoveClick = index => {
-        const list = [...inputList];
+// handle remove click for ingredient, utensil & instruction
+    const handleRemoveClick = (index, item, setItem) => {
+        const list = [...item];
         list.splice(index, 1);
-        setInputList(list);
+        setItem(list);
     };
 
-// handle click event of the Add button
-    const handleAddClick = () => {
-        setInputList([...inputList, {instruction: ""}]);
-    };
+// handle add click for ingredient, utensil & instruction
+    const handleAddClick = (item, setItem) => {
+        switch (item) {
+            case utensilList:
+                setItem([...item, {utensil: ""}]);
+                break;
+            case ingredientList:
+                setItem([...item, {amount: ""}]);
+                setItem([...item, {unit: ""}]);
+                setItem([...item, {ingredient_name: ""}]);
+                break;
+            case instructionList:
+                setItem([...item, {instruction: ""}]);
+                break;
+            default:
+                console.log("The add button is not functioning correctly")
+        }
+        ;
+    }
+
+
+//uploading photos
+    // Get production API keys from Upload.io
+    const uploader = Uploader({
+        apiKey: "free"
+    });
+
+    // Customize the file upload UI (see "customization"):
+    const options = {multi: true}
+
 
     return (
         <>
-
 
             <div className="newrecipepage">
                 <h1>Nieuw recept toevoegen</h1>
@@ -96,6 +117,29 @@ function NewRecipe() {
                             errors={errors}
                         />
                         {errors.title && <p>{errors.title.message}</p>}
+
+                        <label id="photo_upload_label">
+                            Foto
+                            <UploadButton uploader={uploader}         // Required.
+                                          options={options}           // Optional.
+                                          name="recipe-image"
+                                          onComplete={files => {      // Optional.
+                                              if (files.length === 0) {
+                                                  console.log('Geen foto geselecteerd.')
+                                              } else {
+                                                  console.log('Foto uploaded:');
+                                                  console.log(files.map(f => f.fileUrl));
+                                              }
+                                          }}
+                                          {...register("recipe-image")}
+                            >
+                                {({onClick}) =>
+                                    <button id="photo_upload_button" onClick={onClick}>
+                                        Foto toevoegen
+                                    </button>
+                                }
+                            </UploadButton>
+                        </label>
 
                         <Input
                             labelText="Aantal personen"
@@ -183,110 +227,119 @@ function NewRecipe() {
                         {errors.cookTime && <p>{errors.cookTime.message}</p>}
                     </div>
 
+                    <div className="utensils">
+                        <h3>Benodigdheden</h3>
+                        <ol className="utensil">
+                            {utensilList.map((x, i) => {
+                                return (
+                                    <div className="utensilLine" key={i}>
+                                        <li>
+                                            <input
+                                                name="utensil"
+                                                placeholder="bijv uitgekookte potjes"
+                                                value={x.utensil}
+                                                onChange={e => handleInputChange(e, i, utensilList, setUtensilList)}
+                                            />
+                                        </li>
+                                        <div id="anotherUtensil">
+                                            {utensilList.length !== 1 &&
+                                                <button
+                                                    onClick={() => handleRemoveClick(i, utensilList, setUtensilList)}
+                                                >
+                                                    -
+                                                </button>}
+                                            {utensilList.length - 1 === i &&
+                                                <button
+                                                    onClick={() => handleAddClick(utensilList, setUtensilList)}
+                                                >
+                                                    +
+                                                </button>}
+                                        </div>
+                                    </div>
+                                )
+                            })}
+                        </ol>
+                    </div>
+
+
                     <div className="ingredients">
                         <h3>Ingrediënten *</h3>
                         <p>Vul hier eerst de hoeveelheid in, dan de maat en als laatste het ingredient</p>
-                        <div className="ingredient">
-                            <Input
-                                inputType="number"
-                                inputId="amount"
-                                inputName="amount"
-                                inputMin="0"
-                                inputStep="0.1"
-                                validationRules={{
-                                    required: {
-                                        value: false,
-                                        message: 'Dit veld is verplicht',
-                                    }
-                                }}
-                                register={register}
-                                errors={errors}
-                            />
-                            {errors.ingredient && <p>{errors.ingredient.message}</p>}
-
-                            <Input
-                                inputType="text"
-                                inputId="unit"
-                                inputName="unit"
-                                placeholder="bijv dl, gram, tl"
-                                validationRules={{
-                                    required: {
-                                        value: false,
-                                        message: 'Dit veld is verplicht',
-                                    }
-                                }}
-                                register={register}
-                                errors={errors}
-                            />
-                            {errors.unit && <p>{errors.unit.message}</p>}
-
-                            <Input
-                                inputType="text"
-                                inputId="ingredientname"
-                                inputName="ingredientname"
-                                placeholder="bijv bramen"
-                                validationRules={{
-                                    required: {
-                                        value: false,
-                                        message: 'Dit veld is verplicht',
-                                    }
-                                }}
-                                register={register}
-                                errors={errors}
-                            />
-                            {errors.ingredientname && <p>{errors.ingredientname.message}</p>}
-                        </div>
-
-                        <div className="utensils">
-                            <h3>Benodigdheden</h3>
-                            <ol>
-                                <li>
-                                    <Input
-                                        inputType="text"
-                                        inputId="utensil"
-                                        inputName="utensil"
-                                        placeholder="bijv uitgekookte potjes"
-                                        validationRules={{
-                                            required: {
-                                                maxLength: "250",
-                                                message: 'Maximaal 250 karakters',
-                                            }
-                                        }}
-                                        register={register}
-                                        errors={errors}
-                                    />
-                                    {errors.utensil && <p>{errors.utensil.message}</p>}
-                                </li>
-                            </ol>
-                        </div>
-
-
+                        <ol className="ingredient">
+                            {ingredientList.map((x, i) => {
+                                return (
+                                    <div className="ingredientLine" key={i}>
+                                        <li>
+                                            <input
+                                                type="number"
+                                                name="amount"
+                                                id="amount"
+                                                min="0"
+                                                step="0.1"
+                                                value={x.amount}
+                                                onChange={e => handleInputChange(e, i, ingredientList, setIngredientList)}
+                                            />
+                                            <input
+                                                type="text"
+                                                name="unit"
+                                                id="unit"
+                                                min="0"
+                                                step="0.1"
+                                                value={x.unit}
+                                                onChange={e => handleInputChange(e, i, ingredientList, setIngredientList)}
+                                            />
+                                            <input
+                                                type="text"
+                                                name="ingredient_name"
+                                                id="ingredient_name"
+                                                value={x.ingredient_name}
+                                                onChange={e => handleInputChange(e, i, ingredientList, setIngredientList)}
+                                            />
+                                        </li>
+                                        <div id="anotherIngredient">
+                                            {ingredientList.length !== 1 &&
+                                                <button
+                                                    onClick={() => handleRemoveClick(i, ingredientList, setIngredientList)}
+                                                >
+                                                    -
+                                                </button>}
+                                            {ingredientList.length - 1 === i &&
+                                                <button
+                                                    onClick={() => handleAddClick(ingredientList, setIngredientList)}
+                                                >
+                                                    +
+                                                </button>}
+                                        </div>
+                                    </div>
+                                )
+                            })}
+                        </ol>
                     </div>
 
                     <div className="instructions">
                         <h3>Bereiding *</h3>
                         <ol className="instruction">
-                            {inputList.map((x, i) => {
+                            {instructionList.map((x, i) => {
                                 return (
                                     <div className="instructionLine" key={i}>
                                         <li>
                                             <input
                                                 name="instruction"
-                                                placeholder="Bijv was de bramen"
+                                                placeholder="bijv was de bramen"
                                                 value={x.instruction}
-                                                onChange={e => handleInputChange(e, i)}
+                                                onChange={e => handleInputChange(e, i, instructionList, setInstructionList)}
                                             />
                                         </li>
                                         <div id="anotherInstruction">
-                                            {inputList.length !== 1 &&
+                                            {instructionList.length !== 1 &&
                                                 <button
-                                                    onClick={() => handleRemoveClick(i)}
+                                                    onClick={() => handleRemoveClick(i, instructionList, setInstructionList)}
                                                 >
                                                     -
                                                 </button>}
-                                            {inputList.length - 1 === i &&
+                                            {instructionList.length - 1 === i &&
                                                 <button
-                                                    onClick={handleAddClick}
+                                                    onClick={() => handleAddClick(instructionList, setInstructionList)}
                                                 >
                                                     +
                                                 </button>}

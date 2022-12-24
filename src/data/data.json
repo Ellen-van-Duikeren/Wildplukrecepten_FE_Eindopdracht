@@ -14,26 +14,26 @@
       {
         "amount": "500",
         "unit": "gram",
-        "ingredientname": "bramen"
+        "ingredient_name": "bramen"
       },
       {
         "amount": "200",
         "unit": "gram",
-        "ingredientname": "geleisuiker speciaal"
+        "ingredient_name": "geleisuiker speciaal"
       },
       {
         "amount": "1",
         "unit": "eetlepel",
-        "ingredientname": "citroensap"
+        "ingredient_name": "citroensap"
       }
     ],
     "utensils": [
       "schone uitgekookte potjes"
     ],
     "instructions": [
-      "Was de bramen en pureer deze, bijvoorbeeld met een staafmixer. Als je geen pitjes in je jam wilt, kun je de bramenpuree nog even zeven.",
-      "Doe de bramenpuree met suiker en citroensap in een pan. Breng het mengsel aan de kook terwijl je voortdurend blijft roeren. Als het eenmaal kookt laat je het ongeveer 2 minuten doorkoken, ook nu blijven roeren.",
-      "Giet de bramenjam in de schone potjes, draai de deksel er op en zet ze op hun kop. Laat ze in ieder geval 5 minuten zo staan voordat je ze weer rechtop zet. Je hoort een klik van de deksel als je dit doet. Nu zijn ze vacuüm gezogen."
+      "Was de bramen en pureer deze. Dit kan je bijvoorbeeld met een staafmixer doen. Je kan de puree ook nog zeven, als je geen pitjes in je jam wilt.",
+      "Doe de bramenpuree met suiker en citroensap in een pan. Breng het mengsel aan de kook. Blijf voortdurend roeren. Als het kookt, laat je het ongeveer 2 minuten doorkoken. Blijf roeren.",
+      "Giet de bramenjam in de schone potjes. Draai de deksels op de potjes en zet ze op hun kop voor in ieder geval 5 minuten. Daarna mag je ze weer omdraaien. Nu zijn ze vacuüm gezogen."
     ],
     "months": ["juli", "augustus", "september", "oktober"],
     "tags": [
@@ -57,17 +57,17 @@
       {
         "amount": "500",
         "unit": "gram",
-        "ingredientname": "bramen"
+        "ingredient_name": "bramen"
       },
       {
         "amount": "200",
         "unit": "gram",
-        "ingredientname": "geleisuiker speciaal"
+        "ingredient_name": "geleisuiker speciaal"
       },
       {
         "amount": "1",
         "unit": "eetlepel",
-        "ingredientname": "citroensap"
+        "ingredient_name": "citroensap"
       }
     ],
     "utensils": [
@@ -100,17 +100,17 @@
       {
         "amount": "500",
         "unit": "gram",
-        "ingredientname": "bramen"
+        "ingredient_name": "bramen"
       },
       {
         "amount": "200",
         "unit": "gram",
-        "ingredientname": "geleisuiker speciaal"
+        "ingredient_name": "geleisuiker speciaal"
       },
       {
         "amount": "1",
         "unit": "eetlepel",
-        "ingredientname": "citroensap"
+        "ingredient_name": "citroensap"
       }
     ],
     "utensils": [

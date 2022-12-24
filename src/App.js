@@ -1,6 +1,6 @@
 import './App.css';
 import Nav from './components/nav/Nav';
-import {Routes, Route, Navigate} from "react-router-dom";
+import {Routes, Route} from "react-router-dom";
 import Home from "./pages/home/Home";
 import PageNotFound from "./pages/pageNotFound/PageNotFound";
 import Admin from "./pages/admin/Admin";
@@ -10,17 +10,25 @@ import Footer from "./components/footer/Footer";
 import Login from "./pages/login/Login";
 import Recipe from "./pages/recipe/Recipe";
 import {useState} from "react";
-
+import AboutMe from "./pages/aboutme/AboutMe";
 
 
 function App() {
     const [isAuthenticated, toggleIsAuthenticated] = useState(false);
 
+
     return (
+
         <>
             <Nav
-                isAuthenticated={isAuthenticated}
-                toggleIsAuthenticated={toggleIsAuthenticated}
+                isAuthenticated={
+                    isAuthenticated
+                }
+
+                toggleIsAuthenticated=
+                    {
+                        toggleIsAuthenticated
+                    }
             />
 
             <Routes>
@@ -53,6 +61,14 @@ function App() {
                     {<NewRecipe/>}
                 />
 
+                <Route
+                    path="/aboutme"
+                    element={<AboutMe
+                        isAuthenticated={isAuthenticated}
+                        // toggleIsAuthenticated={toggleIsAuthenticated}
+                    />}
+                />
+
                 <Route path="/admin" element={<Admin/>}
                 />
 
@@ -62,7 +78,9 @@ function App() {
             <Footer/>
 
         </>
-    );
+    )
+        ;
 }
+
 
 export default App;

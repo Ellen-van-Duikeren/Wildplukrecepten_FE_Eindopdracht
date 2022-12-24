@@ -1,4 +1,4 @@
-.homepage {
+.aboutmepage {
     background-color: var(--yellowpink);
     padding: 20px 0 20px 0;
     display: flex;
@@ -7,23 +7,21 @@
     justify-content: space-between;
 }
 
+#text-why p {
+    color: black;
+    font-size: 1rem;
+}
+.aboutmepage h1 {
+    margin-bottom: 20px;
+}
+
+.aboutmepage p {
+    margin-bottom: 10px;
+}
+
 .left-side {
     padding-left: 20px;
-    width: 45%;
-}
-
-#inlog-header {
-    padding-bottom: 30px;
-}
-
-.homepage p {
-    padding-bottom: 10px;
-}
-
-.homepage ul {
-    padding-top: 5px;
-    padding-left: 20px;
-    padding-bottom: 10px;
+    width: 50%;
 }
 
 .right-side {
@@ -32,22 +30,15 @@
     margin-right: 20px;
 }
 
-#wild-garlic {
+#raspberry {
     width: 100%;
     position: relative;
 }
 
-#text-photo1 {
+#text-photo {
     position: absolute;
     bottom: 10px;
     right: 10px;
     color: black;
     font-size: 0.8em;
 }
-
-#text-photo1 a {
-    color: black;
-}
-
-
-

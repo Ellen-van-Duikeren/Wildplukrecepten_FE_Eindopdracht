@@ -30,6 +30,14 @@ nav a {
     color: white;
 }
 
+nav a:visited {
+    color: var(--purplebrown);
+}
+
+nav a:hover {
+    color: var(--yellowpink);
+}
+
 nav .active-menu-link {
     border-bottom: 1px solid white;
 }

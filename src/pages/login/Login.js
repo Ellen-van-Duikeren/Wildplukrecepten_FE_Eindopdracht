@@ -23,7 +23,7 @@ function Login({isAuthenticated, toggleIsAuthenticated}) {
         if (rightUser != null) {
             const rightPassword = rightUser.password
             console.log("Password: " + data.password);
-            if (data.password == rightPassword) {
+            if (data.password === rightPassword) {
                 toggleIsAuthenticated(true);
                 navigate("/recipes");
             } else {

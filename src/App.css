@@ -27,7 +27,6 @@ h2, h3 {
     padding-bottom: 10px;
 }
 
-
 button {
     background-color: var(--green);
     color: black;
@@ -38,4 +37,5 @@ button {
 a {
     color: black;
 }
+
 
