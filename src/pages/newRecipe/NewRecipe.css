@@ -5,9 +5,7 @@
 }
 
 /*form................................................*/
-
-
-.newrecipepage form {
+.newrecipepage .formRecipe {
     padding-left: 20px;
     width: 80vw;
     display: flex;
@@ -24,16 +22,8 @@
     margin-bottom: 40px;
 }
 
-#photo_upload_button {
-    width: 120px;
-    padding: 10px;
-    border: transparent;
-   margin-left: 170px;
-}
-
 
 /*texts.................................................*/
-
 .texts label {
     position: relative;
 }
@@ -47,10 +37,43 @@
     border: 2px solid lightgray;
 }
 
+/*photo.................................................*/
+.form-image {
+    display: flex;
+    flex-direction: column;
+}
+
+.image-label input {
+}
+
+.preview-label {
+    position: relative;
+    margin-top: 30px;
+    margin-bottom: 100px;
+}
+
+.image-preview {
+    display: inline-block;
+    height: 150px;
+    position: absolute;
+    left: 200px;
+}
+
+#photo_upload_button {
+    display: block;
+    width: 150px;
+    padding: 10px;
+    border: transparent;
+    margin-left: 200px;
+    margin-top: 40px;
+}
+
+/*persons................................................*/
 #persons-field {
     width: 50px;
 }
 
+/*textarea...............................................*/
 #textarea-field {
     position: relative;
     margin-bottom: 70px;
@@ -143,7 +166,6 @@ textarea {
     border: 1px solid transparent;
     border-radius: 50%;
 }
-
 
 
 /*instructions............................................*/

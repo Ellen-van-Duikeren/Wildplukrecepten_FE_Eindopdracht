@@ -7,39 +7,54 @@
     justify-content: space-between;
 }
 
+#inlog-header {
+    padding-bottom: 30px;
+}
+
 .login-form form {
     padding-left: 20px;
     width: 45%;
+    display: flex;
+    flex-direction: column;
 }
 
 .login-form label {
     position: relative;
+    margin-bottom: 40px;
 }
 
 .login-form input {
-    top: -5px;
+    top: -7px;
     padding: 10px;
     position: absolute;
-    left: 100px;
+    left: 120px;
     width: 30vw;
     border-radius: 5px;
     border: 2px solid lightgray;
 }
 
-#inlog-header {
-    padding-bottom: 30px;
-}
-
 .login-form button {
-    margin-top: 20px;
+    width: 100px;
+    margin-top: 10px;
     padding: 10px;
 }
 
 #click-login-button {
-    margin-left: 20px;
+    margin-top: 20px;
     width: 200px;
 }
 
+.login_succeeded {
+    display: flex;
+    flex-direction: row;
+}
+
+.login_succeeded p {
+    margin-left: 20px;
+    margin-top: 16px;
+}
+
+/*right side....................................................*/
 .login-form .right-side {
     width: 40vw;
     object-fit: cover;
@@ -59,12 +74,11 @@
     font-size: 0.8em;
 }
 
-.login-form button {
-    margin-top: 20px;
+.login-form #text-photo a {
+    color: white;
 }
 
-#click-login-button {
-    margin-left: 20px;
-    width: 200px;
-}
+
+
+
 

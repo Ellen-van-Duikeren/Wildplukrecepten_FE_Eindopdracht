@@ -1,17 +1,33 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './Recipe.css';
 import {useParams} from "react-router-dom";
-import data from '../../data/data.json';
-import imagerecipe from '../../assets/bramenjam.jpg'
 import {RiKnifeLine} from 'react-icons/ri';
 import {GiCampCookingPot} from 'react-icons/gi';
-
+import axios from "axios";
 
 function Recipe({imgname}) {
     const {id} = useParams();
 
-    const currentRecipe = data.find((datax) => {
-        return datax.id === id;
+    const [recipes, setRecipes] = useState([]);
+
+
+
+    useEffect(() => {
+        async function fetchRecipes() {
+            try {
+                const response = await axios.get("http://localhost:8081/recipes");
+                console.log(response);
+                setRecipes(response);
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        fetchRecipes();
+    }, [])
+
+    const currentRecipe = recipes.find((recipe) => {
+        return recipe.id === id;
     });
 
     const [countPersons, setCountPersons] = useState(parseInt(currentRecipe.persons));
@@ -20,11 +36,11 @@ function Recipe({imgname}) {
         <div className="recipepage" key={currentRecipe.id}>
             <div className="recipedescription">
 
-{/*left-side.......................................................*/}
+                {/*left-side.......................................................*/}
                 <div id="emptydiv"></div>
                 <article className="left-side">
                     <h3>Ingredienten:</h3>
-                    {currentRecipe.persons &&
+                    {currentRecipe.persons > 0 &&
                         <>
                             <div id="counterPersons">
                                 <button
@@ -61,11 +77,12 @@ function Recipe({imgname}) {
                 </article>
 
 
-{/*right-side.......................................................*/}
+                {/*right-side.......................................................*/}
                 <article className="descriptions">
                     <h1>{currentRecipe.title}</h1>
                     <p>{currentRecipe.subtitle}</p>
-                    <img src={imagerecipe} alt={currentRecipe.name}/>
+
+                    {currentRecipe.file && <img src={currentRecipe.file.url} alt={currentRecipe.name}/>}
 
                     <div id="months">
                         {currentRecipe.months.map((month) => {
@@ -97,26 +114,30 @@ function Recipe({imgname}) {
                         }
                     </div>
 
-                    <h3 id="utensilsheader">Benodigdheden:</h3>
-                    <div id="utensils">
-                        {currentRecipe.utensils.map((utensil) => {
-                            return (
-                                <ul>
-                                    <li id="utensil">{utensil}</li>
-                                </ul>
-                            );
-                        })}
-                    </div>
+                    {currentRecipe.utensil &&
+                        <>
+                            <h3 id="utensilsheader">Benodigdheden:</h3>
+                            <div id="utensils">
+                                {currentRecipe.utensils.map((utensil) => {
+                                    return (
+                                        <ul>
+                                            <li id="utensil">{utensil}</li>
+                                        </ul>
+                                    );
+                                })}
+                            </div>
+                        </>
+                    }
 
                     <h3>Bereiding:</h3>
                     <div id="instructions">
                         {currentRecipe.instructions.map((instruction, i) => {
                             return (
                                 <div id="instruction">
-                                    <p id="step">{i+1}</p>
+                                    <p id="step">{i + 1}</p>
                                     <div>
-                                    <h5>Stap {i+1}</h5>
-                                    <p id="instruction">{instruction}</p>
+                                        <h5>Stap {i + 1}</h5>
+                                        <p id="instruction">{instruction}</p>
                                     </div>
                                 </div>
                             );
@@ -131,7 +152,7 @@ function Recipe({imgname}) {
                         {currentRecipe.tags.map((tag) => {
                             return (
                                 <ul>
-                                    <p id="tag">{tag}</p>
+                                    <li id="tag">{tag}</li>
                                 </ul>
                             );
                         })}
@@ -147,8 +168,7 @@ function Recipe({imgname}) {
         </div>
 
 
-    )
-        ;
+    );
 }
 
 export default Recipe;

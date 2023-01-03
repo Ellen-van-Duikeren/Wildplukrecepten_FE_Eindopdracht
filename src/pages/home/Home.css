@@ -34,13 +34,9 @@
 
 #wild-garlic {
     width: 100%;
-    position: relative;
 }
 
 #text-photo1 {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
     color: black;
     font-size: 0.8em;
 }

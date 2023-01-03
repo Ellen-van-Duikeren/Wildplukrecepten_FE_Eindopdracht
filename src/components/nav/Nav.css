@@ -14,10 +14,11 @@ nav ul {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    flex-basis: 80vw;
+    flex-basis: calc(100vw - 40px);
     list-style-type: none;
     font-size: 1.2em;
-
+    background-color: var(--yellowpink);
+    padding: 10px;
 }
 
 nav #logoText {
@@ -35,7 +36,7 @@ nav a:visited {
 }
 
 nav a:hover {
-    color: var(--yellowpink);
+    color: var(--green);
 }
 
 nav .active-menu-link {
@@ -47,11 +48,12 @@ nav .default-menu-link {
 }
 
 #uitlog-button, #inlog-button {
-    background-color: antiquewhite;
+    background-color: var(--green);
     color: black;
-    padding: 5px;
-    border: 1px solid black;
+    padding: 10px;
+    border: 1px solid lightgrey;
     border-radius: 5px;
+    color: white;
 }
 
 #logonaam {

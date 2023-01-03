@@ -11,6 +11,7 @@
     color: black;
     font-size: 1rem;
 }
+
 .aboutmepage h1 {
     margin-bottom: 20px;
 }
@@ -32,13 +33,9 @@
 
 #raspberry {
     width: 100%;
-    position: relative;
 }
 
 #text-photo {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
     color: black;
     font-size: 0.8em;
 }

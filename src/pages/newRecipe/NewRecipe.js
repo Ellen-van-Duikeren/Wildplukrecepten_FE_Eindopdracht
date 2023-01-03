@@ -3,15 +3,19 @@ import Input from '../../components/input/Input';
 import './NewRecipe.css';
 import {useForm} from 'react-hook-form';
 import Checkbox from '../../components/checkbox/checkbox';
-import {Uploader} from "uploader";
-import {UploadButton} from "react-uploader";
+import handleInputChange from "../../helperfunctions/handleInputChange";
+import handleRemoveClick from "../../helperfunctions/handleRemoveClick";
+import axios from "axios";
 
 //nog checken register photo
 //functies hieronder naar helperfuncties verplaatsen
 //aanpassen css
 
 function NewRecipe() {
+    // (simple) inputs
     const {register, handleSubmit, formState: {errors}} = useForm();
+
+    // some extra inputs in useState while I want to be able to add and remove instructions, utensils and ingredients
     const [instructionList, setInstructionList] = useState([{instruction: ""}]);
     const [ingredientList, setIngredientList] = useState([{
         amount: "",
@@ -20,31 +24,108 @@ function NewRecipe() {
     }]);
     const [utensilList, setUtensilList] = useState([{utensil: ""}]);
 
-    function handleFormSubmit(data) {
-        console.log(data);
-        console.log(instructionList);
-        console.log(ingredientList);
-        console.log(utensilList);
-        document.getElementById("thnx").textContent = 'Dankjewel voor het toevoegen van een nieuw recept. You are awesome.'
+    // text when sending data succeeded
+    const [addSucces, toggleAddSuccess] = useState(false);
+
+    // upload & preview photo
+    const [file, setFile] = useState([]);
+    const [previewUrl, setPreviewUrl] = useState('')
+
+    // submit form
+    async function addRecipe(e, data) {
+        e.preventDefault();
+
+        // post request
+        try {
+            const response = await axios.post(
+                'http://localhost:8081/recipes',
+                data
+            );
+            console.log(response.data);
+            console.log(instructionList);
+            console.log(ingredientList);
+            console.log(utensilList);
+            toggleAddSuccess(true);
+        } catch (e) {
+            console.error(e);
+        }
     }
 
+    // photo
+    function handleImageChange(e) {
+        // Sla het gekozen bestand op
+        const uploadedFile = e.target.files[0];
+        console.log(uploadedFile);
+        // Sla het gekozen bestand op in de state
+        setFile(uploadedFile);
+        // Sla de preview URL op zodat we deze kunnen laten zien in een <img>
+        setPreviewUrl(URL.createObjectURL(uploadedFile));
+    }
 
-// handle input change for ingredient, utensil & instruction
-    const handleInputChange = (e, index, item, setItem) => {
-        const {name, value} = e.target;
-        const list = [...item];
-        list[index][name] = value;
-        setItem(list);
-    };
+    // nog aanpassen want nu path alleen naar recipe with id 1
+    // photo
+    async function sendImage(e) {
+        e.preventDefault();
+        // maak een nieuw FormData object (ingebouwd type van JavaScript)
+        const formData = new FormData();
+        // Voeg daar ons bestand uit de state aan toe onder de key "file"
+        formData.append("file", file);
 
-// handle remove click for ingredient, utensil & instruction
-    const handleRemoveClick = (index, item, setItem) => {
-        const list = [...item];
-        list.splice(index, 1);
-        setItem(list);
-    };
+        try {
+            // verstuur ons formData object en geef in de header aan dat het om een form-data type gaat
+            // Let op: we wijzigen nu ALTIJD de afbeelding voor student 1001, als je een andere student wil kiezen of dit dynamisch wil maken, pas je de url aan!
+            const result = await axios.post('http://localhost:8081/recipes/1/photo', formData,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data"
+                    },
+                })
+            console.log(result.data);
+        } catch (e) {
+            console.error(e)
+        }
+    }
 
-// handle add click for ingredient, utensil & instruction
+    // example formState and axios.post: :https://stackoverflow.com/questions/69561981/react-hook-form-axios-post-unable-to-create-payload
+    // import React from "react";
+    // import {useForm} from "react-hook-form";
+    // import axios from "axios";
+    //
+    // function Eirform() {
+    //     const { register, handleSubmit, formState: { errors } } = useForm();
+    //
+    //     const onSubmit = data => {
+    //         axios
+    //             .post(
+    //                 'http://localhost:8000/tran',
+    //                 data,
+    //                 { headers: { 'Content-Type': 'application/json' }}
+    //             )
+    //             .then(response => {console.log(response.data)})
+    //             .catch(error => {console.log(error.data)});
+    //     };
+    //
+    //     return (
+    //         <div>
+    //             <h1>My Input Form</h1>
+    //             <form onSubmit={handleSubmit(onSubmit)}>
+    //                 ...
+    //             </form>
+    //         </div>
+    //     )
+    // }
+    // export {Eirform}
+
+    //
+    // function handleFormSubmit(data) {
+    //     console.log(data);
+    //     console.log(instructionList);
+    //     console.log(ingredientList);
+    //     console.log(utensilList);
+    //     document.getElementById("thnx").textContent = 'Dankjewel voor het toevoegen van een nieuw recept. You are awesome.'
+    // }
+
+    // handle add click for ingredient, utensil & instruction
     const handleAddClick = (item, setItem) => {
         switch (item) {
             case utensilList:
@@ -64,25 +145,13 @@ function NewRecipe() {
         ;
     }
 
-
-//uploading photos
-    // Get production API keys from Upload.io
-    const uploader = Uploader({
-        apiKey: "free"
-    });
-
-    // Customize the file upload UI (see "customization"):
-    const options = {multi: true}
-
-
     return (
         <>
 
             <div className="newrecipepage">
                 <h1>Nieuw recept toevoegen</h1>
-
-                <form onSubmit={handleSubmit(handleFormSubmit)}>
-
+                <form onSubmit={addRecipe} className="formRecipe">
+                    {/*<form onSubmit={handleSubmit(handleFormSubmit)}>*/}
                     <div className="texts">
                         <Input
                             labelText="Titel *"
@@ -118,28 +187,20 @@ function NewRecipe() {
                         />
                         {errors.title && <p>{errors.title.message}</p>}
 
-                        <label id="photo_upload_label">
-                            Foto
-                            <UploadButton uploader={uploader}         // Required.
-                                          options={options}           // Optional.
-                                          name="recipe-image"
-                                          onComplete={files => {      // Optional.
-                                              if (files.length === 0) {
-                                                  console.log('Geen foto geselecteerd.')
-                                              } else {
-                                                  console.log('Foto uploaded:');
-                                                  console.log(files.map(f => f.fileUrl));
-                                              }
-                                          }}
-                                          {...register("recipe-image")}
-                            >
-                                {({onClick}) =>
-                                    <button id="photo_upload_button" onClick={onClick}>
-                                        Foto toevoegen
-                                    </button>
-                                }
-                            </UploadButton>
-                        </label>
+                        <div onSubmit={sendImage} className="form-image">
+                            <label htmlFor="student-image" className="image-label">
+                                Voeg foto toe (optioneel)
+                                <input type="file" name="image-field" id="recipe-image" onChange={handleImageChange}/>
+                            </label>
+                            {previewUrl &&
+                                <label className="preview-label">
+                                    Preview:
+                                    <img src={previewUrl} alt="Voorbeeld van de afbeelding die zojuist gekozen is" className="image-preview"/>
+                                </label>
+                            }
+                            <button type="submit" id="photo_upload_button">Uploaden</button>
+                        </div>
+
 
                         <Input
                             labelText="Aantal personen"
@@ -485,6 +546,12 @@ function NewRecipe() {
                         />
 
                         <Checkbox
+                            inputName="starter"
+                            labelText="voorgerecht"
+                            register={register}
+                        />
+
+                        <Checkbox
                             inputName="maindish"
                             labelText="hoofdgerecht"
                             register={register}
@@ -519,7 +586,7 @@ function NewRecipe() {
                     <p id="required">* is verplicht</p>
 
                     <button type="submit" id="submitButton">Versturen</button>
-                    <h3 id="thnx"></h3>
+                    {addSucces === true && <h3>Dankjewel voor het versturen van een nieuw recept. you are awesome.</h3>}
 
                 </form>
             </div>
