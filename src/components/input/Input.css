@@ -1,6 +1,40 @@
-.inputcomponent {
-    margin-bottom: 20px;
+.component__input {
+    margin-bottom: 2em;
 }
+
+input {
+    padding: 0.3em;
+    border-radius: 0.5em;
+    border: 2px solid lightgray;
+    font-size: var(--baseFont);
+}
+
+label {
+    position: relative;
+    font-size: var(--baseFont);
+    margin-bottom: 1.5em;
+}
+
+.input__text {
+    position: absolute;
+    left: var(--position--left);
+    margin-top: -0.6em;
+    width: 30em;
+    font-size: calc(var(--baseFont) * 0.9);
+}
+
+.input__button {
+    margin-left: 2em;
+}
+
+
+
+
+
+
+
+
+
 
 
 

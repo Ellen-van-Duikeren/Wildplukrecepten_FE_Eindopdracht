@@ -4,9 +4,9 @@ import garlic from "../../assets/garlic.jpg";
 
 function Home(props) {
     return (
-        <div className="homepage">
+        <article className="page home-page">
             <div className="left-side">
-                <h2>Wildplukrecepten</h2>
+                <h1>Wildplukrecepten</h1>
                 <p>Op deze website vind je recepten met wildpluk, ofwel bladeren, bloemen, wortels, die je zelf in de
                     natuur kan plukken of uitgraven. Hiermee kan je dan natuurlijk heerlijke dingen maken,
                     zoals bramenjam, zevenbladpesto, brandnetelsoep of nog beter port en sloegin.</p>
@@ -36,17 +36,17 @@ function Home(props) {
                     eigenaar. Uiteraard pluk je niet de hele boom of struik leeg; je laat ook wat achter voor de dieren
                     of voor collega wildplukkers.</p>
                 <p>Veel plezier met plukken, koken en eet smakelijk. </p>
-
             </div>
+
             <div className="right-side">
-                <img src={garlic} alt="wild garlic" id="wild-garlic"/>
-                <p id="text-photo1">Daslook, &copy; <a
+                <img src={garlic} alt="wild garlic" className="photo"/>
+                <p className="photo-caption">Daslook, &copy; <a
                     href='https://unsplash.com/es/@garyellisphoto?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText'>Gary
                     Ellis</a> on <a
                     href='https://unsplash.com/s/photos/wild-garlic?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText'>Unsplash</a>
                 </p>
             </div>
-        </div>
+        </article>
     );
 }
 

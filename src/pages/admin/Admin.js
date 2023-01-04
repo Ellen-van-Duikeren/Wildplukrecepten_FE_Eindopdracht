@@ -6,7 +6,6 @@ function Admin() {
     const [users, setUsers] = useState([]);
 
     // localstorage for aunthentication, nog dynamisch maken, nu hardcoded toegevoegd
-    localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsImV4cCI6MTY3MzA5ODk3NSwiaWF0IjoxNjcyMjM0OTc1fQ.3gj7aqwmo1Os_mATaOZr54yqZX_GKtbra7LSrOW8jJk');
     const token = localStorage.getItem('token');
 
     useEffect(() => {
@@ -14,7 +13,7 @@ function Admin() {
             try {
                 const response = await axios.get("http://localhost:8081/users",
                     {
-                        "Authorization": {token}
+                        "Authorization": `Bearer ${token}`
                     });
                 console.log(response.data);
                 setUsers(response.data);
@@ -22,39 +21,52 @@ function Admin() {
                 console.error(e);
             }
         }
+
         fetchUsers();
-    }, [])
+    }, [token])
 
 
     return (
-        <div className="administrator">
+        <article className="page admin-page">
             <h1>Admin pagina</h1>
-            <h2>Users</h2>
-            <table className="users">
-                <thead>
-                <tr>
-                    <th>Voornaam</th>
-                    <th>Achternaam</th>
-                    <th>Emailadres</th>
-                    <th>Loginnaam</th>
-                    <th>Password</th>
-                    <th>Rol</th>
-                </tr>
-                </thead>
-                <tbody>
-                {users.map((user) => {
-                    return <tr key={user.username}>
-                        <td>{user.firstname}</td>
-                        <td>{user.lastname}</td>
-                        <td>{user.emailadress}</td>
-                        <td>{user.username}</td>
-                        <td>{user.password}</td>
-                        <td>{user.authorities.authority}</td>
+
+            <section>
+                <h2>Users</h2>
+                <table className="users">
+                    <thead>
+                    <tr>
+                        <th>Voornaam</th>
+                        <th>Achternaam</th>
+                        <th>Emailadres</th>
+                        <th>Loginnaam</th>
+                        <th>Password</th>
+                        <th>Rol</th>
                     </tr>
-                })}
-                </tbody>
-            </table>
-        </div>
+                    </thead>
+                    <tbody>
+                    {users.map((user) => {
+                        return <tr key={user.username}>
+                            <td>{user.firstname}</td>
+                            <td>{user.lastname}</td>
+                            <td>{user.emailadress}</td>
+                            <td>{user.username}</td>
+                            <td>{user.password}</td>
+                            <td>{user.authorities.authority}</td>
+                        </tr>
+                    })}
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+            <h2>Berichten versturen</h2>
+            </section>
+
+            <section>
+                <h2>Ontvangen berichten</h2>
+            </section>
+
+        </article>
     );
 }
 

@@ -2,14 +2,14 @@ import React, {useState} from 'react';
 import Input from '../../components/input/Input';
 import './NewRecipe.css';
 import {useForm} from 'react-hook-form';
-import Checkbox from '../../components/checkbox/checkbox';
+import Checkbox from '../../components/checkbox/Checkbox';
 import handleInputChange from "../../helperfunctions/handleInputChange";
 import handleRemoveClick from "../../helperfunctions/handleRemoveClick";
 import axios from "axios";
+import Button from "../../components/button/Button";
 
 //nog checken register photo
-//functies hieronder naar helperfuncties verplaatsen
-//aanpassen css
+
 
 function NewRecipe() {
     // (simple) inputs
@@ -148,16 +148,16 @@ function NewRecipe() {
     return (
         <>
 
-            <div className="newrecipepage">
+            <article className="page new-recipe-page">
                 <h1>Nieuw recept toevoegen</h1>
-                <form onSubmit={addRecipe} className="formRecipe">
+                <form onSubmit={addRecipe} className="new-recipe-page__form">
                     {/*<form onSubmit={handleSubmit(handleFormSubmit)}>*/}
                     <div className="texts">
                         <Input
                             labelText="Titel *"
-                            inputType="text"
-                            inputId="title"
-                            inputName="title"
+                            type="text"
+                            name="title"
+                            className="input__text"
                             placeholder="bijv bramenjam"
                             validationRules={{
                                 required: {
@@ -172,9 +172,9 @@ function NewRecipe() {
 
                         <Input
                             labelText="Subtitel"
-                            inputType="text"
-                            inputId="subtitle-field"
-                            inputName="subtitle"
+                            type="text"
+                            name="subtitle"
+                            className="input__text"
                             placeholder="bijv de heerlijkste ter wereld"
                             validationRules={{
                                 maxLength: {
@@ -187,28 +187,39 @@ function NewRecipe() {
                         />
                         {errors.title && <p>{errors.title.message}</p>}
 
-                        <div onSubmit={sendImage} className="form-image">
-                            <label htmlFor="student-image" className="image-label">
-                                Voeg foto toe (optioneel)
-                                <input type="file" name="image-field" id="recipe-image" onChange={handleImageChange}/>
+                        <div onSubmit={sendImage} className="image">
+                            <label htmlFor="image" className="image__label">
+                                Voeg foto toe
+                                <input
+                                    type="file"
+                                    name="image"
+                                    id="image"
+                                    className="image__input"
+                                    onChange={handleImageChange}/>
                             </label>
                             {previewUrl &&
-                                <label className="preview-label">
-                                    Preview:
-                                    <img src={previewUrl} alt="Voorbeeld van de afbeelding die zojuist gekozen is" className="image-preview"/>
+                                <label className="preview__label">
+                                    Preview
+                                    <img src={previewUrl}
+                                         className="preview__image"
+                                         alt="Voorbeeld van de afbeelding die zojuist gekozen is"
+                                    />
                                 </label>
                             }
-                            <button type="submit" id="photo_upload_button">Uploaden</button>
+
+                            <Button
+                                type="submit"
+                                className="button--ellips image__button">uploaden</Button>
                         </div>
 
 
                         <Input
                             labelText="Aantal personen"
-                            inputType="number"
-                            inputId="persons-field"
-                            inputName="persons"
-                            inputMin="1"
-                            inputMax="30"
+                            type="number"
+                            name="persons"
+                            className="input__text input__text--width"
+                            min="1"
+                            max="30"
                             value="1"
                             register={register}
                             errors={errors}
@@ -216,9 +227,9 @@ function NewRecipe() {
 
                         <Input
                             labelText="Bron"
-                            inputType="text"
-                            inputId="source"
-                            inputName="source"
+                            type="text"
+                            name="source"
+                            className="input__text"
                             placeholder="bijv www.natuurkok.nl"
                             validationRules={{
                                 maxLength: {
@@ -231,11 +242,11 @@ function NewRecipe() {
                         />
                         {errors.source && <p>{errors.source.message}</p>}
 
-                        <div id="textarea-field">
-                            <label htmlFor="story">
+                        <div className="textarea__field">
+                            <label htmlFor="textarea__text">
                                 Tekst
                                 <textarea
-                                    id="story" name="story" rows="4" cols="57"
+                                    className="textarea__text" name="story" rows="4" cols="55"
                                     placeholder="bijv een verhaaltje over jouw eigen ervaringen met dit recept"
                                     {...register("story", {
                                         required: {
@@ -251,9 +262,9 @@ function NewRecipe() {
 
                         <Input
                             labelText="Voorbereidingstijd"
-                            inputType="text"
-                            inputId="preptime"
-                            inputName="prepTime"
+                            type="text"
+                            name="prepTime"
+                            className="input__text"
                             placeholder="bijv 20 min"
                             validationRules={{
                                 maxLength: {
@@ -268,9 +279,9 @@ function NewRecipe() {
 
                         <Input
                             labelText="Bereidingstijd *"
-                            inputType="text"
-                            inputId="cooktime"
-                            inputName="cookTime"
+                            type="text"
+                            name="cookTime"
+                            className="input__text"
                             placeholder="bijv 20 min"
                             validationRules={{
                                 maxLength: {
@@ -288,29 +299,32 @@ function NewRecipe() {
                         {errors.cookTime && <p>{errors.cookTime.message}</p>}
                     </div>
 
-                    <div className="utensils">
+                    <div>
                         <h3>Benodigdheden</h3>
-                        <ol className="utensil">
+                        <ol>
                             {utensilList.map((x, i) => {
                                 return (
-                                    <div className="utensilLine" key={i}>
-                                        <li>
+                                    <div className="utensil__div" key={i}>
+                                        <li className="utensil__li">
                                             <input
                                                 name="utensil"
+                                                className="utensil__input"
                                                 placeholder="bijv uitgekookte potjes"
                                                 value={x.utensil}
                                                 onChange={e => handleInputChange(e, i, utensilList, setUtensilList)}
                                             />
                                         </li>
-                                        <div id="anotherUtensil">
+                                        <div>
                                             {utensilList.length !== 1 &&
                                                 <button
+                                                    className="button--round"
                                                     onClick={() => handleRemoveClick(i, utensilList, setUtensilList)}
                                                 >
                                                     -
                                                 </button>}
                                             {utensilList.length - 1 === i &&
                                                 <button
+                                                    className="button--round utensil_button"
                                                     onClick={() => handleAddClick(utensilList, setUtensilList)}
                                                 >
                                                     +
@@ -323,18 +337,18 @@ function NewRecipe() {
                     </div>
 
 
-                    <div className="ingredients">
+                    <div>
                         <h3>Ingrediënten *</h3>
                         <p>Vul hier eerst de hoeveelheid in, dan de maat en als laatste het ingredient</p>
-                        <ol className="ingredient">
+                        <ol>
                             {ingredientList.map((x, i) => {
                                 return (
-                                    <div className="ingredientLine" key={i}>
-                                        <li>
+                                    <div className="ingredient__div" key={i}>
+                                        <li className="ingredient__li">
                                             <input
                                                 type="number"
                                                 name="amount"
-                                                id="amount"
+                                                className="ingredient__amount"
                                                 min="0"
                                                 step="0.1"
                                                 value={x.amount}
@@ -343,7 +357,7 @@ function NewRecipe() {
                                             <input
                                                 type="text"
                                                 name="unit"
-                                                id="unit"
+                                                className="ingredient__unit"
                                                 min="0"
                                                 step="0.1"
                                                 value={x.unit}
@@ -352,20 +366,22 @@ function NewRecipe() {
                                             <input
                                                 type="text"
                                                 name="ingredient_name"
-                                                id="ingredient_name"
+                                                className="ingredient__name"
                                                 value={x.ingredient_name}
                                                 onChange={e => handleInputChange(e, i, ingredientList, setIngredientList)}
                                             />
                                         </li>
-                                        <div id="anotherIngredient">
+                                        <div>
                                             {ingredientList.length !== 1 &&
                                                 <button
+                                                    className="button--round"
                                                     onClick={() => handleRemoveClick(i, ingredientList, setIngredientList)}
                                                 >
                                                     -
                                                 </button>}
                                             {ingredientList.length - 1 === i &&
                                                 <button
+                                                    className="button--round"
                                                     onClick={() => handleAddClick(ingredientList, setIngredientList)}
                                                 >
                                                     +
@@ -377,29 +393,32 @@ function NewRecipe() {
                         </ol>
                     </div>
 
-                    <div className="instructions">
+                    <div>
                         <h3>Bereiding *</h3>
-                        <ol className="instruction">
+                        <ol>
                             {instructionList.map((x, i) => {
                                 return (
-                                    <div className="instructionLine" key={i}>
-                                        <li>
+                                    <div className="instruction__div" key={i}>
+                                        <li className="instruction__li">
                                             <input
                                                 name="instruction"
                                                 placeholder="bijv was de bramen"
+                                                className="instruction__input"
                                                 value={x.instruction}
                                                 onChange={e => handleInputChange(e, i, instructionList, setInstructionList)}
                                             />
                                         </li>
-                                        <div id="anotherInstruction">
+                                        <div>
                                             {instructionList.length !== 1 &&
                                                 <button
+                                                    className="button--round"
                                                     onClick={() => handleRemoveClick(i, instructionList, setInstructionList)}
                                                 >
                                                     -
                                                 </button>}
                                             {instructionList.length - 1 === i &&
                                                 <button
+                                                    className="button--round"
                                                     onClick={() => handleAddClick(instructionList, setInstructionList)}
                                                 >
                                                     +
@@ -411,78 +430,90 @@ function NewRecipe() {
                         </ol>
                     </div>
 
-                    <div className="checkboxes">
+                    <div>
                         {/*checkboxes............................................*/}
                         <h3>In welke maanden kan je de wildpluk halen. Vink hieronder aan.</h3>
                         <Checkbox
-                            inputName="january"
+                            name="january"
                             labelText="januari"
+                            className="component-checkbox__input"
                             register={register}
                         />
 
                         <Checkbox
-                            inputName="february"
+                            name="february"
                             labelText="februari"
+                            className="component-checkbox__input"
                             register={register}
                         />
 
                         <Checkbox
-                            inputName="march"
+                            name="march"
                             labelText="maart"
+                            className="component-checkbox__input"
                             register={register}
                         />
 
                         <Checkbox
-                            inputName="april"
+                            name="april"
                             labelText="april"
+                            className="component-checkbox__input"
                             register={register}
                         />
 
                         <Checkbox
-                            inputName="may"
+                            name="may"
                             labelText="mei"
+                            className="component-checkbox__input"
                             register={register}
                         />
 
                         <Checkbox
-                            inputName="june"
+                            name="june"
                             labelText="juni"
+                            className="component-checkbox__input"
                             register={register}
                         />
 
                         <Checkbox
-                            inputName="july"
+                            name="july"
                             labelText="juli"
+                            className="component-checkbox__input"
                             register={register}
                         />
 
                         <Checkbox
-                            inputName="august"
+                            name="august"
                             labelText="augustus"
+                            className="component-checkbox__input"
                             register={register}
                         />
 
                         <Checkbox
-                            inputName="september"
+                            name="september"
                             labelText="september"
+                            className="component-checkbox__input"
                             register={register}
                         />
 
                         <Checkbox
-                            inputName="october"
+                            name="october"
                             labelText="oktober"
+                            className="component-checkbox__input"
                             register={register}
                         />
 
                         <Checkbox
-                            inputName="november"
+                            name="november"
                             labelText="november"
+                            className="component-checkbox__input"
                             register={register}
                         />
 
                         <Checkbox
-                            inputName="december"
+                            name="december"
                             labelText="december"
+                            className="component-checkbox__input"
                             register={register}
                         />
                     </div>
@@ -492,104 +523,119 @@ function NewRecipe() {
                         <h3>Vink hieronder aan wat van toepassing is</h3>
 
                         <Checkbox
-                            inputName="vegetarian"
+                            name="vegetarian"
                             labelText="vegetarisch"
+                            className="component-checkbox__input"
                             register={register}
                         />
 
                         <Checkbox
-                            inputName="vegan"
+                            name="vegan"
                             labelText="veganistisch"
+                            className="component-checkbox__input"
                             register={register}
                         />
 
                         <Checkbox
-                            inputName="lactosefree"
+                            name="lactosefree"
                             labelText="lactosevrij"
+                            className="component-checkbox__input"
                             register={register}
                         />
 
                         <Checkbox
-                            inputName="glutenfree"
+                            name="glutenfree"
                             labelText="glutenvrij"
+                            className="component-checkbox__input"
                             register={register}
                         />
 
                         <Checkbox
-                            inputName="breakfast"
+                            name="breakfast"
                             labelText="ontbijt"
+                            className="component-checkbox__input"
                             register={register}
                         />
 
                         <Checkbox
-                            inputName="lunch"
+                            name="lunch"
                             labelText="lunch"
+                            className="component-checkbox__input"
                             register={register}
                         />
 
                         <Checkbox
-                            inputName="diner"
+                            name="diner"
                             labelText="diner"
+                            className="component-checkbox__input"
                             register={register}
                         />
 
                         <Checkbox
-                            inputName="snack"
+                            name="snack"
                             labelText="tussendoortje"
+                            className="component-checkbox__input"
                             register={register}
                         />
 
                         <Checkbox
-                            inputName="sidedish"
+                            name="sidedish"
                             labelText="bijgerecht"
+                            className="component-checkbox__input"
                             register={register}
                         />
 
                         <Checkbox
-                            inputName="starter"
+                            name="starter"
                             labelText="voorgerecht"
+                            className="component-checkbox__input"
                             register={register}
                         />
 
                         <Checkbox
-                            inputName="maindish"
+                            name="maindish"
                             labelText="hoofdgerecht"
+                            className="component-checkbox__input"
                             register={register}
                         />
 
                         <Checkbox
-                            inputName="drinks"
+                            name="drinks"
                             labelText="drinken"
+                            className="component-checkbox__input"
                             register={register}
                         />
 
                         <Checkbox
-                            inputName="alcoholic"
+                            name="alcoholic"
                             labelText="met alcohol"
+                            className="component-checkbox__input"
                             register={register}
                         />
 
                         <Checkbox
-                            inputName="openfire"
+                            name="openfire"
                             labelText="op open vuur"
+                            className="component-checkbox__input"
                             register={register}
                         />
 
                         <Checkbox
-                            inputName="dutchoven"
+                            name="dutchoven"
                             labelText="dutch oven"
+                            className="component-checkbox__input"
                             register={register}
                         />
 
                     </div>
 
-                    <p id="required">* is verplicht</p>
+                    <p className="new-recipe-page--required">* is verplicht</p>
 
-                    <button type="submit" id="submitButton">Versturen</button>
+                    <Button type="submit" className="button--ellips">versturen</Button>
                     {addSucces === true && <h3>Dankjewel voor het versturen van een nieuw recept. you are awesome.</h3>}
 
                 </form>
-            </div>
+            </article>
         </>
     )
         ;

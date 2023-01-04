@@ -1,24 +1,25 @@
 import React from 'react';
 import './Input.css';
 
-function Input({ inputValue, inputType, placeholder, inputName, labelText, inputId, validationRules, register, errors, inputMin, inputMax, inputStep }) {
+function Input({ name, labelText, type, className, placeholder, min, max, step, register,  validationRules, errors }) {
 
 
     return (
-        <div className="inputcomponent">
-            <label htmlFor={inputId}>
+        <div className="component__input">
+            <label htmlFor={name} >
                 {labelText}
                 <input
-                    type={inputType}
-                    id={inputId}
+                    type={type}
+                    name={name}
+                    className={className}
                     placeholder={placeholder}
-                    min={inputMin}
-                    max={inputMax}
-                    step={inputStep}
-                    {...register(inputName, validationRules)}
+                    min={min}
+                    max={max}
+                    step={step}
+                    {...register(name, validationRules)}
                 />
             </label>
-            {errors[inputName] && <p>{errors[inputName].message}</p>}
+            {errors[name] && <p>{errors[name].message}</p>}
         </div>
     );
 }

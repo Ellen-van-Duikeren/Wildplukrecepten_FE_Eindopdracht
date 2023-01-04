@@ -1,82 +1,25 @@
-.login-form {
-    background-color: var(--yellowpink);
-    padding: 20px 0 20px 0;
+.login-page {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
 }
 
-#inlog-header {
-    padding-bottom: 30px;
-}
-
-.login-form form {
-    padding-left: 20px;
+.login-page form {
+    padding-left: 1em;
     width: 45%;
     display: flex;
     flex-direction: column;
 }
 
-.login-form label {
-    position: relative;
-    margin-bottom: 40px;
-}
-
-.login-form input {
-    top: -7px;
-    padding: 10px;
-    position: absolute;
-    left: 120px;
+.login-page input {
     width: 30vw;
-    border-radius: 5px;
-    border: 2px solid lightgray;
 }
 
-.login-form button {
-    width: 100px;
-    margin-top: 10px;
-    padding: 10px;
+.login-page button {
+    margin-bottom: 1.5em;
 }
 
-#click-login-button {
-    margin-top: 20px;
-    width: 200px;
-}
-
-.login_succeeded {
-    display: flex;
-    flex-direction: row;
-}
-
-.login_succeeded p {
-    margin-left: 20px;
-    margin-top: 16px;
-}
-
-/*right side....................................................*/
-.login-form .right-side {
-    width: 40vw;
-    object-fit: cover;
-    margin-right: 20px;
-    position: relative;
-}
-
-#wild-garlic {
-    width: 100%;
-}
-
-.login-form #text-photo {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    color: white;
-    font-size: 0.8em;
-}
-
-.login-form #text-photo a {
-    color: white;
-}
 
 
 

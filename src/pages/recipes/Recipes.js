@@ -5,11 +5,16 @@ import axios from "axios";
 
 function Recipe() {
     const [recipes, setRecipes] = useState([]);
+    const token = localStorage.getItem('token');
+
 
     useEffect(() => {
         async function fetchRecipes() {
             try {
-                const response = await axios.get("http://localhost:8081/recipes");
+                const response = await axios.get("http://localhost:8081/recipes",
+                    {
+                        "Authorization": `Bearer ${token}`
+                    });
                 console.log(response);
                 setRecipes(response);
             } catch (e) {
@@ -17,13 +22,13 @@ function Recipe() {
             }
         }
         fetchRecipes();
-    }, [])
+    }, [token])
 
 
     return (
-        <section className="recipespage">
+        <article className="page recipes-page">
             <h1>Recepten</h1>
-            <h3>Aantal recepten: {recipes.length}</h3>
+            <h2>Aantal recepten: {recipes.length}</h2>
             <ol>
                 {recipes.map((recipe) => {
                     return <li key={recipe.id}>
@@ -33,7 +38,7 @@ function Recipe() {
                     </li>
                 })}
             </ol>
-        </section>
+        </article>
     );
 }
 

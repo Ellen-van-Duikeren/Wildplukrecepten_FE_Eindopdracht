@@ -1,37 +1,41 @@
-import './Login.css';
+import "./Login.css";
 import garlic from "../../assets/garlic.jpg";
 import {useNavigate} from "react-router-dom";
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import axios from "axios";
+import {AuthContext} from "../../context/AuthContext";
+import {useForm} from "react-hook-form";
+import Input from "../../components/input/Input";
+import {loginUser} from "../../helperfunctions/axiosFunctions";
 
-function Login({isAuthenticated, toggleIsAuthenticated}) {
-    const navigate = useNavigate();
+function Login({toggleIsAuthenticated}) {
+    const {login} = useContext(AuthContext);
+    const {handleSubmit, formState: {errors}, register} = useForm();
 
     //onderstaande moet er nog uit, dit is een button om meteen zonder inlog en password op te geven in te loggen
+    //ook weghalen toggleIsAuthenticated in functie aanroep hierboven
+    const navigate = useNavigate();
     function handleClick() {
         toggleIsAuthenticated(true);
         navigate("/recipes");
     }
 
+
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [addSucces, toggleAddSuccess] = useState(false);
 
-    // authentication code, nog aanpassen dat deze dynamisch wordt
-
-
-    async function addUser(e) {
-        e.preventDefault();
+    async function onSubmit(data) {
         console.log(username, password);
-
         // post request
         try {
-            const response = await axios.post('http://localhost:8081/authenticate', {
-                    username: username,
-                    password: password,
-                });
-            console.log(response.data);
-            toggleAddSuccess(true);
+            const result = await loginUser(data);
+            login(result.data.accessToken);
+            console.log(result.data);
+            // if (result.status == 200) {
+            //     localStorage.setItem('token', result.data.token);
+            //     navigate("/recipes");
+            //     toggleIsAuthenticated(true);
+            // }
         } catch (e) {
             console.error(e);
         }
@@ -39,87 +43,77 @@ function Login({isAuthenticated, toggleIsAuthenticated}) {
 
 
     return (
-        <>
-            <div className="login-form">
-                <form onSubmit={addUser}>
-                    <h2 id="inlog-header">Inloggen</h2>
-                    <label
-                        htmlFor="username">
-                        Login:
-                        <input
-                            type="email"
-                            name="username"
-                            id="username"
-                            placeholder="emailadres"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}/>
-                    </label>
+            <article className="page login-page">
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <h1>Inloggen</h1>
+                    <Input
+                        id="username"
+                        labelText="Emailadres:"
+                        type="email"
+                        name="username"
+                        className="input__text"
+                        placeholder="emailadres"
+                        validationRules={{
+                            required: {
+                                value: true,
+                                message: 'Dit veld is verplicht',
+                            }
+                        }}
+                        register={register}
+                        errors={errors}
+                    />
+                    {errors.username && <p>{errors.username.message}</p>}
 
-                    <label
-                        htmlFor="password">
-                        Wachtwoord:
-                        <input
-                            type="password"
-                            name="password"
-                            id="password"
-                            placeholder="wachtwoord"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}/>
-                    </label>
+                    <Input
+                        id="password"
+                        labelText="Wachtwoord:"
+                        type="password"
+                        name="password"
+                        className="input__text"
+                        placeholder="wachtwoord"
+                        validationRules={{
+                            required: {
+                                value: true,
+                                message: 'Dit veld is verplicht',
+                            }
+                        }}
+                        register={register}
+                        errors={errors}
+                    />
+                    {errors.password && <p>{errors.password.message}</p>}
 
-                    <div className="login_succeeded">
-                        <button type="submit" id="login-button">Versturen</button>
-                        {addSucces === true &&
-                            <>
-                                <p>Je bent aangemeld.</p>
-                                {toggleIsAuthenticated(true)}
-                                {navigate("/recipes")}
-                            </>
-                        }
-                    </div>
+
+                        <button
+                            type="submit"
+                            className="button--ellips"
+                        >
+                            versturen
+                        </button>
+
+
 
                     {/*onderstaande button moet er nog uit*/}
                     <button
                         type="button"
-                        id="click-login-button"
+                        className="button--ellips"
                         onClick={() => handleClick()}
-                    >Inloggen zonder wachtwoord
+                    >inloggen zonder wachtwoord
                     </button>
 
                 </form>
 
 
                 <div className="right-side">
-                    <img src={garlic} alt="wild garlic" id="wild-garlic"/>
-                    <p id="text-photo">Daslook, &copy; <a
+                    <img src={garlic} alt="wild garlic" className="photo"/>
+                    <p className="photo-caption">Daslook, &copy; <a
                         href='https://unsplash.com/es/@garyellisphoto?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText'>Gary
                         Ellis</a> on <a
                         href='https://unsplash.com/s/photos/wild-garlic?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText'>Unsplash</a>
                     </p>
                 </div>
-            </div>
-        </>
+            </article>
     );
 }
 
 export default Login;
 
-// function handleFormSubmit(data) {
-//     console.log(data);
-//     const rightUser = users.find((user) => user.username === data.username);
-//     console.log("Username: " + data.username);
-//     if (rightUser != null) {
-//         const rightPassword = rightUser.password
-//         console.log("Password: " + data.password);
-//         if (data.password === rightPassword) {
-//             toggleIsAuthenticated(true);
-//             navigate("/recipes");
-//         } else {
-//             console.error("Dit wachtwoord klopt niet. Neem contact op met de administratie.");
-//             document.getElementById("password-is-not-right").textContent = "Dit wachtwoord klopt niet. Neem contact op met de administratie.";
-//         }
-//     } else {
-//         console.error("Deze gebruikersnaam is onbekend. Neem contact op met de administratie.");
-//         document.getElementById("username-does-not-exist").textContent = "Deze gebruikersnaam is onbekend. Neem contact op met de administratie.";
-//     }
-// }

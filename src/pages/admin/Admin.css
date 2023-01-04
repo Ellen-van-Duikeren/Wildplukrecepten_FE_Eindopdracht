@@ -1,22 +1,12 @@
-.administrator {
-    background-color: var(--yellowpink);
-    padding: 20px 0 20px 0;
-}
-
-.administrator h1, .administrator h2 {
-    margin-left: 20px;
-}
-
 .users {
-    margin: 20px;
-    font-family: Arial, Helvetica, sans-serif;
     border-collapse: collapse;
-    width: 80%;
+    width: 90%;
+    margin-bottom: 2em;
 }
 
 .users td, .users th {
     border: 1px solid #ddd;
-    padding: 8px;
+    padding: 0.8em;
 }
 
 .users tr:nth-child(even) {
@@ -28,9 +18,9 @@
 }
 
 .users th {
-    padding-top: 12px;
-    padding-bottom: 12px;
+    padding-top: 1em;
+    padding-bottom: 1em;
     text-align: left;
     background-color: var(--green);
-    color: white;
+    color: black;
 }

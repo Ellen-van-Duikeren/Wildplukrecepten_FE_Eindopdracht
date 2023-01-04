@@ -4,6 +4,7 @@ import {useParams} from "react-router-dom";
 import {RiKnifeLine} from 'react-icons/ri';
 import {GiCampCookingPot} from 'react-icons/gi';
 import axios from "axios";
+import Button from "../../components/button/Button";
 
 function Recipe({imgname}) {
     const {id} = useParams();
@@ -33,28 +34,30 @@ function Recipe({imgname}) {
     const [countPersons, setCountPersons] = useState(parseInt(currentRecipe.persons));
 
     return (
-        <div className="recipepage" key={currentRecipe.id}>
-            <div className="recipedescription">
+        <article className="page recipe-page" key={currentRecipe.id}>
+            <div className="recipe__description">
 
                 {/*left-side.......................................................*/}
-                <div id="emptydiv"></div>
-                <article className="left-side">
+                <div className="div--empty"></div>
+                <section className="left-side">
                     <h3>Ingredienten:</h3>
                     {currentRecipe.persons > 0 &&
                         <>
-                            <div id="counterPersons">
-                                <button
+                            <div className="counterPersons">
+                                <Button
                                     type="button"
+                                    className="button--round"
                                     onClick={() => setCountPersons(countPersons => countPersons - 1)}
                                     disabled={countPersons <= 1}
                                 >-
-                                </button>
+                                </Button>
                                 <p id="amountOfPersons">{countPersons}</p>
-                                <button
+                                <Button
                                     type="button"
+                                    className="button--round"
                                     onClick={() => setCountPersons(countPersons => countPersons + 1)}
                                 >+
-                                </button>
+                                </Button>
                                 <p>personen</p>
                             </div>
                         </>
@@ -63,8 +66,8 @@ function Recipe({imgname}) {
                     <div>
                         {currentRecipe.ingredient.map((ingredient) => {
                             return (
-                                <div className="ingredients">
-                                    <label id="ingredient">
+                                <div className="recipe-age__ingredient">
+                                    <label className="ingredient__label">
                                         <input type="checkbox"/>
                                         <p>{countPersons * parseInt(ingredient.amount) / currentRecipe.persons}</p>
                                         <p>{ingredient.unit}</p>
@@ -74,11 +77,11 @@ function Recipe({imgname}) {
                             );
                         })}
                     </div>
-                </article>
+                </section>
 
 
                 {/*right-side.......................................................*/}
-                <article className="descriptions">
+                <section className="recipe-page__descriptions">
                     <h1>{currentRecipe.title}</h1>
                     <p>{currentRecipe.subtitle}</p>
 
@@ -160,12 +163,12 @@ function Recipe({imgname}) {
 
                     {currentRecipe.source && <p id="source">bron: {currentRecipe.source}</p>}
 
-                </article>
+                </section>
 
             </div>
 
 
-        </div>
+        </article>
 
 
     );

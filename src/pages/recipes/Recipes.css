@@ -1,15 +1,13 @@
-.recipespage {
-    background-color: var(--yellowpink);
-    padding: 20px 0 20px 20px;
+.recipes-page {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
 }
 
-.recipespage ol {
+.recipes-page ol {
     padding-left: 20px;
 }
 
-.recipespage li {
+.recipes-page li {
     margin-bottom: 10px;
 }

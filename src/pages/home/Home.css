@@ -1,49 +1,31 @@
-.homepage {
-    background-color: var(--yellowpink);
-    padding: 20px 0 20px 0;
+.home-page {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
 }
 
-.left-side {
-    padding-left: 20px;
-    width: 45%;
-}
+/*left-side....................................................*/
 
 #inlog-header {
     padding-bottom: 30px;
 }
 
-.homepage p {
+.home-page p {
     padding-bottom: 10px;
 }
 
-.homepage ul {
+.home-page ul {
     padding-top: 5px;
     padding-left: 20px;
     padding-bottom: 10px;
 }
 
-.right-side {
-    width: 40vw;
-    object-fit: cover;
-    margin-right: 20px;
-}
+/*right-side....................................................*/
 
-#wild-garlic {
-    width: 100%;
-}
 
-#text-photo1 {
-    color: black;
-    font-size: 0.8em;
-}
 
-#text-photo1 a {
-    color: black;
-}
+
 
 
 

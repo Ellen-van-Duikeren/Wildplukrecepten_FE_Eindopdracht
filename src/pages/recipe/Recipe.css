@@ -1,13 +1,11 @@
-.recipepage {
-    background-color: var(--yellowpink);
-    padding: 20px 0 20px 20px;
+.recipe-page {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
 }
 
 /*left-side............................................*/
-.recipepage .left-side {
+.recipe-page .left-side {
     position: fixed;
     top: 100px;
     background-color: var(--green);
@@ -15,53 +13,45 @@
     border-radius: 10px;
 }
 
-.recipepage #emptydiv {
+.div--empty {
     background-color: var(--green);
     width: 35%;
     border-radius: 10px;
 }
 
-.recipepage li {
+.recipe-page li {
     margin-left: 10px;
     margin-bottom: 10px;
 }
 
-.recipepage .recipedescription {
+.recipe-page .recipe__description {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
 }
 
-.recipepage button {
-    margin: 0 10px 20px 0;
-    border-radius: 50%;
-    border: 1px transparent solid;
-    background-color: var(--yellowpink);
-    padding: 5px;
-}
-
-.recipepage #counterPersons {
+.recipe-page .counterPersons {
     display: flex;
     flex-direction: row;
     align-items: baseline;
 }
 
-.recipepage #amountOfPersons {
+.recipe-page #amountOfPersons {
     margin-right: 10px;
 }
 
-.recipepage .ingredients {
+.recipe-page .recipe-age__ingredient {
     position: relative;
 }
 
-.recipepage #ingredient {
+.recipe-page .ingredient__label {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     align-items: baseline;
 }
 
-.recipepage input[type="checkbox"] {
+.recipe-page input[type="checkbox"] {
   margin-right: 6px;
 }
 
@@ -69,11 +59,11 @@
 /*    background: var(--green);*/
 /*}*/
 
-.recipepage #ingredient p {
+.recipe-page .ingredient__label p {
     padding-right: 3px;
 }
 
-.recipepage .counteringredient {
+.recipe-page .counteringredient {
     background-color: #A8C256;
     border: 1px solid transparent;
     color: white;
@@ -82,7 +72,7 @@
     padding: 5px;
 }
 
-.recipepage .descriptions {
+.recipe-page .recipe-page__descriptions {
     margin-left: 20px;
     width: 55%;
     background-color: var(--yellowpink);
@@ -90,31 +80,28 @@
 }
 
 /*right side.........................................*/
-.recipepage h1 {
-    margin-bottom: 6px;
-}
 
-.recipepage img {
+.recipe-page img {
     width: 100%;
     margin-bottom: 20px;
 }
 
-.recipepage p, .recipepage span, .recipepage li {
+.recipe-page p, .recipe-page span, .recipe-page li {
     font-size: 0.8rem;
 }
 
-.recipepage #source {
+.recipe-page #source {
     font-size: 0.6rem;
 }
 
-.recipepage #months, #utensils, #tags {
+.recipe-page #months, #utensils, #tags {
     display: flex;
     flex-direction: row;
     gap: 10px;
     margin-bottom: 20px;
 }
 
-.recipepage .times {
+.recipe-page .times {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -122,28 +109,28 @@
     align-items: center;
 }
 
-.recipepage .time {
+.recipe-page .time {
     display: flex;
     flex-direction: column;
     margin-top: 5px;
 }
 
-.recipepage .time p {
+.recipe-page .time p {
     margin: 0;
     padding: 0;
 }
 
-.recipepage #utensilsheader {
+.recipe-page #utensilsheader {
     margin-top: 10px;
 }
 
-.recipepage #instruction {
+.recipe-page #instruction {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
 }
 
-.recipepage #step {
+.recipe-page #step {
     border: 1px solid transparent;
     border-radius: 50%;
     background-color: var(--green);
@@ -152,11 +139,11 @@
     color: white;
 }
 
-.recipepage #tags {
+.recipe-page #tags {
     margin-top: 20px;
 }
 
-.recipepage #month, .recipepage #tag {
+.recipe-page #month, .recipe-page #tag {
     text-align: center;
     width: 100px;
     border: 2px solid var(--green);

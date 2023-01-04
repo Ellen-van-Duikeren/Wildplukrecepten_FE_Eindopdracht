@@ -1,41 +1,9 @@
-.aboutmepage {
-    background-color: var(--yellowpink);
-    padding: 20px 0 20px 0;
+.about-me-page {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
 }
 
-#text-why p {
-    color: black;
-    font-size: 1rem;
-}
 
-.aboutmepage h1 {
-    margin-bottom: 20px;
-}
 
-.aboutmepage p {
-    margin-bottom: 10px;
-}
-
-.left-side {
-    padding-left: 20px;
-    width: 50%;
-}
-
-.right-side {
-    width: 40vw;
-    object-fit: cover;
-    margin-right: 20px;
-}
-
-#raspberry {
-    width: 100%;
-}
-
-#text-photo {
-    color: black;
-    font-size: 0.8em;
-}

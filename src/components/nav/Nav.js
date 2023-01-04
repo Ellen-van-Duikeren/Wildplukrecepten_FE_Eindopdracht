@@ -2,6 +2,7 @@ import React from 'react';
 import logoText from "../../assets/logoText.png";
 import {NavLink, useNavigate} from 'react-router-dom';
 import './Nav.css';
+import Button from "../button/Button";
 
 function Nav({isAuthenticated, toggleIsAuthenticated}) {
     const navigate = useNavigate();
@@ -53,7 +54,7 @@ function Nav({isAuthenticated, toggleIsAuthenticated}) {
                     {!isAuthenticated &&
                         <button
                             type="button"
-                            id="inlog-button"
+                            className="button--ellips"
                             onClick={() => handleClick()}
                         >
                             inloggen
@@ -62,7 +63,7 @@ function Nav({isAuthenticated, toggleIsAuthenticated}) {
                     {isAuthenticated &&
                         <button
                             type="button"
-                            id="uitlog-button"
+                            className="button--ellips"
                             onClick={() => handleClick()}
                         >
                             uitloggen
