@@ -1,33 +1,45 @@
 import React, {useEffect, useState} from 'react';
 import './Admin.css';
+import {API_URL, authAxios} from "../../helperfunctions/axiosFunctions";
 import axios from "axios";
-
-// const API_URL = 'http://localhost:8081';
 
 function Admin() {
     const [users, setUsers] = useState([]);
 
-    // localstorage for aunthentication, nog dynamisch maken, nu hardcoded toegevoegd
-    // const token = localStorage.getItem('token');
-    // const authAxios = axios.create({
-    //     bareUrl: API_URL,
-    //     headers: {
-    //         Authorization: `Bearer ${token}`,
-    //     },
-    // });
+    const token = localStorage.getItem('token');
+
 
     // useEffect(() => {
     //     async function fetchUsers() {
     //         try {
-    //             const response = await authAxios.get("/users");
+    //             const response = await authAxios.get('/users');
     //             console.log(response.data);
     //             setUsers(response.data);
     //         } catch (e) {
     //             console.error(e);
     //         }
     //     }
-    //     fetchUsers();
+    //     if (users) {
+    //         void fetchUsers();
+    //     }
     // }, [token])
+
+    useEffect(() => {
+        async function fetchUsers() {
+            try {
+                const response = await axios.get('http://localhost:8081/users', {
+                    "Authorization": `Bearer ${token}`,
+                });
+                console.log(response.data);
+                setUsers(response.data);
+            } catch (e) {
+                console.error(e);
+            }
+        }
+        if (users) {
+            void fetchUsers();
+        }
+    }, [token])
 
 
     return (

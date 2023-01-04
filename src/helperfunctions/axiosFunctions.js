@@ -1,7 +1,14 @@
 import axios from "axios";
 
+const token = localStorage.getItem('token');
 export const API_URL = 'http://localhost:8081';
 
+export const authAxios = axios.create({
+    bareUrl: API_URL,
+    headers: {
+        Authorization: `Bearer ${token}`,
+    },
+});
 
 //Bas
 // const bearerToken = '{token}';

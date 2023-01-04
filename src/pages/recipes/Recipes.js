@@ -8,22 +8,22 @@ function Recipe() {
     const token = localStorage.getItem('token');
 
 
-    useEffect(() => {
-        async function fetchRecipes() {
-            try {
-                const response = await axios.get("http://localhost:8081/recipes",
-                    {
-                        "Authorization": `Bearer ${token}`
-                    });
-                console.log(response);
-                setRecipes(response);
-            } catch (e) {
-                console.error(e);
-            }
-        }
-
-        fetchRecipes();
-    }, [token])
+    // useEffect(() => {
+    //     async function fetchRecipes() {
+    //         try {
+    //             const response = await axios.get("http://localhost:8081/recipes",
+    //                 {
+    //                     "Authorization": `Bearer ${token}`
+    //                 });
+    //             console.log(response);
+    //             setRecipes(response);
+    //         } catch (e) {
+    //             console.error(e);
+    //         }
+    //     }
+    //
+    //     fetchRecipes();
+    // }, [token])
 
     return (
         <article className="page recipes-page">

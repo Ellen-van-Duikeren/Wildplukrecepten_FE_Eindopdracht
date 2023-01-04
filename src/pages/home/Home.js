@@ -19,7 +19,7 @@ function Home(props) {
                     href="http://wildplukwijzer.nl/blog/overdewildplukwijzer/">wildplukwijzer</a> vind je alle openbare planten, bomen, struiken in jouw buurt of waar je dan ook maar wilt gaan wildplukken in Nederland.</p>
 
                    <p>Hoe leer ik wildpluk herkennen? Er
-                    worden vele workshops, excursies gegeven, verspreid over het land, waar je van een wildplukker kan leren welke planten eetbaar zijn. Een paar voorbeelden van wildplukkers met wie ik zelf zeer goede ervaringen heb:
+                       worden vele workshops, excursies gegeven, verspreid over het land, waar je van een wildplukker kan leren welke planten eetbaar zijn. Een paar voorbeelden van wildplukkers met wie ik zelf zeer goede ervaringen heb:</p>
                 <ul>
                     <li>Wildplukjaaropleiding, workshops eetbate planten, dutch oven, kaas maken door Danielle Berghmans
                         van <a href="https://natuurkok.nl/">de Natuurkok</a></li>
@@ -27,7 +27,7 @@ function Home(props) {
                         href="https://jeroennielen.com/">Jeroen Nielen</a></li>
                     <li>Wandelingen met natuurgids Pieter Vos</li>
                 </ul>
-                </p>
+
 
 
                 <p>Is wildplukken legaal? Formeel mag wildplukken niet, maar.... In de praktijk krijg je, in de openbare

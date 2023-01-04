@@ -6,8 +6,7 @@ import axios from "axios";
 import {AuthContext} from "../../context/AuthContext";
 import {useForm} from "react-hook-form";
 import Input from "../../components/input/Input";
-
-export const API_URL = 'http://localhost:8081';
+import {API_URL} from "../../helperfunctions/axiosFunctions";
 
 function Login({toggleIsAuthenticated}) {
     const {handleSubmit, formState: {errors}, register} = useForm();
