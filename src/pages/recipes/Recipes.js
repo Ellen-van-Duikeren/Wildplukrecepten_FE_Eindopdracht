@@ -21,9 +21,9 @@ function Recipe() {
                 console.error(e);
             }
         }
+
         fetchRecipes();
     }, [token])
-
 
     return (
         <article className="page recipes-page">

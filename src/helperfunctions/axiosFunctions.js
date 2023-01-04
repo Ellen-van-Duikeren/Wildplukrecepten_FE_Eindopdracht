@@ -1,6 +1,9 @@
 import axios from "axios";
 
+export const API_URL = 'http://localhost:8081';
 
+
+//Bas
 // const bearerToken = '{token}';
 // const url = "http://localhost:8081/"
 //
@@ -10,27 +13,6 @@ import axios from "axios";
 //         Authorization: `Bearer ${bearerToken}`,
 //     },
 // });
-
-
-export const API_URL = 'http://localhost:8081';
-
-async function loginUser(data){
-    return axios.post(`${API_URL}/authenticate`, data)
-}
-
-axios.interceptors.request.use(function (config) {
-    config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
-    config.headers['Content-Type'] = 'application/json'
-    config.headers['Access-Control-Allow-Origin'] = '*'
-    console.log(config)
-    return config
-})
-
-async function fetchUser(username) {
-    return axios.get(`${API_URL}/users/${username}`)
-}
-
-
 
 // const fetchData = async () => {
 //     setLoading( true );
@@ -43,7 +25,36 @@ async function fetchUser(username) {
 //         console.log(data)
 //     } catch ( e ) {
 
+
+
+
+// const token = localStorage.getItem('token');
+
+
+
+
+//Jelmer
+// async function loginUser(data){
+//     return axios.post(`${API_URL}/authenticate`, data)
+// }
+//
+// axios.interceptors.request.use(function (config) {
+//     config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
+//     config.headers['Content-Type'] = 'application/json'
+//     config.headers['Access-Control-Allow-Origin'] = '*'
+//     console.log(config)
+//     return config
+// })
+
+async function fetchUser(username) {
+    return axios.get(`${API_URL}/users/${username}`)
+}
+
+
+
+
+//
+//
 export {
-    loginUser,
     fetchUser
 }

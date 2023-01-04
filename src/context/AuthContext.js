@@ -27,23 +27,23 @@ function AuthContextProvider({children}) {
         }
         setIsLoading(false);
     }
-
-    useEffect(() => {
-        let mounted = true;
-        const token = localStorage.getItem('token')
-        if (token !== null && userState.user === null) {
-            if (mounted) {
-                fetchUserData(token);
-            }
-        } else {
-            setUserState({
-                user: null,
-                status: "done"
-            });
-        }
-        return () => (mounted = false);
-    }, []);
-
+    //
+    // useEffect(() => {
+    //     let mounted = true;
+    //     const token = localStorage.getItem('token')
+    //     if (token !== null && userState.user === null) {
+    //         if (mounted) {
+    //             fetchUserData(token);
+    //         }
+    //     } else {
+    //         setUserState({
+    //             user: null,
+    //             status: "done"
+    //         });
+    //     }
+    //     return () => (mounted = false);
+    // }, []);
+    //
     async function loginFunction(token) {
         localStorage.setItem('token', token);
         await fetchUserData(token);
