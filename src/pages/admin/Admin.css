@@ -5,22 +5,47 @@
 }
 
 .users td, .users th {
-    border: 1px solid #ddd;
+    border: 2px solid var(--green);
     padding: 0.8em;
 }
 
 .users tr:nth-child(even) {
-    background-color: #f2f2f2;
+    background-color: var(--green);
 }
 
 .users tr:hover {
-    background-color: #ddd;
+    background-color: var(--pinkred);
 }
 
 .users th {
     padding-top: 1em;
     padding-bottom: 1em;
     text-align: left;
-    background-color: var(--green);
-    color: black;
+    background-color: var(--purplebrown);
+    color: white;
+}
+
+.h2__margin {
+    margin-top: 2em;
+    margin-bottom: 0.7em;
+}
+
+.recipient__div {
+    margin-bottom: 2em;
+}
+
+.label__select {
+    width: 2em;
+    padding: 0.3em;
+    border-radius: 0.5em;
+    border: 2px solid lightgray;
+    font-size: var(--baseFont);
+    color: #757575;
+}
+
+
+@media print {
+    .print__button {
+        display: none;
+    }
 }

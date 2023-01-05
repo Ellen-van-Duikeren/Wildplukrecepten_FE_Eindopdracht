@@ -18,20 +18,21 @@
 
 body {
     background-color: var(--green);
-    margin-left: 1em;
-    margin-right: 1em;
+    margin: 0 auto;
     max-width: 1200px;
 }
 
 .page {
     background-color: var(--yellowpink);
     padding: 2em;
+    margin-left: 1em;
+    margin-right: 1em;
 }
 
 /*css on page where left text and right photo................*/
 .left-side {
     padding-left: 1em;
-    width: 45vw;
+    width: 40vw;
 }
 
 .right-side {
@@ -51,12 +52,12 @@ body {
 /*font-size.................................................*/
 h1 {
     font-size: calc(var(--baseFont) * 1.6);
-    padding-bottom: 1.5em;
+    padding-bottom: 1em;
 }
 
 h2 {
     font-size: calc(var(--baseFont) * 1.4);
-    padding-bottom: 0.5em;
+    padding-bottom: 1em;
 }
 
 h3 {
@@ -65,9 +66,14 @@ h3 {
     padding-bottom: 0.5em;
 }
 
-p {
+p{
     font-size: var(--baseFont);
     padding-bottom: 0.5em;
+    line-height: 1.6em;
+}
+
+li {
+    font-size: var(--baseFont);
     line-height: 1.6em;
 }
 

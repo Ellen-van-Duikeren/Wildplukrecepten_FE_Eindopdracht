@@ -52,7 +52,7 @@
     left: var(--position--left);
     border-radius: 0.5em;
     border: 2px solid lightgray;
-    width: 39vw;
+    width: 30em;
     font-size: calc(var(--baseFont) * 0.9);
 }
 

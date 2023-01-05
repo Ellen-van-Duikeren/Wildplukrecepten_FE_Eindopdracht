@@ -14,6 +14,8 @@ import Button from "../../components/button/Button";
 function NewRecipe() {
     // (simple) inputs
     const {register, handleSubmit, formState: {errors}} = useForm();
+    const token = localStorage.getItem('token');
+
 
     // some extra inputs in useState while I want to be able to add and remove instructions, utensils and ingredients
     const [instructionList, setInstructionList] = useState([{instruction: ""}]);
@@ -39,8 +41,12 @@ function NewRecipe() {
         try {
             const response = await axios.post(
                 'http://localhost:8081/recipes',
-                data
-            );
+                {data},
+                {headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`,
+                }
+            });
             console.log(response.data);
             console.log(instructionList);
             console.log(ingredientList);
@@ -50,6 +56,8 @@ function NewRecipe() {
             console.error(e);
         }
     }
+
+
 
     // photo
     function handleImageChange(e) {

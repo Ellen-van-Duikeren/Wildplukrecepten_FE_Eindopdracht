@@ -17,16 +17,16 @@ function Login({toggleIsAuthenticated}) {
         navigate("/recipes");
     }
 
+     //axios login
      async function onSubmit(data) {
         console.log(data);
         try {
             const result = await axios.post(`${API_URL}/authenticate`, data)
-            console.log("Result: " + result);
-            console.log("Result.data: " + result.data);
-            console.log("Result.status: " + result.status);
+            // console.log("Result: " + result);
+            // console.log("Result.data: " + result.data);
+            // console.log("Result.status: " + result.status);
             if (result.status == 200) {
                 localStorage.setItem('token', result.data.jwt);
-                console.log("JWT: " + result.data.jwt);
                 console.log("In token opgeslagen: " +  localStorage.getItem('token'));
                 navigate("/recipes");
                 toggleIsAuthenticated(true);

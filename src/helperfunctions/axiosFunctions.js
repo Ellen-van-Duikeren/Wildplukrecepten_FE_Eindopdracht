@@ -10,6 +10,20 @@ export const authAxios = axios.create({
     },
 });
 
+//Nova
+// voor post
+// const response = await axios.post('http://localhost:8081/jouw-endpoint', {
+//     blogTitle: 'Superleuk restaurant',
+//     content: 'lorem ipsum dolor',
+// }, {
+//     headers: {
+//         "Content-Type": "application/json",
+//         "Authorization": `Bearer ${token}`,
+//     }
+// });
+
+
+
 //Bas
 // const bearerToken = '{token}';
 // const url = "http://localhost:8081/"
@@ -31,9 +45,6 @@ export const authAxios = axios.create({
 //         setData( response.data );
 //         console.log(data)
 //     } catch ( e ) {
-
-
-
 
 // const token = localStorage.getItem('token');
 

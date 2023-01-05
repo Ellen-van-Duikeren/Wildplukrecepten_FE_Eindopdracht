@@ -16,8 +16,7 @@ import AboutMe from "./pages/aboutme/AboutMe";
 function App() {
     const [isAuthenticated, toggleIsAuthenticated] = useState(false);
 
-
-    return (
+       return (
 
         <>
             <Nav

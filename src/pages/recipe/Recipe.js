@@ -1,31 +1,15 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import './Recipe.css';
 import {useParams} from "react-router-dom";
 import {RiKnifeLine} from 'react-icons/ri';
 import {GiCampCookingPot} from 'react-icons/gi';
 import axios from "axios";
 import Button from "../../components/button/Button";
+import {useReactToPrint} from "react-to-print";
 
 function Recipe({imgname}) {
     const {id} = useParams();
-
     const [recipes, setRecipes] = useState([]);
-
-
-
-    useEffect(() => {
-        async function fetchRecipes() {
-            try {
-                const response = await axios.get("http://localhost:8081/recipes");
-                console.log(response);
-                setRecipes(response);
-            } catch (e) {
-                console.error(e);
-            }
-        }
-
-        fetchRecipes();
-    }, [])
 
     const currentRecipe = recipes.find((recipe) => {
         return recipe.id === id;
@@ -33,12 +17,22 @@ function Recipe({imgname}) {
 
     const [countPersons, setCountPersons] = useState(parseInt(currentRecipe.persons));
 
+    // printing
+    const componentRef = useRef();
+    const handlePrint = useReactToPrint({
+        content: () => componentRef.current,
+    });
+
     return (
         <article className="page recipe-page" key={currentRecipe.id}>
-            <div className="recipe__description">
+            <div className="recipe__description" ref={componentRef}>
 
                 {/*left-side.......................................................*/}
                 <div className="div--empty"></div>
+
+                {/*printing*/}
+                <button onClick={handlePrint} className="button--ellips print__button">print </button>
+
                 <section className="left-side">
                     <h3>Ingredienten:</h3>
                     {currentRecipe.persons > 0 &&
