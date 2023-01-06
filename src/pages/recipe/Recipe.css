@@ -7,7 +7,7 @@
 /*left-side............................................*/
 .recipe-page .left-side {
     position: fixed;
-    top: 100px;
+    top: 10em;
     background-color: var(--green);
     width: 32%;
     border-radius: 10px;
@@ -19,10 +19,12 @@
     border-radius: 10px;
 }
 
-.recipe-page li {
-    margin-left: 10px;
-    margin-bottom: 10px;
+.print__button {
+    margin-top: 2em;
+    background-color: var(--yellowpink);
 }
+
+
 
 .recipe-page .recipe__description {
     display: flex;
@@ -54,10 +56,6 @@
 .recipe-page input[type="checkbox"] {
   margin-right: 6px;
 }
-
-/*.recipepage input[type="checkbox"]:checked {*/
-/*    background: var(--green);*/
-/*}*/
 
 .recipe-page .ingredient__label p {
     padding-right: 3px;

@@ -9,40 +9,67 @@ import {useReactToPrint} from "react-to-print";
 
 function Recipe({imgname}) {
     const {id} = useParams();
-    const [recipes, setRecipes] = useState([]);
+    const [recipe, setRecipe] = useState([]);
+    const token = localStorage.getItem('token');
+    const [countPersons, setCountPersons] = useState(0);
 
-    const currentRecipe = recipes.find((recipe) => {
-        return recipe.id === id;
-    });
+    // method to get a recipe by id
+    useEffect(() => {
+            async function fetchRecipe() {
+                try {
+                    const response = await axios.get(`http://localhost:8081/recipes/${id}`, {
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${token}`,
+                        }
+                    });
+                    console.log(response.data);
+                    console.log(response.data.ingredients[0]);
+                    setRecipe(response.data);
+                } catch (e) {
+                    console.error(e);
+                }
+            }
 
-    const [countPersons, setCountPersons] = useState(parseInt(currentRecipe.persons));
+            if (id) {
+                fetchRecipe();
+            }
+        },
+        [id]);
 
-    // printing
+
+// printing
     const componentRef = useRef();
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
     });
 
     return (
-        <article className="page recipe-page" key={currentRecipe.id}>
+        <article className="page recipe-page" key={recipe.id}>
             <div className="recipe__description" ref={componentRef}>
+
+
+
 
                 {/*left-side.......................................................*/}
                 <div className="div--empty"></div>
 
-                {/*printing*/}
-                <button onClick={handlePrint} className="button--ellips print__button">print </button>
 
                 <section className="left-side">
+
+                    {/*printing*/}
+                    <button onClick={handlePrint} className="button--ellips print__button">print</button>
+
+
                     <h3>Ingredienten:</h3>
-                    {currentRecipe.persons > 0 &&
+                    {recipe.persons > 0 &&
                         <>
                             <div className="counterPersons">
                                 <Button
                                     type="button"
                                     className="button--round"
                                     onClick={() => setCountPersons(countPersons => countPersons - 1)}
-                                    disabled={countPersons <= 1}
+                                    disabled={countPersons <= 0}
                                 >-
                                 </Button>
                                 <p id="amountOfPersons">{countPersons}</p>
@@ -57,105 +84,105 @@ function Recipe({imgname}) {
                         </>
                     }
 
-                    <div>
-                        {currentRecipe.ingredient.map((ingredient) => {
-                            return (
-                                <div className="recipe-age__ingredient">
-                                    <label className="ingredient__label">
-                                        <input type="checkbox"/>
-                                        <p>{countPersons * parseInt(ingredient.amount) / currentRecipe.persons}</p>
-                                        <p>{ingredient.unit}</p>
-                                        <p>{ingredient.ingredient_name}</p>
-                                    </label>
-                                </div>
-                            );
-                        })}
-                    </div>
+                    {/*<div>*/}
+                    {/*    {recipe.ingredients.map((ingredient) => {*/}
+                    {/*        return (*/}
+                    {/*            <div className="recipe-age__ingredient">*/}
+                    {/*                <label className="ingredient__label">*/}
+                    {/*                    <input type="checkbox"/>*/}
+                    {/*                    <p>{countPersons * parseInt(ingredient.amount) / recipe.persons}</p>*/}
+                    {/*                    <p>{ingredient.unit}</p>*/}
+                    {/*                    <p>{ingredient.ingredient_name}</p>*/}
+                    {/*                </label>*/}
+                    {/*            </div>*/}
+                    {/*        );*/}
+                    {/*    })}*/}
+                    {/*</div>*/}
                 </section>
 
 
                 {/*right-side.......................................................*/}
-                <section className="recipe-page__descriptions">
-                    <h1>{currentRecipe.title}</h1>
-                    <p>{currentRecipe.subtitle}</p>
+                <section className="recipe-page__descriptions right-side">
+                    <h1>{recipe.title}</h1>
+                    <p>{recipe.subtitle}</p>
 
-                    {currentRecipe.file && <img src={currentRecipe.file.url} alt={currentRecipe.name}/>}
+                    {recipe.file && <img src={recipe.file.url} alt={recipe.name}/>}
 
-                    <div id="months">
-                        {currentRecipe.months.map((month) => {
-                            return (
-                                <p id="month">{month}</p>
-                            );
-                        })}
-                    </div>
+                    {/*<div id="months">*/}
+                    {/*    {recipe.months.map((month) => {*/}
+                    {/*        return (*/}
+                    {/*            <p id="month">{month}</p>*/}
+                    {/*        );*/}
+                    {/*    })}*/}
+                    {/*</div>*/}
 
-                    <p>{currentRecipe.story}</p>
+                    <p>{recipe.story}</p>
                     <div className="times">
-                        {currentRecipe.preptime &&
+                        {recipe.preptime &&
                             <>
                                 <RiKnifeLine size="40px" color="#A8C256"/>
                                 <div className="time">
-                                    <h4>{currentRecipe.preptime}</h4>
+                                    <h4>{recipe.preptime}</h4>
                                     <p>voorbereidingstijd</p>
                                 </div>
                             </>
                         }
-                        {currentRecipe.cooktime &&
+                        {recipe.cooktime &&
                             <>
                                 <GiCampCookingPot size="40px" color="#A8C256"/>
                                 <div className="time">
-                                    <h4>{currentRecipe.cooktime}</h4>
+                                    <h4>{recipe.cooktime}</h4>
                                     <p>bereidingstijd</p>
                                 </div>
                             </>
                         }
                     </div>
 
-                    {currentRecipe.utensil &&
-                        <>
-                            <h3 id="utensilsheader">Benodigdheden:</h3>
-                            <div id="utensils">
-                                {currentRecipe.utensils.map((utensil) => {
-                                    return (
-                                        <ul>
-                                            <li id="utensil">{utensil}</li>
-                                        </ul>
-                                    );
-                                })}
-                            </div>
-                        </>
-                    }
+                {/*    {recipe.utensil &&*/}
+                {/*        <>*/}
+                {/*            <h3 id="utensilsheader">Benodigdheden:</h3>*/}
+                {/*            <div id="utensils">*/}
+                {/*                {recipe.utensils.map((utensil) => {*/}
+                {/*                    return (*/}
+                {/*                        <ul>*/}
+                {/*                            <li id="utensil">{utensil}</li>*/}
+                {/*                        </ul>*/}
+                {/*                    );*/}
+                {/*                })}*/}
+                {/*            </div>*/}
+                {/*        </>*/}
+                {/*    }*/}
 
-                    <h3>Bereiding:</h3>
-                    <div id="instructions">
-                        {currentRecipe.instructions.map((instruction, i) => {
-                            return (
-                                <div id="instruction">
-                                    <p id="step">{i + 1}</p>
-                                    <div>
-                                        <h5>Stap {i + 1}</h5>
-                                        <p id="instruction">{instruction}</p>
-                                    </div>
-                                </div>
-                            );
-                        })}
-                    </div>
+                {/*    <h3>Bereiding:</h3>*/}
+                {/*    <div id="instructions">*/}
+                {/*        {recipe.instructions.map((instruction, i) => {*/}
+                {/*            return (*/}
+                {/*                <div id="instruction">*/}
+                {/*                    <p id="step">{i + 1}</p>*/}
+                {/*                    <div>*/}
+                {/*                        <h5>Stap {i + 1}</h5>*/}
+                {/*                        <p id="instruction">{instruction}</p>*/}
+                {/*                    </div>*/}
+                {/*                </div>*/}
+                {/*            );*/}
+                {/*        })}*/}
+                {/*    </div>*/}
 
                     <h4>Tip: </h4>
-                    {currentRecipe.tip && <p>{currentRecipe.tip}</p>}
+                    {recipe.tip && <p>{recipe.tip}</p>}
 
 
-                    <div id="tags">
-                        {currentRecipe.tags.map((tag) => {
-                            return (
-                                <ul>
-                                    <li id="tag">{tag}</li>
-                                </ul>
-                            );
-                        })}
-                    </div>
+                    {/*<div id="tags">*/}
+                    {/*    {recipe.tags.map((tag) => {*/}
+                    {/*        return (*/}
+                    {/*            <ul>*/}
+                    {/*                <li id="tag">{tag}</li>*/}
+                    {/*            </ul>*/}
+                    {/*        );*/}
+                    {/*    })}*/}
+                    {/*</div>*/}
 
-                    {currentRecipe.source && <p id="source">bron: {currentRecipe.source}</p>}
+                    {recipe.source && <p id="source">bron: {recipe.source}</p>}
 
                 </section>
 

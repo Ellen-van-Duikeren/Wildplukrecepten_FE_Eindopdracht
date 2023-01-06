@@ -5,6 +5,8 @@ import axios from "axios";
 import Input from "../../components/input/Input";
 import {useForm} from "react-hook-form";
 import {useReactToPrint} from "react-to-print";
+import sortObject from "../../helperfunctions/sortObjects";
+
 
 function Admin() {
     const [users, setUsers] = useState([]);
@@ -28,7 +30,8 @@ function Admin() {
                     }
                 });
                 console.log(response.data);
-                const result = response.data;
+                sortObject(response.data, 'username')
+                console.log(response.data);
                 setUsers(response.data);
             } catch (e) {
                 console.error(e);

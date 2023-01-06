@@ -8,24 +8,24 @@ function Recipe() {
     const token = localStorage.getItem('token');
 
     // method to get an overview of all recipes
-    // useEffect(() => {
-    //     async function fetchRecipes() {
-    //         try {
-    //             const response = await axios.get('http://localhost:8081/recipes', {
-    //                 headers: {
-    //                     "Content-Type": "application/json",
-    //                     "Authorization": `Bearer ${token}`,
-    //                 }
-    //             });
-    //             console.log("Response.data: " + response.data);
-    //             console.log("Response.status: " + response.status);
-    //             setRecipes(response.data);
-    //         } catch (e) {
-    //             console.error(e);
-    //         }
-    //     }
-    //     fetchRecipes();
-    // }, [])
+    useEffect(() => {
+        async function fetchRecipes() {
+            try {
+                const response = await axios.get('http://localhost:8081/recipes', {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`,
+                    }
+                });
+                console.log("Response.data: " + response.data);
+                console.log("Response.status: " + response.status);
+                setRecipes(response.data);
+            } catch (e) {
+                console.error(e);
+            }
+        }
+        fetchRecipes();
+    }, [])
 
 
     return (
