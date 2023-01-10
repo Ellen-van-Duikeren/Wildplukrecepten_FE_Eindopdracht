@@ -3,12 +3,12 @@ import './Checkbox.css';
 
 function Checkbox({name, labelText, register}) {
     return (
-        <div className="component-checkbox">
-            <label htmlFor={name} className="component-checkbox__label">
+        <div className="checkbox">
+            <label htmlFor={name} className="checkbox__label">
                 <input
                     type="checkbox"
                     id={name}
-                    className="component-checkbox__input"
+                    className="checkbox__input"
                     name={name}
                     {...register(name)}
                 />

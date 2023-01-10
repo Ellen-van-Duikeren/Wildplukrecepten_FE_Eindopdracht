@@ -7,7 +7,7 @@ nav {
     max-width: 1200px;
 }
 
-nav ul {
+.nav__ul {
     display: flex;
     flex-direction: row;
     justify-content: space-around;

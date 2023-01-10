@@ -1,157 +1,112 @@
-.recipe-page {
+.recipe__description {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     flex-wrap: wrap;
 }
 
 /*left-side............................................*/
-.recipe-page .left-side {
-    position: fixed;
-    top: 10em;
+.left-side__narrow {
     background-color: var(--green);
-    width: 32%;
-    border-radius: 10px;
+    width: 20em;
+    border-radius: 0.5em;
+    padding-left: 1.5em;
+    padding-top: 1.2em;
+    margin-right: 2em;
 }
 
-.div--empty {
-    background-color: var(--green);
-    width: 35%;
-    border-radius: 10px;
-}
-
-.print__button {
-    margin-top: 2em;
-    background-color: var(--yellowpink);
-}
-
-
-
-.recipe-page .recipe__description {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-}
-
-.recipe-page .counterPersons {
+/*persons*/
+.counter-persons {
     display: flex;
     flex-direction: row;
     align-items: baseline;
 }
 
-.recipe-page #amountOfPersons {
-    margin-right: 10px;
+.counter-persons__p {
+    padding-inline: 1em;
+    margin-bottom: 2em;
 }
 
-.recipe-page .recipe-age__ingredient {
-    position: relative;
+/*ingredients*/
+.ingredients--h3 {
+    margin-bottom: 1em;
 }
 
-.recipe-page .ingredient__label {
+.ingredient--label {
+    padding-left: 1.6em;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     align-items: baseline;
 }
 
-.recipe-page input[type="checkbox"] {
-  margin-right: 6px;
-}
-
-.recipe-page .ingredient__label p {
+.ingredient--p {
     padding-right: 3px;
 }
 
-.recipe-page .counteringredient {
-    background-color: #A8C256;
-    border: 1px solid transparent;
-    color: white;
-    border-radius: 50%;
-    margin-right: 6px;
-    padding: 5px;
-}
-
-.recipe-page .recipe-page__descriptions {
-    margin-left: 20px;
-    width: 55%;
-    background-color: var(--yellowpink);
-    padding: 20px;
-}
 
 /*right side.........................................*/
-
-.recipe-page img {
-    width: 100%;
-    margin-bottom: 20px;
+.recipe-page__descriptions {
+    min-width: 35em;
+    background-color: var(--yellowpink);
+    padding: 2em;
 }
 
-.recipe-page p, .recipe-page span, .recipe-page li {
-    font-size: 0.8rem;
-}
-
-.recipe-page #source {
-    font-size: 0.6rem;
-}
-
-.recipe-page #months, #utensils, #tags {
+/*months, tags*/
+.tags {
     display: flex;
     flex-direction: row;
-    gap: 10px;
-    margin-bottom: 20px;
+    gap: 1em;
+    margin-bottom: 1.5em;
 }
 
-.recipe-page .times {
+.tag {
+    text-transform: lowercase;
+    text-align: center;
+    width: 8em;
+    border-radius: 0.5em;
+    background-color: var(--purplebrown);
+    color: white;
+    padding: 0.2em;
+}
+
+/*prep and cook_time*/
+.times {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 20px;
+    margin-top: 1em;
+    gap: 2em;
     align-items: center;
 }
 
-.recipe-page .time {
+.times--div {
     display: flex;
     flex-direction: column;
-    margin-top: 5px;
 }
 
-.recipe-page .time p {
-    margin: 0;
-    padding: 0;
+/*utensils*/
+.utensils--li {
+    margin-left: 1.6em;
 }
 
-.recipe-page #utensilsheader {
-    margin-top: 10px;
-}
-
-.recipe-page #instruction {
+/*instruction*/
+.instructions--div {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
+    margin-bottom: 1.5em;
 }
 
-.recipe-page #step {
-    border: 1px solid transparent;
-    border-radius: 50%;
-    background-color: var(--green);
-    margin-right: 20px;
-    padding: 10px;
-    color: white;
+.button--round-margin {
+    margin-right: 1em;
 }
 
-.recipe-page #tags {
-    margin-top: 20px;
+.p__strong {
+    font-weight: bold;
 }
 
-.recipe-page #month, .recipe-page #tag {
-    text-align: center;
-    width: 100px;
-    border: 2px solid var(--green);
-    border-radius: 10px;
-    background-color: var(--green);
-    color: white;
-    padding: 2px;
-}
-
-/*bottom.......................................*/
-#backtohome {
-    margin-top: 20px;
+/*source*/
+.source {
+    margin-top: 2em;
+    font-size: calc(var(--baseFont) * 0.7);
 }

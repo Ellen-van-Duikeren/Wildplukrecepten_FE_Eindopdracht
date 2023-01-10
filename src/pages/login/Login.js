@@ -25,7 +25,7 @@ function Login({toggleIsAuthenticated}) {
             // console.log("Result: " + result);
             // console.log("Result.data: " + result.data);
             // console.log("Result.status: " + result.status);
-            if (result.status == 200) {
+            if (result.status === 200) {
                 localStorage.setItem('token', result.data.jwt);
                 console.log("In token opgeslagen: " +  localStorage.getItem('token'));
                 navigate("/recipes");

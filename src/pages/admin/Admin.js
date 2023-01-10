@@ -30,9 +30,48 @@ function Admin() {
                     }
                 });
                 console.log(response.data);
-                sortObject(response.data, 'username')
-                console.log(response.data);
+                // const ordered = Object.keys(response.data).sort().reduce(
+                //     (obj, key) => {
+                //         obj[key] = response.data[key];
+                //         return obj;
+                //     },
+                //     {}
+                // );
+
+               // let usernames = {
+               //     "0": {
+               //         username: "user@mail.com",
+               //         firstname: "user"
+               //     },
+               //     "1": {
+               //         username: "admin@mail.com",
+               //         firstname: "admin"
+               //
+               //     },
+               //     "2": {
+               //         username: "e.vanduikeren@gmail.com",
+               //         firstname: "Ellen"
+               //     }
+               // }
+               //
+               //  let allEntries = Object.entries(usernames)
+               //  let sortedEntries = allEntries.sort((a,b) => a[1].firstname.localeCompare(b[1].firstname))
+               //  let ordered = Object.fromEntries(sortedEntries)
+               //
+               //  console.log(ordered);
                 setUsers(response.data);
+
+                // let classes = {
+                //     'class-1': {name: 'P.E.', completed: '12/02/19', letterGrade: 'A'},
+                //     'class-2': {name: 'English', completed: '12/02/19', letterGrade: 'A'},
+                //     'class-3': {name: 'Math', completed: '12/02/19', letterGrade: 'A'},
+                // }
+                //
+                // let allEntries2 = Object.entries(classes)
+                // let sortedEntries2 = allEntries2.sort((a,b) => a[1].name.localeCompare(b[1].name))
+                // let obj = Object.fromEntries(sortedEntries2)
+                // console.log(obj);
+
             } catch (e) {
                 console.error(e);
             }

@@ -5,35 +5,6 @@
     flex-direction: column;
 }
 
-/*photo.................................................*/
-.image {
-    display: flex;
-    flex-direction: column;
-}
-
-.image__input {
-    display: inline-block;
-    position: absolute;
-    left: calc(var(--position--left) - 1em);
-    margin-top: -0.6em;
-}
-
-.preview__label {
-    height: 10.5em;
-    position: relative;
-}
-
-.preview__image {
-    height: 10em;
-    position: absolute;
-    top: 0;
-    left: calc(var(--position--left) - 1em);
-}
-
-.image__button {
-    margin-bottom: 2em;
-    left: var(--position--left);}
-
 /*persons................................................*/
 .input__text--width {
     width: 3em;
@@ -97,5 +68,43 @@
 .new-recipe-page--required {
     margin-top: 2em;
 }
+
+/*photo.................................................*/
+.image {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2em;
+}
+
+.image__li {
+    margin-left: 1em;
+}
+
+.image__label {
+margin-top: 1em;
+}
+
+.image__input {
+    display: inline-block;
+    position: absolute;
+    left: calc(var(--position--left) - 1em);
+    margin-top: -0.6em;
+}
+
+.preview__label {
+    height: 10.5em;
+    position: relative;
+}
+
+.preview__image {
+    height: 10em;
+    position: absolute;
+    top: 0;
+    left: calc(var(--position--left) - 1em);
+}
+
+.image__button {
+    margin-bottom: 2em;
+    left: var(--position--left);}
 
 

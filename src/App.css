@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
+
 * {
     margin: 0;
     padding: 0;
@@ -12,7 +12,7 @@
     --purplebrown: #481620;
     --blue: #1C6E8C;
     --pinkred: #D55672;
-    --baseFont: 18px;
+    --baseFont: 16px;
     --position--left: 12em;
 }
 
@@ -68,8 +68,12 @@ h3 {
 
 p{
     font-size: var(--baseFont);
-    padding-bottom: 0.5em;
-    line-height: 1.6em;
+    /*padding-bottom: 0.2em;*/
+    line-height: 1.5em;
+}
+
+.p__line-height {
+
 }
 
 li {

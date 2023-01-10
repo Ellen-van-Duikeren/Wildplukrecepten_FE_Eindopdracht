@@ -15,7 +15,7 @@ function Nav({isAuthenticated, toggleIsAuthenticated}) {
     return (
         <>
             <nav>
-                <ul>
+                <ul className="nav__ul">
                     {/*hieronder nog leuk logo toevoegen?*/}
                     <NavLink className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}
                              to="/">

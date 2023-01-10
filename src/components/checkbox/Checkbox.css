@@ -1,4 +1,4 @@
-.component-checkbox {
+.checkbox {
     display: inline-block;
     width: 10em;
     margin-bottom: 0.7em;
@@ -6,11 +6,11 @@
     margin-left: 1.6em;
 }
 
-.component-checkbox__label {
+.checkbox__label {
     position: relative;
 }
 
-.component-checkbox__input {
+.checkbox__input {
     position: absolute;
     top: 0;
     left: -1.6em;
@@ -22,11 +22,15 @@
     border: 2px solid lightgray;
 }
 
-.component-checkbox__input:checked {
+.checkbox__input:checked {
     background: var(--green);
 }
 
-.component-checkbox__input:after {
+.checkbox__input:checked {
+    background: var(--green);
+}
+
+.checkbox__input:after {
     content: '✔';
     position: relative;
     left: -0.2em;
@@ -34,10 +38,12 @@
     display: none;
 }
 
-.component-checkbox__input:checked:after {
+.checkbox__input:checked:after {
     display: block;
 }
 
-
+.checkbox__input--margin {
+    margin-left: 1.6em;
+}
 
 

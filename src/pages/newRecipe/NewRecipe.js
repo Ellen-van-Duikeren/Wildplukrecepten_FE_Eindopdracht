@@ -8,8 +8,6 @@ import handleRemoveClick from "../../helperfunctions/handleRemoveClick";
 import axios from "axios";
 import Button from "../../components/button/Button";
 
-//nog checken register photo
-
 
 function NewRecipe() {
     // (simple) inputs
@@ -25,43 +23,58 @@ function NewRecipe() {
         ingredient_name: ""
     }]);
     const [utensilList, setUtensilList] = useState([{utensil: ""}]);
+    // constant for the new recipe_id that is being posted to generate the id to which the photo must be assigned to
+    const [recipe_id, setRecipe_id] = useState(0);
 
     // text when sending data succeeded
     const [addSucces, toggleAddSuccess] = useState(false);
 
     // upload & preview photo
     const [file, setFile] = useState([]);
-    const [previewUrl, setPreviewUrl] = useState('')
+    const [previewUrl, setPreviewUrl] = useState('');
 
-    // submit form
-    async function addRecipe(e, data) {
-        e.preventDefault();
+
+    async function onSubmit(data) {
+        // add data from the lists to "data"
+        data.utensils = [];
+        for (let ut in utensilList) {
+            data.utensils.push(utensilList[ut])
+        }
+        ;
+        data.ingredients = [];
+        for (let ut in ingredientList) {
+            data.ingredients.push(ingredientList[ut])
+        }
+        ;
+        data.instructions = [];
+        for (let ut in instructionList) {
+            data.instructions.push(instructionList[ut])
+        }
+        ;
 
         // post request
         try {
             const response = await axios.post(
                 'http://localhost:8081/recipes',
-                {data},
-                {headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`,
-                }
-            });
+                data,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`,
+                    }
+                });
             console.log(response.data);
-            console.log(instructionList);
-            console.log(ingredientList);
-            console.log(utensilList);
-            toggleAddSuccess(true);
+            setRecipe_id(response.data);
+            console.log(data);
         } catch (e) {
             console.error(e);
         }
+
     }
-
-
 
     // photo
     function handleImageChange(e) {
-        // Sla het gekozen bestand op
+        // Sla het gekozen bestand op en de 0 moet blijven staan
         const uploadedFile = e.target.files[0];
         console.log(uploadedFile);
         // Sla het gekozen bestand op in de state
@@ -80,12 +93,14 @@ function NewRecipe() {
         formData.append("file", file);
 
         try {
+            console.log("De upload button activeert de methode sendImage en de recipe_id is: " + recipe_id);
             // verstuur ons formData object en geef in de header aan dat het om een form-data type gaat
             // Let op: we wijzigen nu ALTIJD de afbeelding voor student 1001, als je een andere student wil kiezen of dit dynamisch wil maken, pas je de url aan!
-            const result = await axios.post('http://localhost:8081/recipes/1/photo', formData,
+            const result = await axios.post(`http://localhost:8081/recipes/${recipe_id}/photo`, formData,
                 {
                     headers: {
-                        "Content-Type": "multipart/form-data"
+                        "Content-Type": "multipart/form-data",
+                        "Authorization": `Bearer ${token}`,
                     },
                 })
             console.log(result.data);
@@ -94,44 +109,6 @@ function NewRecipe() {
         }
     }
 
-    // example formState and axios.post: :https://stackoverflow.com/questions/69561981/react-hook-form-axios-post-unable-to-create-payload
-    // import React from "react";
-    // import {useForm} from "react-hook-form";
-    // import axios from "axios";
-    //
-    // function Eirform() {
-    //     const { register, handleSubmit, formState: { errors } } = useForm();
-    //
-    //     const onSubmit = data => {
-    //         axios
-    //             .post(
-    //                 'http://localhost:8000/tran',
-    //                 data,
-    //                 { headers: { 'Content-Type': 'application/json' }}
-    //             )
-    //             .then(response => {console.log(response.data)})
-    //             .catch(error => {console.log(error.data)});
-    //     };
-    //
-    //     return (
-    //         <div>
-    //             <h1>My Input Form</h1>
-    //             <form onSubmit={handleSubmit(onSubmit)}>
-    //                 ...
-    //             </form>
-    //         </div>
-    //     )
-    // }
-    // export {Eirform}
-
-    //
-    // function handleFormSubmit(data) {
-    //     console.log(data);
-    //     console.log(instructionList);
-    //     console.log(ingredientList);
-    //     console.log(utensilList);
-    //     document.getElementById("thnx").textContent = 'Dankjewel voor het toevoegen van een nieuw recept. You are awesome.'
-    // }
 
     // handle add click for ingredient, utensil & instruction
     const handleAddClick = (item, setItem) => {
@@ -155,10 +132,9 @@ function NewRecipe() {
 
     return (
         <>
-
             <article className="page new-recipe-page">
                 <h1>Nieuw recept toevoegen</h1>
-                <form onSubmit={addRecipe} className="new-recipe-page__form">
+                <form onSubmit={handleSubmit(onSubmit)} className="new-recipe-page__form">
                     {/*<form onSubmit={handleSubmit(handleFormSubmit)}>*/}
                     <div className="texts">
                         <Input
@@ -194,32 +170,6 @@ function NewRecipe() {
                             errors={errors}
                         />
                         {errors.title && <p>{errors.title.message}</p>}
-
-                        <div onSubmit={sendImage} className="image">
-                            <label htmlFor="image" className="image__label">
-                                Voeg foto toe
-                                <input
-                                    type="file"
-                                    name="image"
-                                    id="image"
-                                    className="image__input"
-                                    onChange={handleImageChange}/>
-                            </label>
-                            {previewUrl &&
-                                <label className="preview__label">
-                                    Preview
-                                    <img src={previewUrl}
-                                         className="preview__image"
-                                         alt="Voorbeeld van de afbeelding die zojuist gekozen is"
-                                    />
-                                </label>
-                            }
-
-                            <Button
-                                type="submit"
-                                className="button--ellips image__button">uploaden</Button>
-                        </div>
-
 
                         <Input
                             labelText="Aantal personen"
@@ -315,6 +265,7 @@ function NewRecipe() {
                                     <div className="utensil__div" key={i}>
                                         <li className="utensil__li">
                                             <input
+                                                type="text"
                                                 name="utensil"
                                                 className="utensil__input"
                                                 placeholder="bijv uitgekookte potjes"
@@ -325,14 +276,14 @@ function NewRecipe() {
                                         <div>
                                             {utensilList.length !== 1 &&
                                                 <button
-                                                    className="button--round"
+                                                    className="button--round button--round-margin"
                                                     onClick={() => handleRemoveClick(i, utensilList, setUtensilList)}
                                                 >
                                                     -
                                                 </button>}
                                             {utensilList.length - 1 === i &&
                                                 <button
-                                                    className="button--round utensil_button"
+                                                    className="button--round button--round-margin"
                                                     onClick={() => handleAddClick(utensilList, setUtensilList)}
                                                 >
                                                     +
@@ -382,14 +333,14 @@ function NewRecipe() {
                                         <div>
                                             {ingredientList.length !== 1 &&
                                                 <button
-                                                    className="button--round"
+                                                    className="button--round button--round-margin"
                                                     onClick={() => handleRemoveClick(i, ingredientList, setIngredientList)}
                                                 >
                                                     -
                                                 </button>}
                                             {ingredientList.length - 1 === i &&
                                                 <button
-                                                    className="button--round"
+                                                    className="button--round button--round-margin"
                                                     onClick={() => handleAddClick(ingredientList, setIngredientList)}
                                                 >
                                                     +
@@ -409,6 +360,7 @@ function NewRecipe() {
                                     <div className="instruction__div" key={i}>
                                         <li className="instruction__li">
                                             <input
+                                                type="text"
                                                 name="instruction"
                                                 placeholder="bijv was de bramen"
                                                 className="instruction__input"
@@ -419,14 +371,14 @@ function NewRecipe() {
                                         <div>
                                             {instructionList.length !== 1 &&
                                                 <button
-                                                    className="button--round"
+                                                    className="button--round button--round-margin"
                                                     onClick={() => handleRemoveClick(i, instructionList, setInstructionList)}
                                                 >
                                                     -
                                                 </button>}
                                             {instructionList.length - 1 === i &&
                                                 <button
-                                                    className="button--round"
+                                                    className="button--round button--round-margin"
                                                     onClick={() => handleAddClick(instructionList, setInstructionList)}
                                                 >
                                                     +
@@ -640,9 +592,50 @@ function NewRecipe() {
                     <p className="new-recipe-page--required">* is verplicht</p>
 
                     <Button type="submit" className="button--ellips">versturen</Button>
-                    {addSucces === true && <h3>Dankjewel voor het versturen van een nieuw recept. you are awesome.</h3>}
+                    {addSucces === true && <h3>Dankjewel voor het versturen van een nieuw recept. You are awesome.</h3>}
 
                 </form>
+
+                <form onSubmit={sendImage} className="image">
+                    <h3>Foto toevoegen (optioneel)</h3>
+                    {/*{console.log("Recipe_id: " + recipe_id)}*/}
+                    <p>Werkwijze:</p>
+                    <ol>
+                        <li className="image__li">Vul eerst hierboven alle gegevens in en (belangrijk) klik op de groene button
+                            met "versturen"
+                        </li>
+                        <li className="image__li">Klik hieronder op de witte button met "choose file" en selecteer je foto
+                        </li>
+                        <li className="image__li">Klik op de groene button met "uploaden"</li>
+                    </ol>
+                    <label htmlFor="image" className="image__label">
+                        Voeg foto toe
+                        <input
+                            type="file"
+                            name="image"
+                            id="image"
+                            className="image__input"
+                            onChange={handleImageChange}/>
+                    </label>
+                    {previewUrl &&
+                        <label className="preview__label">
+                            Preview
+                            <img src={previewUrl}
+                                 className="preview__image"
+                                 alt="Voorbeeld van de afbeelding die zojuist gekozen is"
+                            />
+                        </label>
+                    }
+
+                    <Button
+                        type="submit"
+                        className="button--ellips image__button"
+                    >
+                        uploaden
+                    </Button>
+                </form>
+
+
             </article>
         </>
     )
