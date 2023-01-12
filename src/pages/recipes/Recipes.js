@@ -33,22 +33,34 @@ function Recipe() {
 
 
     return (
-        <article className="page recipes-page">
+        <article className="page">
 
             <section>
                 <h1>Recepten</h1>
-                <h2>Aantal recepten: {recipes.length}</h2>
-                {firstname ? <h3>Welkom, {firstname}</h3> : <h3>Welkom, hieronder vind je de recepten</h3>}
-                <ol>
-                    {recipes.map((recipe) => {
-                        return <li key={recipe.id}>
-                            <Link to={"/recipe/" + recipe.id}>
-                                {recipe.file && <img src={recipe.file.url} alt={recipe.name}/>}
-                                {recipe.title}
-                            </Link>
-                        </li>
-                    })}
-                </ol>
+                {/*<h2>Aantal recepten: {recipes.length}</h2>*/}
+                {firstname ? <h3>Welkom, {firstname}</h3> : <h3>Welkom, hieronder vind je alle recepten</h3>}
+
+                <ul className="recipes__ul">
+                    <div className="recipes__div">
+                        {recipes.map((recipe) => {
+                            return <li key={recipe.id}
+                                       className="recipes__li">
+                                <Link
+                                    to={"/recipe/" + recipe.id}
+                                    className="recipes__a"
+                                >
+                                    {recipe.file &&
+                                        <img
+                                            src={recipe.file.url}
+                                            alt={recipe.name}
+                                            className="recipes__image"
+                                        />}
+                                    {recipe.title}
+                                </Link>
+                            </li>
+                        })}
+                    </div>
+                </ul>
             </section>
         </article>
     );

@@ -55,6 +55,8 @@ function Recipe({imgname}) {
         content: () => componentRef.current,
     });
 
+
+
     return (
         <article className="page" key={`${recipe.id}-1`}>
             <div className="recipe__description" ref={componentRef}>
@@ -136,7 +138,12 @@ function Recipe({imgname}) {
                     <h1>{recipe.title}</h1>
                     {recipe.subtitle && <p>{recipe.subtitle}</p>}
 
-                    {recipe.file && <img src={recipe.file.url} alt={recipe.name}/>}
+                    {recipe.file &&
+                        <img
+                            src={recipe.file.url}
+                            alt={recipe.name}
+                            className="recipe__image"
+                        />}
 
                     {recipe.story && <p>{recipe.story}</p>}
 
@@ -223,7 +230,12 @@ function Recipe({imgname}) {
                     <h2>Eet smakelijk!</h2>
 
                     {/*printing*/}
-                    <button onClick={handlePrint} className="button--ellips button--ellips">print</button>
+                    <button
+                        onClick={handlePrint}
+                        className="button--ellips recipes__button"
+                    >
+                        print
+                    </button>
 
 
                     {recipe.source && <p className="source">bron: {recipe.source}</p>}
