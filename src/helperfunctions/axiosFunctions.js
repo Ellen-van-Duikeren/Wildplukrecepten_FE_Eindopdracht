@@ -35,21 +35,6 @@ export const API_URL = 'http://localhost:8081';
 //     },
 // });
 
-// const fetchData = async () => {
-//     setLoading( true );
-//     try {
-//         setError( false );
-//         const response = await authAxios.get( `/assignments`, {
-//             signal: controller.signal,
-//         } );
-//         setData( response.data );
-//         console.log(data)
-//     } catch ( e ) {
-
-// const token = localStorage.getItem('token');
-
-
-
 
 //Jelmer
 // async function loginUser(data){

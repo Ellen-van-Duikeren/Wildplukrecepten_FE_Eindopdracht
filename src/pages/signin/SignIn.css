@@ -12,6 +12,10 @@
     flex-direction: column;
 }
 
+.login__p--margin {
+    margin-bottom: 1.5em;
+}
+
 .login-page input {
     width: 30vw;
 }

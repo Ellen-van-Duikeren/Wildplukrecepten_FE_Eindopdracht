@@ -1,44 +1,76 @@
 import React, {createContext, useEffect, useState} from 'react';
 import {useNavigate} from "react-router-dom";
-import jwt_Decode from "jwt-decode";
-import {fetchUser} from "../helperfunctions/axiosFunctions";
-// export const AuthContext = createContext({});
-//
-// function AuthContextProvider({children}) {
-//      const [auth, setAuth] = useState({
-//           isAuth: false,
-//           firstname: "",
-//           emailadress: "",
-//           role: ""
-//      });
-//      const navigate = useNavigate();
-//
-//      function login(firstname, emailadress, role) {
-//           setAuth({isAuth: true, emailadress: emailadress, role: role});
-//           console.log("Gebruiker " + firstname + " is ingelogd met het emailadres: " + emailadress + " en heeft de rol: " + role + "!");
-//           navigate('/recipes');
-//      }
-//
-//      function logout() {
-//           setAuth({isAuth: false, emailadress: "", role: ""});
-//           console.log("Gebruiker is uitgelogd!");
-//             localStorage.clear();
-//           navigate('/');
-//      }
-//
-//      const data = {
-//           isAuth: auth.isAuth,
-//           emailadress: auth.emailadress,
-//           role: auth.role,
-//           login: login,
-//           logout: logout
-//      }
-//
-//      return (
-//          <AuthContext.Provider value={data}>
-//               {children}
-//          </AuthContext.Provider>
-//      )
-// }
-//
-// export default AuthContextProvider;
+import jwtDecode from "jwt-decode";
+import axios from "axios";
+
+export const AuthContext = createContext({});
+
+function AuthContextProvider({children}) {
+    const [auth, setAuth] = useState({
+        isAuth: false,
+        user: null,
+    });
+    const navigate = useNavigate();
+
+    function login(token) {
+        console.log(token)
+        localStorage.setItem('token', token);
+        const decodedToken = jwtDecode(token);
+        console.log(decodedToken);
+        void fetchUserData(token, decodedToken.sub)
+    }
+
+    async function fetchUserData(token, id) {
+        try {
+            const response = await axios.get(`http://localhost:8081/users/${id}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                }
+            })
+            console.log("Response user na inlog:")
+            console.log(response);
+            console.log(response.data.authorities);
+            console.log(response.data.authorities[0].authority);
+            setAuth({
+                    isAuth: true,
+                    user: {
+                        firstname: response.data.firstname,
+                        authority: response.data.authorities[0].authority
+                        // authorities: {
+                        //     authority: response.data.authorities[0].authority
+                        // }
+                    }
+                }
+            );
+            navigate('/recipes');
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    function logout() {
+        console.log("Gebruiker is uitgelogd!");
+        localStorage.clear();
+        setAuth({
+            isAuth: false,
+            user: null
+        });
+        navigate('/');
+    }
+
+    const data = {
+        isAuth: auth.isAuth,
+        user: auth.user,
+        login: login,
+        logout: logout
+    }
+
+    return (
+        <AuthContext.Provider value={data}>
+            {children}
+        </AuthContext.Provider>
+    )
+}
+
+export default AuthContextProvider;

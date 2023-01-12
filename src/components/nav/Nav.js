@@ -1,22 +1,24 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import logoText from "../../assets/logoText.png";
 import {NavLink, useNavigate} from 'react-router-dom';
 import './Nav.css';
 import Button from "../button/Button";
+import {AuthContext} from "../../context/AuthContext";
 
-function Nav({isAuthenticated, toggleIsAuthenticated}) {
+//nog logo toevoegen?
+
+function Nav() {
+    const {isAuth, authority, logout} = useContext(AuthContext);
     const navigate = useNavigate();
 
     function handleClick() {
-        toggleIsAuthenticated(false);
-        navigate("/login");
+        navigate("/signin");
     }
 
     return (
         <>
             <nav>
                 <ul className="nav__ul">
-                    {/*hieronder nog leuk logo toevoegen?*/}
                     <NavLink className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}
                              to="/">
                         <li><em>Wildplukrecepten</em></li>
@@ -27,49 +29,47 @@ function Nav({isAuthenticated, toggleIsAuthenticated}) {
                         <li>home</li>
                     </NavLink>
 
-                    {isAuthenticated &&
+                    {isAuth &&
                         <NavLink className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}
                                  to="/recipes">
                             <li>recepten</li>
                         </NavLink>}
 
-                    {isAuthenticated &&
+                    {isAuth &&
                         <NavLink className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}
                                  to="/newRecipe">
                             <li>recept toevoegen</li>
                         </NavLink>}
 
-                    {isAuthenticated &&
+                    {isAuth &&
                         <NavLink className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}
                                  to="/aboutme">
                             <li>about me</li>
                         </NavLink>}
 
-                    {isAuthenticated &&
+                    {authority == "ROLE-ADMIN" &&
                         <NavLink className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}
                                  to="/admin">
                             <li>admin</li>
                         </NavLink>}
 
-                    {!isAuthenticated &&
+                    {!isAuth &&
                         <button
                             type="button"
                             className="button--ellips"
-                            onClick={() => handleClick()}
+                            onClick={() => navigate('/signin')}
                         >
                             inloggen
                         </button>}
 
-                    {isAuthenticated &&
+                    {isAuth &&
                         <button
                             type="button"
                             className="button--ellips"
-                            onClick={() => handleClick()}
+                            onClick={logout}
                         >
                             uitloggen
                         </button>}
-                    {/*hieronder zoek button uitgecomment, lelijk ding*/}
-                    {/*<input className="formControl" type="text" placeholder="zoek"></input>*/}
                 </ul>
             </nav>
         </>

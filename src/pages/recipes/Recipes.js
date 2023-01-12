@@ -1,9 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import './Recipes.css';
 import {Link} from "react-router-dom";
 import axios from "axios";
+import {AuthContext} from "../../context/AuthContext";
 
 function Recipe() {
+    const {firstname} = useContext(AuthContext);
     const [recipes, setRecipes] = useState([]);
     const token = localStorage.getItem('token');
 
@@ -25,24 +27,29 @@ function Recipe() {
                 console.error(e);
             }
         }
+
         fetchRecipes();
     }, [])
 
 
     return (
         <article className="page recipes-page">
-            <h1>Recepten</h1>
-            <h2>Aantal recepten: {recipes.length}</h2>
-            <ol>
-                {recipes.map((recipe) => {
-                    return <li key={recipe.id}>
-                        <Link to={"/recipe/" + recipe.id}>
-                            {recipe.file && <img src={recipe.file.url} alt={recipe.name}/>}
-                            {recipe.title}
-                        </Link>
-                    </li>
-                })}
-            </ol>
+
+            <section>
+                <h1>Recepten</h1>
+                <h2>Aantal recepten: {recipes.length}</h2>
+                {firstname ? <h3>Welkom, {firstname}</h3> : <h3>Welkom, hieronder vind je de recepten</h3>}
+                <ol>
+                    {recipes.map((recipe) => {
+                        return <li key={recipe.id}>
+                            <Link to={"/recipe/" + recipe.id}>
+                                {recipe.file && <img src={recipe.file.url} alt={recipe.name}/>}
+                                {recipe.title}
+                            </Link>
+                        </li>
+                    })}
+                </ol>
+            </section>
         </article>
     );
 }

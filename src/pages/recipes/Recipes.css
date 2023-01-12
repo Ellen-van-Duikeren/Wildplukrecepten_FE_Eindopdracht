@@ -4,6 +4,12 @@
     flex-wrap: wrap;
 }
 
+/*.recipes__image {*/
+/*    margin: 0 auto;*/
+/*    display: block;*/
+/*    width: calc(100vw - 4em);*/
+/*}*/
+
 .recipes-page ol {
     padding-left: 20px;
 }
