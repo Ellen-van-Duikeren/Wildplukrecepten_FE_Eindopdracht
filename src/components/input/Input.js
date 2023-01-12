@@ -13,7 +13,7 @@ function Input({ value, name, labelText, type, className, placeholder, min, max,
                     name={name}
                     className={className}
                     placeholder={placeholder}
-                    vlau={value}
+                    value={value}
                     min={min}
                     max={max}
                     step={step}

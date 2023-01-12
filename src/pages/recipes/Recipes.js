@@ -17,8 +17,9 @@ function Recipe() {
                         "Authorization": `Bearer ${token}`,
                     }
                 });
-                console.log("Response.data: " + response.data);
-                console.log("Response.status: " + response.status);
+                console.log("Response get all recipes:")
+                console.log(response.data);
+                // console.log("Response.status: " + response.status);
                 setRecipes(response.data);
             } catch (e) {
                 console.error(e);
@@ -36,6 +37,7 @@ function Recipe() {
                 {recipes.map((recipe) => {
                     return <li key={recipe.id}>
                         <Link to={"/recipe/" + recipe.id}>
+                            {recipe.file && <img src={recipe.file.url} alt={recipe.name}/>}
                             {recipe.title}
                         </Link>
                     </li>

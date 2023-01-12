@@ -138,7 +138,6 @@ function Recipe({imgname}) {
 
                     {recipe.file && <img src={recipe.file.url} alt={recipe.name}/>}
 
-
                     {recipe.story && <p>{recipe.story}</p>}
 
                     <div className="times">
@@ -162,7 +161,7 @@ function Recipe({imgname}) {
                         }
                     </div>
 
-                    {/*{utensils &&*/}
+                    {utensils &&
                     <>
                         <h3>Benodigdheden:</h3>
                         <div className="utensils--div">
@@ -175,7 +174,7 @@ function Recipe({imgname}) {
                             })}
                         </div>
                     </>
-                    {/*}*/}
+                    }
 
                     {instructions &&
                         <>

@@ -22,6 +22,7 @@ import {fetchUser} from "../helperfunctions/axiosFunctions";
 //      function logout() {
 //           setAuth({isAuth: false, emailadress: "", role: ""});
 //           console.log("Gebruiker is uitgelogd!");
+//             localStorage.clear();
 //           navigate('/');
 //      }
 //

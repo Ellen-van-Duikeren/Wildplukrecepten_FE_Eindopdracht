@@ -27,7 +27,8 @@ function NewRecipe() {
     const [recipe_id, setRecipe_id] = useState(0);
 
     // text when sending data succeeded
-    const [addSucces, toggleAddSuccess] = useState(false);
+    const [addSuccesRecipe, toggleAddSuccessRecipe] = useState(false);
+    const [addSuccesPhoto, toggleAddSuccessPhoto] = useState(false);
 
     // upload & preview photo
     const [file, setFile] = useState([]);
@@ -35,7 +36,7 @@ function NewRecipe() {
 
 
     async function onSubmit(data) {
-        // add data from the lists to "data"
+        // add lists to data
         data.utensils = [];
         for (let ut in utensilList) {
             data.utensils.push(utensilList[ut])
@@ -52,6 +53,96 @@ function NewRecipe() {
         }
         ;
 
+        // add checkboxes to data.months
+        data.months = [];
+        if (data.january) {
+            data.months.push("JANUARI")
+        }
+        if (data.february) {
+            data.months.push("FEBRUARI")
+        }
+        if (data.march) {
+            data.months.push("MAART")
+        }
+        if (data.april) {
+            data.months.push("APRIL")
+        }
+        if (data.may) {
+            data.months.push("MEI")
+        }
+        if (data.june) {
+            data.months.push("JUNI")
+        }
+        if (data.july) {
+            data.months.push("JULI")
+        }
+        if (data.august) {
+            data.months.push("AUGUSTUS")
+        }
+        if (data.september) {
+            data.months.push("SEPTEMBER")
+        }
+        if (data.october) {
+            data.months.push("OKTOBER")
+        }
+        if (data.november) {
+            data.months.push("NOVEMBER")
+        }
+        if (data.december) {
+            data.months.push("DECEMBER")
+        }
+        if (data.yearround) {
+            data.months.push("JAARROND")
+        }
+
+        // add checkboxes to data.tags
+        data.tags = [];
+        if (data.vegetarian) {
+            data.tags.push("VEGETARISCH")
+        }
+        if (data.vegan) {
+            data.tags.push("VEGANISTISCH")
+        }
+        if (data.lactosefree) {
+            data.tags.push("LACTOSEVRIJ")
+        }
+        if (data.glutenfree) {
+            data.tags.push("GLUTENVRIJ")
+        }
+        if (data.breakfast) {
+            data.tags.push("ONTBIJT")
+        }
+        if (data.lunch) {
+            data.tags.push("LUNCH")
+        }
+        if (data.diner) {
+            data.tags.push("DINER")
+        }
+        if (data.snack) {
+            data.tags.push("SNACK")
+        }
+        if (data.sidedish) {
+            data.tags.push("BIJGERECHT")
+        }
+        if (data.starter) {
+            data.tags.push("VOORGERECHT")
+        }
+        if (data.maindish) {
+            data.tags.push("HOOFDGERECHT")
+        }
+        if (data.drinks) {
+            data.tags.push("DRINKEN")
+        }
+        if (data.alcoholic) {
+            data.tags.push("ALCOHOLISCH")
+        }
+        if (data.openfire) {
+            data.tags.push("OPENVUUR")
+        }
+        if (data.dutchoven) {
+            data.tags.push("DUTCHOVEN")
+        }
+
         // post request
         try {
             const response = await axios.post(
@@ -66,6 +157,9 @@ function NewRecipe() {
             console.log(response.data);
             setRecipe_id(response.data);
             console.log(data);
+            if (response.status === 201) {
+                toggleAddSuccessRecipe(true);
+            }
         } catch (e) {
             console.error(e);
         }
@@ -96,14 +190,17 @@ function NewRecipe() {
             console.log("De upload button activeert de methode sendImage en de recipe_id is: " + recipe_id);
             // verstuur ons formData object en geef in de header aan dat het om een form-data type gaat
             // Let op: we wijzigen nu ALTIJD de afbeelding voor student 1001, als je een andere student wil kiezen of dit dynamisch wil maken, pas je de url aan!
-            const result = await axios.post(`http://localhost:8081/recipes/${recipe_id}/photo`, formData,
+            const response = await axios.post(`http://localhost:8081/recipes/${recipe_id}/photo`, formData,
                 {
                     headers: {
                         "Content-Type": "multipart/form-data",
                         "Authorization": `Bearer ${token}`,
                     },
                 })
-            console.log(result.data);
+            console.log(response.data);
+            if (response.status === 200) {
+                toggleAddSuccessPhoto(true);
+            }
         } catch (e) {
             console.error(e)
         }
@@ -145,7 +242,7 @@ function NewRecipe() {
                             placeholder="bijv bramenjam"
                             validationRules={{
                                 required: {
-                                    value: false,
+                                    value: true,
                                     message: 'Dit veld is verplicht',
                                 }
                             }}
@@ -176,9 +273,9 @@ function NewRecipe() {
                             type="number"
                             name="persons"
                             className="input__text input__text--width"
-                            min="1"
+                            min="0"
                             max="30"
-                            value="1"
+                            placeholder="0"
                             register={register}
                             errors={errors}
                         />
@@ -476,6 +573,13 @@ function NewRecipe() {
                             className="component-checkbox__input"
                             register={register}
                         />
+
+                        <Checkbox
+                            name="yearround"
+                            labelText="jaarrond"
+                            className="component-checkbox__input"
+                            register={register}
+                        />
                     </div>
 
 
@@ -533,7 +637,7 @@ function NewRecipe() {
 
                         <Checkbox
                             name="snack"
-                            labelText="tussendoortje"
+                            labelText="snack"
                             className="component-checkbox__input"
                             register={register}
                         />
@@ -592,21 +696,28 @@ function NewRecipe() {
                     <p className="new-recipe-page--required">* is verplicht</p>
 
                     <Button type="submit" className="button--ellips">versturen</Button>
-                    {addSucces === true && <h3>Dankjewel voor het versturen van een nieuw recept. You are awesome.</h3>}
-
+                    {addSuccesRecipe && <h3>Dankjewel voor het versturen van een nieuw recept. You are awesome.</h3>}
                 </form>
+
 
                 <form onSubmit={sendImage} className="image">
                     <h3>Foto toevoegen (optioneel)</h3>
-                    {/*{console.log("Recipe_id: " + recipe_id)}*/}
                     <p>Werkwijze:</p>
                     <ol>
-                        <li className="image__li">Vul eerst hierboven alle gegevens in en (belangrijk) klik op de groene button
+                        <li className="image__li">Vul eerst hierboven alle gegevens in en (belangrijk) klik op de groene
+                            button
                             met "versturen"
                         </li>
-                        <li className="image__li">Klik hieronder op de witte button met "choose file" en selecteer je foto
+                        <li className="image__li">Klik hieronder op de witte button met "choose file" en selecteer je
+                            foto
+                        </li>
+                        <li className="image__li">Je kan maar 1 foto per recept uploaden van maximaal 5Mb</li>
+                        <li className="image__li">Je krijgt nu een preview van je foto te zien</li>
+                        <li className="image__li">Als je toch een andere foto wilt, klik je opnieuw op de witte button
+                            met "choose file"
                         </li>
                         <li className="image__li">Klik op de groene button met "uploaden"</li>
+
                     </ol>
                     <label htmlFor="image" className="image__label">
                         Voeg foto toe
@@ -633,6 +744,8 @@ function NewRecipe() {
                     >
                         uploaden
                     </Button>
+                    {addSuccesPhoto && <h3>De upload van je foto is geslaagd.</h3>}
+
                 </form>
 
 
