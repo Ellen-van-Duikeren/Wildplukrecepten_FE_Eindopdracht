@@ -12,6 +12,15 @@
     flex-direction: column;
 }
 
+.login__button {
+    margin-top: -0.7em;
+    margin-bottom: 2em;
+}
+
+.login__div {
+    margin-top: 2em;
+}
+
 .login__p--margin {
     margin-bottom: 1.5em;
 }

@@ -1,4 +1,4 @@
-import "./SignIn.css";
+import "./Login.css";
 import garlic from "../../assets/garlic.jpg";
 import {Link, useNavigate} from "react-router-dom";
 import React, {useContext, useState} from "react";
@@ -9,7 +9,7 @@ import Input from "../../components/input/Input";
 import {API_URL} from "../../helperfunctions/axiosFunctions";
 
 
-function SignIn() {
+function Login() {
     const {handleSubmit, formState: {errors}, register} = useForm();
     const {login} = useContext(AuthContext);
     const navigate = useNavigate();
@@ -31,16 +31,25 @@ function SignIn() {
         <article className="page login-page">
             <form onSubmit={handleSubmit(onSubmit)}>
                 <h1>Inloggen</h1>
-                <p className="login__p--margin">Ben je nog niet geregistreerd, ga dan naar <Link
+                <p className="login__p--margin">Ben je nieuw hier, ga dan naar <Link
                     to="/register">registreren</Link></p>
+                <button
+                    type="button"
+                    className="button--ellips login__button"
+                    onClick={() => navigate('/register')}
+                >
+                    registreren
+                </button>
 
+                <div className="login__div">
                 <Input
                     id="username"
                     labelText="Username:"
                     type="email"
                     name="username"
+                    autocomplete="username"
                     className="input__text"
-                    placeholder="emailadres"
+                    placeholder="typ hier je emailadres"
                     validationRules={{
                         required: {
                             value: true,
@@ -57,6 +66,7 @@ function SignIn() {
                     labelText="Wachtwoord:"
                     type="password"
                     name="password"
+                    autocomplete="current-password"
                     className="input__text"
                     placeholder="wachtwoord"
                     validationRules={{
@@ -77,6 +87,7 @@ function SignIn() {
                 >
                     inloggen
                 </button>
+                </div>
             </form>
 
 
@@ -91,5 +102,5 @@ function SignIn() {
     );
 }
 
-export default SignIn;
+export default Login;
 

@@ -8,11 +8,11 @@ import {AuthContext} from "../../context/AuthContext";
 //nog logo toevoegen?
 
 function Nav() {
-    const {isAuth, authority, logout} = useContext(AuthContext);
+    const {isAuth, user, logout} = useContext(AuthContext);
     const navigate = useNavigate();
 
     function handleClick() {
-        navigate("/signin");
+        navigate("/login");
     }
 
     return (
@@ -47,7 +47,7 @@ function Nav() {
                             <li>about me</li>
                         </NavLink>}
 
-                    {authority == "ROLE-ADMIN" &&
+                    {(isAuth && user.authority == "ROLE_ADMIN") &&
                         <NavLink className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}
                                  to="/admin">
                             <li>admin</li>
@@ -57,7 +57,7 @@ function Nav() {
                         <button
                             type="button"
                             className="button--ellips"
-                            onClick={() => navigate('/signin')}
+                            onClick={() => navigate('/login')}
                         >
                             inloggen
                         </button>}

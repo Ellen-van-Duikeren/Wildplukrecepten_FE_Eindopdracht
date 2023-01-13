@@ -1,3 +1,11 @@
+.recipes__div--space-between {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+
 .recipes__ul {
     margin-top: 2em;
 }

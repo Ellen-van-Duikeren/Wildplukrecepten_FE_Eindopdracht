@@ -43,6 +43,7 @@ function AuthContextProvider({children}) {
                     }
                 }
             );
+
             navigate('/recipes');
         } catch (e) {
             console.error(e);
@@ -56,12 +57,14 @@ function AuthContextProvider({children}) {
             isAuth: false,
             user: null
         });
-        navigate('/');
+        navigate('/login');
     }
 
     const data = {
         isAuth: auth.isAuth,
         user: auth.user,
+        // firstname: auth.user.firstname,
+        // authority: auth.user.authority,
         login: login,
         logout: logout
     }

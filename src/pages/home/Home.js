@@ -11,8 +11,6 @@ function Home() {
         <article className="page home-page">
             <section className="left-side">
                 <h1>Wildplukrecepten</h1>
-                {console.log("isAuth: " + isAuth)}
-                {console.log("authority: " + authority)}
 
                 <p>Op deze website vind je recepten met wildpluk, ofwel bladeren, bloemen, wortels, die je zelf in de
                     natuur kan plukken of uitgraven. Hiermee kan je dan natuurlijk heerlijke dingen maken,

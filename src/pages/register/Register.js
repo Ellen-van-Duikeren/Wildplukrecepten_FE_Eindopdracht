@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import Input from "../../components/input/Input";
 import blackthorns from "../../assets/blackthorns.jpg";
 import axios from "axios";
@@ -12,12 +12,19 @@ function Register() {
     const {isAuth, setAuth} = useContext(AuthContext);
     const {handleSubmit, formState: {errors}, register} = useForm();
     const navigate = useNavigate();
+    const [succesRegister, toggleSuccessRegister] = useState(true);
+
 
     async function registerUser(data) {
         try {
-            const response = await axios.post(`${API_URL}/users`, data)
-            console.log("Response in register: " + response);
-            navigate('/signin')
+            const response = await axios.post(`${API_URL}/users/register`, data)
+            console.log("Response in register: ")
+            console.log(response);
+            if (response.status != 201) {
+                console.log("Registratie is niet gelukt");
+                toggleSuccessRegister(false);
+            }
+            navigate('/login')
 
         } catch (e) {
             console.error(e)
@@ -37,7 +44,7 @@ function Register() {
                     type="text"
                     name="username"
                     className="input__text"
-                    placeholder="emailadres"
+                    placeholder="typ hier je emailadres"
                     validationRules={{
                         required: {
                             value: true,
@@ -88,8 +95,8 @@ function Register() {
                 <Input
                     id="email"
                     labelText="Email:"
-                    type="text"
-                    name="email"
+                    type="email"
+                    name="emailadress"
                     className="input__text"
                     placeholder="emailadres"
                     validationRules={{
@@ -120,6 +127,10 @@ function Register() {
                     errors={errors}
                 />
                 {errors.password && <p>{errors.password.message}</p>}
+
+                {!succesRegister && <h3>Het registreren is niet gelukt. Stuur een mail naar e.vanduikeren@gmail.com</h3>}
+
+                <p className="register__p">Let op, als je registratie is gelukt, kom je op de login pagina en kan je meteen inloggen.</p>
 
 
                 <button

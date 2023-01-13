@@ -7,7 +7,7 @@ import Admin from "./pages/admin/Admin";
 import Recipes from "./pages/recipes/Recipes";
 import NewRecipe from "./pages/newRecipe/NewRecipe";
 import Footer from "./components/footer/Footer";
-import SignIn from "./pages/signin/SignIn";
+import Login from "./pages/login/Login";
 import Recipe from "./pages/recipe/Recipe";
 import {useContext, useState} from "react";
 import AboutMe from "./pages/aboutme/AboutMe";
@@ -15,7 +15,7 @@ import Register from "./pages/register/Register";
 import {AuthContext} from "./context/AuthContext";
 
 function App() {
-    const {isAuth, role} = useContext(AuthContext);
+    const {isAuth, user} = useContext(AuthContext);
 
     return (
 
@@ -27,8 +27,8 @@ function App() {
                     path="/"
                     element={<Home/>}/>
                 <Route
-                    path="/signin"
-                    element={<SignIn/>}
+                    path="/login"
+                    element={<Login/>}
                 />
 
                 <Route
@@ -36,30 +36,29 @@ function App() {
                     element={<Register/>}
                 />
 
-
                 <Route
                     path="/recipes"
-                    element={isAuth ? <Recipes/> : <Navigate to="/"/>}/>
+                    element={isAuth ? <Recipes/> : <Navigate to="/login"/>}/>
                 />
 
                 <Route
                     path="/recipe/:id"
-                    element={isAuth ? <Recipe/> : <Navigate to="/"/>}/>
+                    element={isAuth ? <Recipe/> : <Navigate to="/login"/>}/>
                 />
 
                 <Route
                     path="/newrecipe"
-                    element={isAuth ? <NewRecipe/> : <Navigate to="/"/>}/>
+                    element={isAuth ? <NewRecipe/> : <Navigate to="/login"/>}/>
                 />
 
                 <Route
                     path="/aboutme"
-                    element={isAuth ? <AboutMe/> : <Navigate to="/"/>}/>
+                    element={isAuth ? <AboutMe/> : <Navigate to="/login"/>}/>
                 />
 
                 <Route
                     path="/admin"
-                    element={isAuth ? <Admin/> : <Navigate to="/"/>}/>
+                    element={isAuth ? <Admin/> : <Navigate to="/login"/>}/>
                 />
 
                 <Route
