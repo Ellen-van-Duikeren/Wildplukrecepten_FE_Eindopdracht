@@ -3,12 +3,14 @@ import './Recipes.css';
 import {Link} from "react-router-dom";
 import axios from "axios";
 import {AuthContext} from "../../context/AuthContext";
+import Button from "../../components/button/Button";
 
 function Recipe() {
-    const {user} = useContext(AuthContext);
+    const {isAuth, user} = useContext(AuthContext);
     const [recipes, setRecipes] = useState([]);
     const [query, setQuery] = useState("");
     const token = localStorage.getItem('token');
+    const [admin, toggleAdmin] = useState(false);
 
     const [month, setMonth] = useState("selecteer");
     const [tag, setTag] = useState("selecteer");
@@ -82,9 +84,27 @@ function Recipe() {
             <article className="recipes__article">
                 <div className="recipes__div--space-between">
                     {user.firstname ? <h1>Welkom {user.firstname} bij recepten</h1> : <h1>Welkom bij recepten</h1>}
+
+                    {/*buttons for admin*/}
+                    {(isAuth && user.authority == "ROLE_ADMIN" && !admin) && <Button
+                        type="button"
+                        className="button--ellips button--ellips-margin button--ellips-yellow"
+                        onClick={() => toggleAdmin(!admin)}
+                    >
+                        Show id
+                    </Button>}
+
+                    {admin && <Button
+                        type="button"
+                        className="button--ellips button--ellips-margin button--ellips-yellow"
+                        onClick={() => toggleAdmin(!admin)}
+                    >
+                        Hide id
+                    </Button>}
+
                 </div>
 
-                <h3>Zoek op woord (in titel of in ingredient), maand of categorie</h3>
+                <h3>Zoek op woord, maand of categorie</h3>
                 <input
                     id="search"
                     placeholder="zoeken..."
@@ -92,7 +112,7 @@ function Recipe() {
                 />
 
                 <select
-                    className="recipes__select"
+                    className="recipes__select margin-left1"
                     value={month}
                     onChange={(e) => setMonth(e.currentTarget.value)}>
                     {monthsList.map(item => (
@@ -106,7 +126,7 @@ function Recipe() {
                 </select>
 
                 <select
-                    className="recipes__select"
+                    className="recipes__select margin-left1"
                     value={tag}
                     onChange={(e) => setTag(e.currentTarget.value)}>
                     {tagsList.map(item => (
@@ -141,7 +161,7 @@ function Recipe() {
                                                 alt={recipe.name}
                                                 className="recipes__image"
                                             />}
-                                        {recipe.title}
+                                        <p>{admin && recipe.id} {recipe.title}</p>
                                     </Link>
                                 </li>
                             </div>
@@ -183,7 +203,7 @@ function Recipe() {
                                                 alt={recipe.name}
                                                 className="recipes__image"
                                             />}
-                                        {recipe.title}
+                                        <p>{admin && recipe.id} {recipe.title}</p>
                                     </Link>
                                 </li>
                             </div>
@@ -194,7 +214,7 @@ function Recipe() {
 
 
             {!month.includes("selecteer") &&
-                <h3 className="recipes__h3">Geselecteerd op de maand {month}, inclusief jaarrond</h3>}
+                <h3 className="recipes__h3">Geselecteerd op maand {month}, inclusief jaarrond</h3>}
             <article className="recipes__article--flex">
                 {!month.includes("selecteer") && (
                     recipes.filter(recipe => {
@@ -220,7 +240,7 @@ function Recipe() {
                                                     alt={recipe.name}
                                                     className="recipes__image"
                                                 />}
-                                            {recipe.title}
+                                            <p>{admin && recipe.id} {recipe.title}</p>
                                         </Link>
                                     </li>
                                 </div>
@@ -256,7 +276,7 @@ function Recipe() {
                                                     alt={recipe.name}
                                                     className="recipes__image"
                                                 />}
-                                            {recipe.title}
+                                            <p>{admin && recipe.id} {recipe.title}</p>
                                         </Link>
                                     </li>
                                 </div>
@@ -265,6 +285,11 @@ function Recipe() {
                     )))
                 }
             </article>
+
+
+
+
+
         </section>
     )
         ;

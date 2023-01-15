@@ -52,6 +52,11 @@
     padding: 1em;
 }
 
+.recipe__div {
+    display: flex;
+    flex-direction: column;
+}
+
 .recipe__image {
     display: block;
     width: 20em;
@@ -105,10 +110,6 @@
     flex-direction: row;
     align-items: flex-start;
     margin-bottom: 1.5em;
-}
-
-.button--round-margin {
-    margin-right: 1em;
 }
 
 .p__strong {

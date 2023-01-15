@@ -91,50 +91,80 @@ import React from "react";
 //     </div>
 // </ul>
 //
-
-
+//
 // <article className="recipes__article--flex">
-//     { ((query === "") && (month.includes("selecteer") && tag.includes("selecteer")) &&
+//     {((query === "") && (month.includes("selecteer") && tag.includes("selecteer")) &&
 //         recipes.filter(recipe => {
 //             return recipe;
-//             //if query is not empty alias else
-//         } else if (recipe.title.toLowerCase().includes(query.toLowerCase())) {
-//         return recipe;
-//     } else {
-//         //search for ingredients
-//         for (let i = 0; i < recipe.ingredients.length; i++) {
-//         if (recipe.ingredients[i].ingredient_name.toLowerCase().includes(query.toLowerCase())) {
-//         return recipe;
+//         }).map((recipe) => (
+//             <ul className="recipes__ul">
+//                 <div>
+//                     <li key={recipe.id}
+//                         className="recipes__li">
+//                         <Link
+//                             to={"/recipe/" + recipe.id}
+//                             className="recipes__a"
+//                         >
+//                             {recipe.file &&
+//                                 <img
+//                                     src={recipe.file.url}
+//                                     alt={recipe.name}
+//                                     className="recipes__image"
+//                                 />}
+//                             {recipe.title}
+//                         </Link>
+//                     </li>
+//                 </div>
+//             </ul>
+//         )))
 //     }
-//     }
-//     }
-//     }).map((recipe) => (
-//     <ul className="recipes__ul">
-//         <div>
-//             <li key={recipe.id}
-//                 className="recipes__li">
-//                 <Link
-//                     to={"/recipe/" + recipe.id}
-//                     className="recipes__a"
-//                 >
-//                     {recipe.file &&
-//                         <img
-//                             src={recipe.file.url}
-//                             alt={recipe.name}
-//                             className="recipes__image"
-//                         />}
-//                     {recipe.title}
-//                 </Link>
-//             </li>
-//         </div>
-//     </ul>
-//     ))
+// </article>
+//
+// {query !== "" &&
+// <h3 className="recipes__h3">Geselecteerd op zoekterm "{query}"</h3>}
+// <article className="recipes__article--flex">
+//     {query !== "" &&
+//         recipes.filter(recipe => {
+//             if (query === "") {
+//                 return recipe;
+//                 //if query is not empty alias else
+//             } else if (recipe.title.toLowerCase().includes(query.toLowerCase())) {
+//                 return recipe;
+//             } else {
+//                 //search for ingredients
+//                 for (let i = 0; i < recipe.ingredients.length; i++) {
+//                     if (recipe.ingredients[i].ingredient_name.toLowerCase().includes(query.toLowerCase())) {
+//                         return recipe;
+//                     }
+//                 }
+//             }
+//         }).map((recipe) => (
+//             <ul className="recipes__ul">
+//                 <div>
+//                     <li key={recipe.id}
+//                         className="recipes__li">
+//                         <Link
+//                             to={"/recipe/" + recipe.id}
+//                             className="recipes__a"
+//                         >
+//                             {recipe.file &&
+//                                 <img
+//                                     src={recipe.file.url}
+//                                     alt={recipe.name}
+//                                     className="recipes__image"
+//                                 />}
+//                             {recipe.title}
+//                         </Link>
+//                     </li>
+//                 </div>
+//             </ul>
+//         ))
 //     }
 // </article>
 //
 //
-//
-// {!month.includes("selecteer") && <h3 className="recipes__h3">Geselecteerd op de maand {month}, inclusief jaarrond</h3>}
+// {!month.includes("selecteer") &&
+// <h3 className="recipes__h3">Geselecteerd op de maand {month}, inclusief jaarrond</h3>}
 // <article className="recipes__article--flex">
 //     {!month.includes("selecteer") && (
 //         recipes.filter(recipe => {
@@ -171,7 +201,7 @@ import React from "react";
 // </article>
 //
 //
-// {!tag.includes("selecteer") && <h3>Geselecteerd op categorie {tag}</h3>}
+// {!tag.includes("selecteer") && <h3 className="recipes__h3">Geselecteerd op categorie {tag}</h3>}
 // <article className="recipes__article--flex">
 //     {!tag.includes("selecteer") && (
 //         recipes.filter(recipe => {
@@ -205,3 +235,9 @@ import React from "react";
 //         )))
 //     }
 // </article>
+// </section>
+// )
+// ;
+// }
+//
+// export default Recipe;

@@ -230,7 +230,7 @@ function NewRecipe() {
     return (
         <>
             <article className="page new-recipe-page">
-                <h1>Nieuw recept toevoegen</h1>
+                <h1 className="margin-bottom1">Nieuw recept toevoegen</h1>
                 <form onSubmit={handleSubmit(onSubmit)} className="new-recipe-page__form">
                     {/*<form onSubmit={handleSubmit(handleFormSubmit)}>*/}
                     <div className="texts">
@@ -286,12 +286,6 @@ function NewRecipe() {
                             name="source"
                             className="input__text"
                             placeholder="bijv www.natuurkok.nl"
-                            validationRules={{
-                                maxLength: {
-                                    value: 250,
-                                    message: 'Maximaal 250 karakters',
-                                }
-                            }}
                             register={register}
                             errors={errors}
                         />
@@ -489,7 +483,7 @@ function NewRecipe() {
 
                     <div>
                         {/*checkboxes............................................*/}
-                        <h3>In welke maanden kan je de wildpluk halen. Vink hieronder aan.</h3>
+                        <h3 className="margin-top1">In welke maanden kan je de wildpluk halen. Vink hieronder aan.</h3>
                         <Checkbox
                             name="january"
                             labelText="januari"

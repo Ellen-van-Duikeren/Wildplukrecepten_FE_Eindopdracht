@@ -21,11 +21,10 @@
 }
 
 .recipes__select {
-    margin-left: 1em;
     padding: 0.3em;
     border-radius: 0.5em;
     border: 2px solid lightgray;
-    font-size: var(--baseFont);
+    font-size: calc(var(--baseFont) * 0.9);
 }
 
 .recipes__ul {

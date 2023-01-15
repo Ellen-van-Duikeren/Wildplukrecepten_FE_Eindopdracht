@@ -1,27 +1,41 @@
 import React, {useEffect, useRef, useState} from 'react';
 import './Admin.css';
-import {API_URL, authAxios} from "../../helperfunctions/axiosFunctions";
+import {API_URL, authAxios, fetchUser} from "../../helperfunctions/axiosFunctions";
 import axios from "axios";
 import Input from "../../components/input/Input";
 import {useForm} from "react-hook-form";
 import {useReactToPrint} from "react-to-print";
-import sortObject from "../../helperfunctions/sortObjects";
+import Button from "../../components/button/Button";
 
 
 function Admin() {
-    const [users, setUsers] = useState([]);
-    const {handleSubmit, formState: {errors}, register} = useForm();
     const token = localStorage.getItem('token');
-
-    // printing
+    const [idRecipe, setIdRecipe] = useState(1);
+    const [recipes, setRecipes] = useState([]);
+    //get
+    const [users, setUsers] = useState([]);
+    const [getThisUser, toggleGetThisUser] = useState(false);
+    //patch
+    const {register, handleSubmit, formState: {errors}} = useForm();
+    const [selectedUsername, setSelectedUsername] = useState("");
+    const [patchThisUser, togglePatchThisUser] = useState(false);
+    const [userToPatch, setUserToPatch] = useState([]);
+    // delete
+    const [deleteThisUser, toggleDeleteThisUser] = useState(false);
+    // print
     const componentRef = useRef();
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
     });
 
-    // method to get an overview of all users
+    {/*method to get an overview of all users..................................................................................*/
+    }
+
     useEffect(() => {
         async function fetchUsers() {
+            toggleGetThisUser(false)
+            togglePatchThisUser(false);
+            toggleDeleteThisUser(false);
             try {
                 const response = await axios.get('http://localhost:8081/users', {
                     headers: {
@@ -30,47 +44,8 @@ function Admin() {
                     }
                 });
                 console.log(response.data);
-                // const ordered = Object.keys(response.data).sort().reduce(
-                //     (obj, key) => {
-                //         obj[key] = response.data[key];
-                //         return obj;
-                //     },
-                //     {}
-                // );
-
-               // let usernames = {
-               //     "0": {
-               //         username: "user@mail.com",
-               //         firstname: "user"
-               //     },
-               //     "1": {
-               //         username: "admin@mail.com",
-               //         firstname: "admin"
-               //
-               //     },
-               //     "2": {
-               //         username: "e.vanduikeren@gmail.com",
-               //         firstname: "Ellen"
-               //     }
-               // }
-               //
-               //  let allEntries = Object.entries(usernames)
-               //  let sortedEntries = allEntries.sort((a,b) => a[1].firstname.localeCompare(b[1].firstname))
-               //  let ordered = Object.fromEntries(sortedEntries)
-               //
-               //  console.log(ordered);
                 setUsers(response.data);
 
-                // let classes = {
-                //     'class-1': {name: 'P.E.', completed: '12/02/19', letterGrade: 'A'},
-                //     'class-2': {name: 'English', completed: '12/02/19', letterGrade: 'A'},
-                //     'class-3': {name: 'Math', completed: '12/02/19', letterGrade: 'A'},
-                // }
-                //
-                // let allEntries2 = Object.entries(classes)
-                // let sortedEntries2 = allEntries2.sort((a,b) => a[1].name.localeCompare(b[1].name))
-                // let obj = Object.fromEntries(sortedEntries2)
-                // console.log(obj);
 
             } catch (e) {
                 console.error(e);
@@ -80,11 +55,76 @@ function Admin() {
         fetchUsers();
     }, [])
 
-    //method to send mail to user
-    async function onSubmit(data) {
+
+    async function getUserById(id) {
+        try {
+            const response = await axios.get(`http://localhost:8081/users/${id}`, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`,
+                    }
+                });
+            console.log(response)
+            setUserToPatch(response);
+            toggleGetThisUser(true);
+        } catch (e) {
+            console.error(e);
+        }
+    }
+    if (getThisUser) {
+        void getUserById();
+    }
+
+
+    async function patchUser(id, data) {
+        console.log("Data:");
         console.log(data);
         try {
-            const result = await axios.post('http://localhost:8081/sendMail', {
+            const response = await axios.put(`http://localhost:8081/users/${id}`,
+                data,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`,
+                    }
+                });
+            togglePatchThisUser(true);
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    if (patchThisUser) {
+        void patchUser();
+    }
+
+
+    async function deleteUser(id) {
+        try {
+            const response = await axios.delete(`http://localhost:8081/users/${id}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`,
+                }
+            });
+            console.log(response);
+            toggleDeleteThisUser(true);
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    if (deleteThisUser) {
+        void deleteUser();
+    }
+
+
+    // method to send mail...........................................................................................
+    async function onSubmit(data) {
+
+        console.log(data);
+        try {
+            const response = await axios.post('http://localhost:8081/sendMail', {
                 data
             }, {
                 headers: {
@@ -92,8 +132,8 @@ function Admin() {
                     "Authorization": `Bearer ${token}`,
                 }
             });
-            console.log("Result: " + result.data);
-            console.log("Result.status: " + result.status);
+            console.log("Response: " + response.data);
+            console.log("Response.status: " + response.status);
         } catch (e) {
             console.error(e);
         }
@@ -104,9 +144,10 @@ function Admin() {
         <article className="page admin-page">
             <h1>Admin pagina</h1>
 
-
+            {/*users..................................................................................................*/}
             <section ref={componentRef}>
                 <h2>Users</h2>
+                <h3>Overzicht alle users en mogelijkheid tot verwijderen van user</h3>
                 <table className="users">
                     <thead>
                     <tr>
@@ -114,6 +155,8 @@ function Admin() {
                         <th>Achternaam</th>
                         <th>Emailadres</th>
                         <th>Rol</th>
+                        <th>Verwijder</th>
+                        <th>Aanpassen</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -123,36 +166,190 @@ function Admin() {
                             <td>{user.lastname}</td>
                             <td>{user.emailadress}</td>
                             <td>{user.authorities[0].authority}</td>
+                            <td>
+                                <Button
+                                    type="button"
+                                    className="button--round button--round-brown"
+                                    onClick={() => deleteUser(user.username)}
+                                >
+                                    -
+                                </Button>
+                            </td>
+                            <td>
+                                <Button
+                                    type="button"
+                                    className="button--ellips button--ellips-brown"
+                                    onClick={() => getUserById(user.username)}
+                                >
+                                    pas aan
+                                </Button>
+                            </td>
                         </tr>
                     })}
                     </tbody>
                 </table>
+                {deleteThisUser && <h4 className="attention">De user is succesvol verwijderd</h4>}
 
                 {/*printing*/}
                 <button onClick={handlePrint} className="button--ellips print__button">print</button>
 
+                {/*<h3 className="margin-top2">Aanpassen van user</h3>*/}
+                {/*<p>Welke user wil je aanpassen?</p>*/}
+                {/*<select*/}
+                {/*    className="recipes__select"*/}
+                {/*    value={selectedUsername}*/}
+                {/*    onChange={(e) => setSelectedUsername(e.currentTarget.value)}>*/}
+                {/*    {users.map(user => (*/}
+                {/*        <option*/}
+                {/*            key={user.value}*/}
+                {/*            value={user.value}*/}
+                {/*        >*/}
+                {/*            {user.username}*/}
+                {/*        </option>*/}
+                {/*    ))}*/}
+                {/*</select>*/}
+
+                {/*{console.log("Selected user: ")}*/}
+                {/*{console.log(selectedUsername)}*/}
+
+                {/*<Button*/}
+                {/*    type="button"*/}
+                {/*    className="button--ellips margin-left1"*/}
+                {/*    // onClick={() => getUserById()}*/}
+                {/*    onClick={() => setUserToPatch(users.filter(user => users.username == {selectedUsername}))}*/}
+                {/*>kies user*/}
+                {/*</Button>*/}
+
+
+                <form onSubmit={handleSubmit(patchUser)} className="margin-top2">
+                    <Input
+                        labelText="username"
+                        type="text"
+                        name="username"
+                        className="input__text"
+                        placeholder={getThisUser.username}
+                        register={register}
+                        errors={errors}
+                    />
+                    {errors.username && <p>{errors.username.message}</p>}
+
+                    <Input
+                        labelText="password"
+                        type="text"
+                        name="password"
+                        className="input__text"
+                        placeholder={getThisUser.password}
+                        register={register}
+                        errors={errors}
+                    />
+                    {errors.password && <p>{errors.password.message}</p>}
+
+                    <Input
+                        labelText="enabled"
+                        type="text"
+                        name="enabled"
+                        className="input__text"
+                        placeholder={getThisUser.enabled}
+                        register={register}
+                        errors={errors}
+                    />
+                    {errors.enabled && <p>{errors.enabled.message}</p>}
+
+                    <Input
+                        labelText="apiKey"
+                        type="text"
+                        name="apiKey"
+                        className="input__text"
+                        placeholder={getThisUser.apiKey}
+                        register={register}
+                        errors={errors}
+                    />
+                    {errors.apiKey && <p>{errors.apiKey.message}</p>}
+
+                    <Input
+                        labelText="firstname"
+                        type="text"
+                        name="firstname"
+                        className="input__text"
+                        placeholder={getThisUser.firstname}
+                        register={register}
+                        errors={errors}
+                    />
+                    {errors.firstname && <p>{errors.firstname.message}</p>}
+
+                    <Input
+                        labelText="lastname"
+                        type="text"
+                        name="lastname"
+                        className="input__text"
+                        placeholder={getThisUser.lastname}
+                        register={register}
+                        errors={errors}
+                    />
+                    {errors.lastname && <p>{errors.lastname.message}</p>}
+
+                    <Input
+                        labelText="emailadress"
+                        type="text"
+                        name="emailadress"
+                        className="input__text"
+                        placeholder={getThisUser.emailadress}
+                        register={register}
+                        errors={errors}
+                    />
+                    {errors.emailadress && <p>{errors.emailadress.message}</p>}
+
+                    <Button type="submit" className="button--ellips">versturen</Button>
+                    {togglePatchThisUser && <h3>De user is succesvol gewijzigd.</h3>}
+
+                </form>
+
+
             </section>
 
+
+            {/*recipes..................................................................................................*/}
+
+            {/*<h2 className="admin__h2">*/}
+            {/*    Recipes*/}
+            {/*</h2>*/}
+
+            {/*<table className="users">*/}
+            {/*    <thead>*/}
+            {/*    <tr>*/}
+            {/*        <th>id</th>*/}
+            {/*        <th>Titel</th>*/}
+
+            {/*    </tr>*/}
+            {/*    </thead>*/}
+            {/*    <tbody>*/}
+            {/*    {recipes.map((recipe) => {*/}
+            {/*        return <tr key={recipe.id}>*/}
+            {/*            <td>{recipe.id}</td>*/}
+            {/*            <td>{recipe.title}</td>*/}
+            {/*        </tr>*/}
+            {/*    })}*/}
+            {/*    </tbody>*/}
+            {/*</table>*/}
+
+            {/*<h3>Zoek recipe op id</h3>*/}
+            {/*Welk recept wil je opvragen. Typ het id in.*/}
+            {/*<input*/}
+            {/*    type="number"*/}
+            {/*    value={idRecipe}*/}
+            {/*    onChange={(e) => setIdRecipe(e.target.value)}*/}
+            {/*/>*/}
+            {/*<button*/}
+            {/*    type="button"*/}
+            {/*    onClick={() => fetchRecipeById()}*/}
+            {/*>Vraag recept op*/}
+            {/*</button>*/}
+
+            {/*email..................................................................................................*/}
             <section>
                 <h2 className="h2__margin">Bericht versturen</h2>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    {/*<Input*/}
-                    {/*    id="recipient"*/}
-                    {/*    labelText="Email naar:"*/}
-                    {/*    type="email"*/}
-                    {/*    name="recipient"*/}
-                    {/*    className="input__text"*/}
-                    {/*    placeholder="emailadres"*/}
-                    {/*    validationRules={{*/}
-                    {/*        required: {*/}
-                    {/*            value: true,*/}
-                    {/*            message: 'Dit veld is verplicht',*/}
-                    {/*        }*/}
-                    {/*    }}*/}
-                    {/*    register={register}*/}
-                    {/*    errors={errors}*/}
-                    {/*/>*/}
-                    {/*{errors.recipient && <p>{errors.recipient.message}</p>}*/}
+
 
                     <div className="recipient__div">
                         <label htmlFor="recipient">
