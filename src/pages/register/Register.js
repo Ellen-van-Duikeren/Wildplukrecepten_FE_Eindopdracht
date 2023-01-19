@@ -9,7 +9,7 @@ import {Link, useNavigate} from "react-router-dom";
 
 
 function Register() {
-    const {isAuth, setAuth} = useContext(AuthContext);
+    const {login} = useContext(AuthContext);
     const {handleSubmit, formState: {errors}, register} = useForm();
     const navigate = useNavigate();
     const [succesRegister, toggleSuccessRegister] = useState(true);
@@ -20,11 +20,14 @@ function Register() {
             const response = await axios.post(`${API_URL}/users/register`, data)
             console.log("Response in register: ")
             console.log(response);
-            if (response.status != 201) {
+            if (response.status !== 201) {
                 console.log("Registratie is niet gelukt");
                 toggleSuccessRegister(false);
             }
-            navigate('/login')
+            // after registrating login automatically
+            login(response.data.accessToken);
+            // navigate('/login')
+            navigate('/recipes')
 
         } catch (e) {
             console.error(e)

@@ -9,13 +9,13 @@ import NewRecipe from "./pages/newRecipe/NewRecipe";
 import Footer from "./components/footer/Footer";
 import Login from "./pages/login/Login";
 import Recipe from "./pages/recipe/Recipe";
-import {useContext, useState} from "react";
+import {useContext} from "react";
 import AboutMe from "./pages/aboutme/AboutMe";
 import Register from "./pages/register/Register";
 import {AuthContext} from "./context/AuthContext";
 
 function App() {
-    const {isAuth, user} = useContext(AuthContext);
+    const {isAuth} = useContext(AuthContext);
 
     return (
 

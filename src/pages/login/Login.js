@@ -1,7 +1,7 @@
 import "./Login.css";
 import garlic from "../../assets/garlic.jpg";
 import {Link, useNavigate} from "react-router-dom";
-import React, {useContext, useState} from "react";
+import React, {useContext} from "react";
 import axios from "axios";
 import {AuthContext} from "../../context/AuthContext";
 import {useForm} from "react-hook-form";

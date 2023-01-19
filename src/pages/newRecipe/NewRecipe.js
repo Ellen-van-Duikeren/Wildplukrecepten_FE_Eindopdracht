@@ -703,7 +703,7 @@ function NewRecipe() {
                             met "versturen"
                         </li>
                         <li className="image__li">Klik hieronder op de witte button met "choose file" en selecteer je
-                            foto
+                            foto (jpg/jpeg/png)
                         </li>
                         <li className="image__li">Je kan maar 1 foto per recept uploaden van maximaal 5Mb</li>
                         <li className="image__li">Je krijgt nu een preview van je foto te zien</li>

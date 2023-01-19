@@ -58,13 +58,15 @@ function Recipe() {
 
     // method to get an overview of all recipes
     useEffect(() => {
+        const controller = new AbortController();
         async function fetchRecipes() {
             try {
                 const response = await axios.get('http://localhost:8081/recipes', {
                     headers: {
                         "Content-Type": "application/json",
                         "Authorization": `Bearer ${token}`,
-                    }
+                    },
+                    signal: controller.signal,
                 });
                 console.log("Response get all recipes:")
                 console.log(response.data);
@@ -74,9 +76,13 @@ function Recipe() {
                 console.error(e);
             }
         }
-
-        fetchRecipes();
+        void fetchRecipes();
+        return function cleanup() {
+            controller.abort(); // <--- request annuleren
+        }
     }, [token])
+
+
 
 
     return (
@@ -86,7 +92,7 @@ function Recipe() {
                     {user.firstname ? <h1>Welkom {user.firstname} bij recepten</h1> : <h1>Welkom bij recepten</h1>}
 
                     {/*buttons for admin*/}
-                    {(isAuth && user.authority == "ROLE_ADMIN" && !admin) && <Button
+                    {(isAuth && user.authority === "ROLE_ADMIN" && !admin) && <Button
                         type="button"
                         className="button--ellips button--ellips-margin button--ellips-yellow"
                         onClick={() => toggleAdmin(!admin)}
@@ -171,7 +177,7 @@ function Recipe() {
             </article>
 
             {query !== "" &&
-                <h3 className="recipes__h3">Geselecteerd op zoekterm "{query}"</h3>}
+                <h3 className="recipes__h3">Geselecteerd op zoekterm"{query}"</h3>}
             <article className="recipes__article--flex">
                 {query !== "" &&
                     recipes.filter(recipe => {

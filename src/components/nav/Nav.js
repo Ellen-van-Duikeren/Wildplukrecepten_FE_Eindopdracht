@@ -1,8 +1,6 @@
 import React, {useContext} from 'react';
-import logoText from "../../assets/logoText.png";
 import {NavLink, useNavigate} from 'react-router-dom';
 import './Nav.css';
-import Button from "../button/Button";
 import {AuthContext} from "../../context/AuthContext";
 
 //nog logo toevoegen?
@@ -10,10 +8,6 @@ import {AuthContext} from "../../context/AuthContext";
 function Nav() {
     const {isAuth, user, logout} = useContext(AuthContext);
     const navigate = useNavigate();
-
-    function handleClick() {
-        navigate("/login");
-    }
 
     return (
         <>
@@ -47,7 +41,7 @@ function Nav() {
                             <li>about me</li>
                         </NavLink>}
 
-                    {(isAuth && user.authority == "ROLE_ADMIN") &&
+                    {(isAuth && user.authority ==="ROLE_ADMIN") &&
                         <NavLink className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}
                                  to="/admin">
                             <li>admin</li>

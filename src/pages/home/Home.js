@@ -1,11 +1,7 @@
-import React, {useContext} from 'react';
 import './Home.css';
 import garlic from "../../assets/garlic.jpg";
-import {AuthContext} from "../../context/AuthContext";
 
 function Home() {
-    const {isAuth, authority} = useContext(AuthContext);
-
 
     return (
         <article className="page home-page">

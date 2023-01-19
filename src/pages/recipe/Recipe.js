@@ -1,6 +1,5 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
 import './Recipe.css';
-import {useNavigate, useParams} from "react-router-dom";
 import {RiKnifeLine} from 'react-icons/ri';
 import {GiCampCookingPot} from 'react-icons/gi';
 import axios from "axios";
@@ -9,6 +8,7 @@ import {useReactToPrint} from "react-to-print";
 import {AuthContext} from "../../context/AuthContext";
 import Input from "../../components/input/Input";
 import {useForm} from "react-hook-form";
+import {useParams} from "react-router-dom";
 
 function Recipe() {
     const {id} = useParams();
@@ -94,8 +94,7 @@ function Recipe() {
             if (id) {
                 void fetchRecipe();
             }
-        },
-        []);
+        },[]);
 
 
     async function patchRecipe(data) {
@@ -111,6 +110,7 @@ function Recipe() {
                     }
                 });
             togglePatchThisRecipe(true);
+            setRecipe(response.data);
         } catch (e) {
             console.error(e);
         }
@@ -216,7 +216,7 @@ function Recipe() {
                     <section className="recipe-page__descriptions right-side">
 
                         {/*buttons for admin*/}
-                        {(isAuth && user.authority == "ROLE_ADMIN" && !admin) && <Button
+                        {(isAuth && user.authority === "ROLE_ADMIN" && !admin) && <Button
                             type="button"
                             className="button--ellips button--ellips-margin"
                             onClick={() => toggleAdmin(!admin)}
@@ -253,7 +253,6 @@ function Recipe() {
                                 <p className="margin-bottom1">Selecteer een categorie: bijv algemeen > titel. Op de plek van die categorie verschijnt nu een invoerveld. Hiervoor moet je dus naar beneden scrollen.</p>
                                 <select
                                     className="recipes__select margin-bottom2"
-                                    multiple={true}
                                     value={search}
                                     onChange={(e) => setSearch(e.currentTarget.value)}>
                                     {recipeList.map(item => (
@@ -481,7 +480,7 @@ function Recipe() {
                 </div>
 
                 <Button type="submit" className="button--ellips margin-top2">versturen</Button>
-                {patchThisRecipe && <h4 className="attention margin-top2">Dit recept is succesvol aangepast. Ga naar recepten en kies dit recept opnieuw om je aangepaste recept te zien.</h4>}
+                {patchThisRecipe && <h4 className="attention margin-top2">Dit recept is succesvol aangepast. Ververs deze pagina om je aangepaste recept te zien.</h4>}
 
 
             </form>

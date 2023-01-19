@@ -9,18 +9,38 @@ function AuthContextProvider({children}) {
     const [auth, setAuth] = useState({
         isAuth: false,
         user: null,
+        status: "pending"
     });
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const storedToken = localStorage.getItem("token");
+        if (storedToken) {
+            const decodedToken = jwtDecode(storedToken);
+            if (Math.floor(Date.now() / 1000) < decodedToken.exp) {
+                console.log("De gebruiker is NOG STEEDS ingelogd.")
+                void fetchUserData(storedToken, decodedToken.sub);
+            }
+        } else {
+            setAuth({
+                ...auth,
+                isAuth: false,
+                user: null,
+                status: 'done',
+            });
+        }
+    }, []);
+
 
     function login(token) {
         console.log(token)
         localStorage.setItem('token', token);
         const decodedToken = jwtDecode(token);
         console.log(decodedToken);
-        void fetchUserData(token, decodedToken.sub)
+        void fetchUserData(token, decodedToken.sub, "/recipes")
     }
 
-    async function fetchUserData(token, id) {
+    async function fetchUserData(token, id, redirect) {
         try {
             const response = await axios.get(`http://localhost:8081/users/${id}`, {
                 headers: {
@@ -37,25 +57,26 @@ function AuthContextProvider({children}) {
                     user: {
                         firstname: response.data.firstname,
                         authority: response.data.authorities[0].authority
-                        // authorities: {
-                        //     authority: response.data.authorities[0].authority
-                        // }
-                    }
+                    },
+                    status: "done"
                 }
             );
-
-            navigate('/recipes');
+            if (redirect) {
+                navigate(redirect);
+            }
         } catch (e) {
             console.error(e);
         }
     }
 
-    function logout() {
+    function logout(e) {
+        e.preventDefault();
         console.log("Gebruiker is uitgelogd!");
         localStorage.clear();
         setAuth({
             isAuth: false,
-            user: null
+            user: null,
+            status: "done"
         });
         navigate('/login');
     }
@@ -63,15 +84,13 @@ function AuthContextProvider({children}) {
     const data = {
         isAuth: auth.isAuth,
         user: auth.user,
-        // firstname: auth.user.firstname,
-        // authority: auth.user.authority,
         login: login,
         logout: logout
     }
 
     return (
         <AuthContext.Provider value={data}>
-            {children}
+            {auth.status === "done" ? children : <p>Loading...</p>}
         </AuthContext.Provider>
     )
 }
