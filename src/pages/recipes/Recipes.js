@@ -121,12 +121,12 @@ function Recipe() {
                     className="recipes__select margin-left1"
                     value={month}
                     onChange={(e) => setMonth(e.currentTarget.value)}>
-                    {monthsList.map(item => (
+                    {monthsList.map(month => (
                         <option
-                            key={item.value}
-                            value={item.value}
+                            key={month.value}
+                            value={month.value}
                         >
-                            {item.label}
+                            {month.label}
                         </option>
                     ))}
                 </select>
@@ -135,12 +135,12 @@ function Recipe() {
                     className="recipes__select margin-left1"
                     value={tag}
                     onChange={(e) => setTag(e.currentTarget.value)}>
-                    {tagsList.map(item => (
+                    {tagsList.map(tag => (
                         <option
-                            key={item.value}
-                            value={item.value}
+                            key={tag.value}
+                            value={tag.value}
                         >
-                            {item.label}
+                            {tag.label}
                         </option>
                     ))}
                 </select>
@@ -153,9 +153,9 @@ function Recipe() {
                     recipes.filter(recipe => {
                         return recipe;
                     }).map((recipe) => (
-                        <ul className="recipes__ul">
+                        <ul className="recipes__ul" key={recipe.id}>
                             <div>
-                                <li key={recipe.id}
+                                <li
                                     className="recipes__li">
                                     <Link
                                         to={"/recipe/" + recipe.id}
@@ -177,7 +177,7 @@ function Recipe() {
             </article>
 
             {query !== "" &&
-                <h3 className="recipes__h3">Geselecteerd op zoekterm"{query}"</h3>}
+                <h3 className="recipes__h3">Geselecteerd op zoekterm "{query}"</h3>}
             <article className="recipes__article--flex">
                 {query !== "" &&
                     recipes.filter(recipe => {
@@ -195,9 +195,9 @@ function Recipe() {
                             }
                         }
                     }).map((recipe) => (
-                        <ul className="recipes__ul">
+                        <ul className="recipes__ul key={recipe.id}">
                             <div>
-                                <li key={recipe.id}
+                                <li
                                     className="recipes__li">
                                     <Link
                                         to={"/recipe/" + recipe.id}
@@ -231,10 +231,9 @@ function Recipe() {
                             }
                         }
                     }).map((recipe) => (
-                        <>
-                            <ul className="recipes__ul">
+                            <ul className="recipes__ul" key={recipe.id}>
                                 <div>
-                                    <li key={recipe.id}
+                                    <li
                                         className="recipes__li">
                                         <Link
                                             to={"/recipe/" + recipe.id}
@@ -251,7 +250,6 @@ function Recipe() {
                                     </li>
                                 </div>
                             </ul>
-                        </>
                     )))
                 }
             </article>
@@ -267,10 +265,9 @@ function Recipe() {
                             }
                         }
                     }).map((recipe) => (
-                        <>
-                            <ul className="recipes__ul">
+                            <ul className="recipes__ul" key={recipe.id}>
                                 <div>
-                                    <li key={recipe.id}
+                                    <li
                                         className="recipes__li">
                                         <Link
                                             to={"/recipe/" + recipe.id}
@@ -287,7 +284,6 @@ function Recipe() {
                                     </li>
                                 </div>
                             </ul>
-                        </>
                     )))
                 }
             </article>

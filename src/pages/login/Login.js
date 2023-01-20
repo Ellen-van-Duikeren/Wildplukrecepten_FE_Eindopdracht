@@ -6,7 +6,6 @@ import axios from "axios";
 import {AuthContext} from "../../context/AuthContext";
 import {useForm} from "react-hook-form";
 import Input from "../../components/input/Input";
-import {API_URL} from "../../helperfunctions/axiosFunctions";
 
 
 function Login() {
@@ -16,10 +15,9 @@ function Login() {
 
     async function onSubmit(data) {
         try {
-            const response = await axios.post(`${API_URL}/authenticate`, data)
+            const response = await axios.post('http://localhost:8081/authenticate', data)
+            console.log("Resonse in login page in authenticate function = login.")
             console.log(response);
-            // console.log("Response.data: " + response.data);
-            // console.log("Response.status: " + response.status);
             navigate('/recipes');
             login(response.data.jwt);
         } catch (e) {
@@ -32,14 +30,14 @@ function Login() {
             <form onSubmit={handleSubmit(onSubmit)}>
                 <h1>Inloggen</h1>
                 <p className="login__p--margin">Ben je nieuw hier, ga dan naar <Link
-                    to="/register">registreren</Link></p>
-                <button
-                    type="button"
-                    className="button--ellips login__button"
-                    onClick={() => navigate('/register')}
-                >
-                    registreren
-                </button>
+                    to="/register">registreren.</Link></p>
+                {/*<button*/}
+                {/*    type="button"*/}
+                {/*    className="button--ellips login__button"*/}
+                {/*    onClick={() => navigate('/register')}*/}
+                {/*>*/}
+                {/*    registreren*/}
+                {/*</button>*/}
 
                 <div className="login__div">
                 <Input

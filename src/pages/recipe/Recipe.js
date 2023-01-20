@@ -179,9 +179,9 @@ function Recipe() {
 
                         {ingredients &&
                             <div>
-                                {ingredients.map((ingredient, index) => {
+                                {ingredients.map((ingredient) => {
                                     return (
-                                        <div key={`${ingredient}-${index}`}>
+                                        <div key={`${ingredient.ingredient_name}`}>
                                             <label className="ingredient--label">
                                                 <input
                                                     type="checkbox"
@@ -255,12 +255,12 @@ function Recipe() {
                                     className="recipes__select margin-bottom2"
                                     value={search}
                                     onChange={(e) => setSearch(e.currentTarget.value)}>
-                                    {recipeList.map(item => (
+                                    {recipeList.map(category => (
                                         <option
-                                            key={item.value}
-                                            value={item.value}
+                                            key={category.value}
+                                            value={category.value}
                                         >
-                                            {item.label}
+                                            {category.label}
                                         </option>
                                     ))}
                                 </select>
@@ -271,12 +271,12 @@ function Recipe() {
                                         multiple={true}
                                         value={searchGeneral}
                                         onChange={(e) => setSearchGeneral(e.currentTarget.value)}>
-                                        {generalList.map(item => (
+                                        {generalList.map(generalCategory => (
                                             <option
-                                                key={item.value}
-                                                value={item.value}
+                                                key={generalCategory.value}
+                                                value={generalCategory.value}
                                             >
-                                                {item.label}
+                                                {generalCategory.label}
                                             </option>
                                         ))}
                                     </select>}
@@ -293,11 +293,11 @@ function Recipe() {
 
                         {months &&
                             <div className="tags">
-                                {months.map((month) => {
+                                {months.map((month, index) => {
                                     return (
                                         <p
                                             className="tag"
-                                            key={month.value}
+                                            key={`${month}-${index}`}
                                         >
                                             {month}
                                         </p>
@@ -412,17 +412,17 @@ function Recipe() {
                             <>
                                 <h3>Bereiding:</h3>
                                 <div>
-                                    {instructions.map((instruction, i) => {
+                                    {instructions.map((instruction, index) => {
                                         return (
-                                            <div className="instructions--div">
+                                            <div className="instructions--div" key={`${instruction}-${index}`}>
                                                 <Button
                                                     type="button"
                                                     className="button--round margin-left1 margin-right1"
                                                 >
-                                                    {i + 1}
+                                                    {index + 1}
                                                 </Button>
                                                 <div>
-                                                    <p className="p__strong">Stap {i + 1}</p>
+                                                    <p className="p__strong">Stap {index + 1}</p>
                                                     <p>{instruction.instruction}</p>
                                                 </div>
                                             </div>
@@ -440,11 +440,11 @@ function Recipe() {
 
 
                         <div className="tags">
-                            {tags.map((tag) => {
+                            {tags.map((tag, index) => {
                                 return (
                                     <p
                                         className="tag"
-                                        key={tag.value}
+                                        key={`${tag}-${index}`}
                                     >
                                         {tag}
                                     </p>

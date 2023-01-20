@@ -5,6 +5,7 @@ import Input from "../../components/input/Input";
 import {useForm} from "react-hook-form";
 import {useReactToPrint} from "react-to-print";
 import Button from "../../components/button/Button";
+import {Link, NavLink} from "react-router-dom";
 
 function Admin() {
     const token = localStorage.getItem('token');
@@ -13,10 +14,8 @@ function Admin() {
     const [users, setUsers] = useState([]);
 
     //patch
-    const {register, handleSubmit, formState: {errors}} = useForm();
-    // const [selectedUsername, setSelectedUsername] = useState("");
+    const {register, handleSubmit: handleSubmit1, formState: {errors}} = useForm();
     const [patchThisUser, togglePatchThisUser] = useState(false);
-    const [userToPatch, setUserToPatch] = useState([]);
     const [idOfUserToPatch, setIdOfUserToPatch] = useState("");
 
 
@@ -32,12 +31,15 @@ function Admin() {
 
     //mail
     const {register: register2, formState: {errors: errors2}, handleSubmit: handleSubmit2} = useForm();
+    const [idOfUserToEmail, setIdOfUserToEmail] = useState("");
     const [succesSendMail, toggleSuccesSendMail] = useState(false);
 
 
     // method to get an overview of all users
     useEffect(() => {
         async function fetchUsers() {
+            toggleDeleteThisUser(false);
+            togglePatchThisUser(false);
             try {
                 const response = await axios.get('http://localhost:8081/users', {
                     headers: {
@@ -56,7 +58,7 @@ function Admin() {
     }, []);
 
 
-    // method to delete user
+    // methods to delete user
     function deleteUserFunction(e, usernameOfUser) {
         e.preventDefault();
         toggleDeleteThisUser(true);
@@ -65,6 +67,7 @@ function Admin() {
 
     useEffect(() => {
         const controller = new AbortController();
+
         async function deleteUser() {
             try {
                 const response = await axios.delete(`http://localhost:8081/users/${idOfUserToDelete}`, {
@@ -87,70 +90,66 @@ function Admin() {
     }, [deleteThisUser])
 
 
-    // method to change user
-    // function patchUserFunction(e, data) {
-    //     e.preventDefault();
-    //     togglePatchThisUser(true);
+    // methods to change user
+    // function handleFormSubmit(data) {
+    //     console.log("Dit is de handleFormSubmit functie");
+    //     console.log(data);
+    //     console.log("IdOfUserToPatch")
+    //     console.log(idOfUserToPatch)
+    //     void patchUser(data);
     // }
 
-    // test
-    function handleFormSubmit(data) {
-        console.log("Dit is de handleFormSubmit functie");
+    async function patchUser(data) {
+        console.log("Data in axios patchUser:");
         console.log(data);
-        // als ik de lijn hieronder aanzet, dan wordt de data gewist, want hierboven worden zel wel gelogd, r 99, maar hieronder niet: r 109
-        togglePatchThisUser(true);
+        try {
+            const response = await axios.patch(`http://localhost:8081/users/${idOfUserToPatch}`,
+                data,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`,
+                    },
+                });
+            togglePatchThisUser(true);
+            console.log("Patchuser: ");
+            console.log(response);
+        } catch (e) {
+            console.error(e);
+        }
     }
 
-    useEffect((data) => {
-        const controller = new AbortController();
-        console.log("Dit is de eerste regel van de axiospatch function")
-        async function patchUser(data) {
-            console.log("Data:");
-            console.log(data);
-            try {
-                const response = await axios.patch(`http://localhost:8081/users/${idOfUserToPatch}`,
-                    data,
-                    {
-                        headers: {
-                            "Content-Type": "application/json",
-                            "Authorization": `Bearer ${token}`,
-                        },
-                        signal: controller.signal,
-                    });
-                console.log("Patchuser: ");
-                console.log(response);
-            } catch (e) {
-                console.error(e);
-            }
-        }
-        void patchUser();
-        return function cleanup() {
-            controller.abort();
-        }
-    }, [patchThisUser])
 
-    // method to send mail
-    // useEffect(() => {
-    //     async function sendMail(data) {
-    //         console.log(data);
-    //         try {
-    //             const response = await axios.post('http://localhost:8081/sendMail', {
-    //                 data
-    //             }, {
-    //                 headers: {
-    //                     "Content-Type": "application/json",
-    //                     "Authorization": `Bearer ${token}`,
-    //                 }
-    //             });
-    //             console.log("Response: " + response.data);
-    //             // console.log("Response.status: " + response.status);
-    //         } catch (e) {
-    //             console.error(e);
+    // methods to send mail
+    // function emailUserFunction(data) {
+    //     console.log("Data in helperfunction emailUserFunction");
+    //     console.log(data);
+    //     data.recipient = idOfUserToEmail;
+    //     void sendMail(data);
+    // }
+
+
+    // async function sendMail(data) {
+    //     console.log("Data in sendMail function");
+    //     console.log(data);
+    //     try {
+    //         const response = await axios.post('http://localhost:8081/sendMail', {
+    //             data
+    //         }, {
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //                 "Authorization": `Bearer ${token}`,
+    //             }
+    //         });
+    //         console.log("Response sendMail(): " + response.data);
+    //         console.log("Response.status: " + response.status);
+    //         if (response.status === 200) {
+    //             toggleSuccesSendMail(true);
     //         }
+    //     } catch (e) {
+    //         console.error(e);
     //     }
-    //     void sendMail();
-    // }, [succesSendMail]);
-
+    // }
 
 
 // return..............................................................................................................................................
@@ -158,7 +157,7 @@ function Admin() {
         <article className="page admin-page">
             <h1>Admin pagina</h1>
 
-            {/*users..................................................................................................*/}
+            {/*users & delete user........................................................................................*/}
             <section ref={componentRef}>
                 <h2>Users</h2>
                 <h3>Overzicht en mogelijkheid tot verwijderen van user</h3>
@@ -175,8 +174,8 @@ function Admin() {
                     <tbody>
                     {users.map((user) => {
                         return (
-                            <>
-                                <tr key={user.username}>
+                            <React.fragment key={user.username}>
+                                <tr >
                                     <td>{user.firstname}</td>
                                     <td>{user.lastname}</td>
                                     <td>{user.emailadress}</td>
@@ -191,13 +190,14 @@ function Admin() {
                                         </Button>
                                     </td>
                                 </tr>
-                            </>
+                            </React.fragment>
                         )
                     })}
                     </tbody>
                 </table>
                 {deleteThisUser &&
-                    <h4 className="attention">De user is succesvol verwijderd. Refresh deze pagina om het resultaat te
+                    <h4 className="attention">De user is succesvol verwijderd. Refresh deze pagina om het resultaat
+                        te
                         zien in de tabel hierboven.</h4>}
 
 
@@ -212,8 +212,7 @@ function Admin() {
                 <p>Welke user wil je aanpassen?</p>
                 <select
                     className="recipes__select"
-                    // onChange={(e) => setSelectedUsername(e.target.value)}
-                    onChange={(e) => setIdOfUserToPatch(e.currentTarget.value)}
+                    onChange={e => setIdOfUserToPatch(e.currentTarget.value)}
                 >
                     <option>selecteer een emailadres</option>
                     {users.map(user => (
@@ -226,50 +225,12 @@ function Admin() {
                     ))}
                 </select>
 
-                {console.log("IdOfUserToPatch")}
-                {console.log(idOfUserToPatch)}
-                {/*{selectedUsername && <>*/}
-                {/*    <Button*/}
-                {/*        type="button"*/}
-                {/*        className="button--ellips margin-left1"*/}
-                {/*        onClick={() => setUserToPatch(users.find((user => user.username === selectedUsername)))}*/}
-                {/*    >kies user*/}
-                {/*    </Button>*/}
-                {/*</>*/}
-                {/*}*/}
-
-
-                {/*{idOfUserToPatch.length > 0 &&*/}
-                {/*    setUserToPatch(users.find((user => user.username === idOfUserToPatch)))*/}
-                {/*}*/}
-
-
-                {/*{console.log("userToPatch")}*/}
-                {/*{console.log(userToPatch)}*/}
-
-
-                {/*//Edhub*/}
-            {/*    function App() {*/}
-            {/*    const { register, handleSubmit } = useForm();*/}
-
-            {/*    function handleFormSubmit(data) {*/}
-            {/*    console.log(data);*/}
-            {/*}*/}
-
-            {/*    return (*/}
-            {/*    <form onSubmit={handleSubmit(handleFormSubmit)}>*/}
-            {/*/!* input velden... *!/*/}
-            {/*    </form>*/}
-            {/*    )*/}
-            {/*}*/}
 
                 <form
                     key={1}
                     className="margin-top2"
-                    // onSubmit={handleSubmit((e) => patchUserFunction(e))}>
-                    // onSubmit={handleSubmit(() => togglePatchThisUser(true))}>
-                    onSubmit={handleSubmit(handleFormSubmit)}>
-                        <Input
+                    onSubmit={handleSubmit1(patchUser)}>
+                    <Input
                         labelText="password"
                         type="text"
                         name="password"
@@ -281,7 +242,7 @@ function Admin() {
                     {errors.password && <p>{errors.password.message}</p>}
 
                     <Input
-                        labelText="firstname"
+                        labelText="voornaam"
                         type="text"
                         name="firstname"
                         className="input__text"
@@ -292,7 +253,7 @@ function Admin() {
                     {errors.firstname && <p>{errors.firstname.message}</p>}
 
                     <Input
-                        labelText="lastname"
+                        labelText="achternaam"
                         type="text"
                         name="lastname"
                         className="input__text"
@@ -303,7 +264,7 @@ function Admin() {
                     {errors.lastname && <p>{errors.lastname.message}</p>}
 
                     <Input
-                        labelText="emailadress"
+                        labelText="emailadres"
                         type="email"
                         name="emailadress"
                         className="input__text"
@@ -314,19 +275,31 @@ function Admin() {
                     {errors.emailadress && <p>{errors.emailadress.message}</p>}
 
                     <Button type="submit" className="button--ellips">versturen</Button>
-                    {patchThisUser && <h3>De user is succesvol gewijzigd.</h3>}
+                    {patchThisUser &&
+                        <h4 className="attention margin-top1">De user is succesvol gewijzigd. Refresh deze pagina om het
+                            resultaat te zien in de tabel hierboven.</h4>}
                 </form>
             </section>
 
 
+            <section>
+                <h3 className="margin-top2">User toevoegen</h3>
+                <p>Als je een user wilt toevoegen, dan kan je dit via <Link to="/register">register</Link> doen.</p>
+            </section>
+
             {/*mail..................................................................................................*/}
             {/*<section>*/}
             {/*    <h2 className="h2__margin">Bericht versturen</h2>*/}
-            {/*    <form key={2} onSubmit={() => toggleSuccesSendMail(!succesSendMail)}>*/}
+            {/*    <form*/}
+            {/*        key={2}*/}
+            {/*        onSubmit={handleSubmit2(emailUserFunction)}*/}
+            {/*    >*/}
             {/*        <div className="recipient__div">*/}
             {/*            <label htmlFor="recipient">*/}
             {/*                Email naar:*/}
-            {/*                <select className="input__text label__select"*/}
+            {/*                <select*/}
+            {/*                    className="input__text label__select"*/}
+            {/*                    onChange={e => setIdOfUserToEmail(e.currentTarget.value)}*/}
             {/*                >*/}
             {/*                    <option>selecteer een emailadres</option>*/}
             {/*                    {users.map((user) => {*/}
@@ -334,15 +307,14 @@ function Admin() {
             {/*                            <option*/}
             {/*                                key={user.username}*/}
             {/*                                // name="recipient"*/}
-            {/*                                {...register2("recipient", {*/}
-            {/*                                    required: {*/}
-            {/*                                        value: true,*/}
-            {/*                                        message: 'Dit veld is verplicht',*/}
-            {/*                                    }*/}
-            {/*                                })}*/}
+            {/*                                //{...register2("recipient", {*/}
+            {/*                                //    required: {*/}
+            {/*                                //        value: true,*/}
+            {/*                                //        message: 'Dit veld is verplicht',*/}
+            {/*                                //    }*/}
+            {/*                                // })}*/}
             {/*                            >*/}
-            {/*                                {errors2.recipient && <p>{errors2.recipient.message}</p>}*/}
-
+            {/*                                /!*{errors2.recipient && <p>{errors2.recipient.message}</p>}*!/*/}
             {/*                                {user.emailadress}*/}
             {/*                            </option>*/}
             {/*                        )*/}
@@ -399,7 +371,7 @@ function Admin() {
             {/*            versturen*/}
             {/*        </button>*/}
 
-            {/*        {succesSendMail && <h3>Je mail is succesvol verzonden.</h3>}*/}
+            {/*        {succesSendMail && <h4 className="attention margin-top1"> Je mail is succesvol verzonden.</h4>}*/}
             {/*    </form>*/}
             {/*</section>*/}
 

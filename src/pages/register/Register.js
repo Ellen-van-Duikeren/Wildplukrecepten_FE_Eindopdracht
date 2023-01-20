@@ -2,7 +2,6 @@ import React, {useContext, useState} from 'react';
 import Input from "../../components/input/Input";
 import blackthorns from "../../assets/blackthorns.jpg";
 import axios from "axios";
-import {API_URL} from "../../helperfunctions/axiosFunctions";
 import {AuthContext} from "../../context/AuthContext";
 import {useForm} from "react-hook-form";
 import {Link, useNavigate} from "react-router-dom";
@@ -14,21 +13,21 @@ function Register() {
     const navigate = useNavigate();
     const [succesRegister, toggleSuccessRegister] = useState(true);
 
-
     async function registerUser(data) {
+        console.log("Data in register:");
+        console.log(data);
         try {
-            const response = await axios.post(`${API_URL}/users/register`, data)
+            const response = await axios.post('http://localhost:8081/users/register', data)
             console.log("Response in register: ")
             console.log(response);
             if (response.status !== 201) {
                 console.log("Registratie is niet gelukt");
                 toggleSuccessRegister(false);
             }
-            // after registrating login automatically
-            login(response.data.accessToken);
-            // navigate('/login')
-            navigate('/recipes')
-
+            // after registrating not login automatically
+            // login(response.data.jwt);
+            // but go to login
+            navigate('/login')
         } catch (e) {
             console.error(e)
         }
@@ -44,7 +43,7 @@ function Register() {
                 <Input
                     id="username"
                     labelText="Username:"
-                    type="text"
+                    type="email"
                     name="username"
                     className="input__text"
                     placeholder="typ hier je emailadres"
@@ -133,7 +132,7 @@ function Register() {
 
                 {!succesRegister && <h3>Het registreren is niet gelukt. Stuur een mail naar e.vanduikeren@gmail.com</h3>}
 
-                <p className="register__p">Let op, als je registratie is gelukt, kom je op de login pagina en kan je meteen inloggen.</p>
+                <p className="register__p">Let op. Als je registratie is gelukt, word je meteen ingelogd en kom je op de recepten pagina uit.</p>
 
 
                 <button
@@ -143,7 +142,6 @@ function Register() {
                     registreren
                 </button>
 
-
             </form>
 
 
@@ -151,10 +149,10 @@ function Register() {
                 <img src={blackthorns} alt="blackthorns" className="photo"/>
                 <p className="photo-caption">Sleedoorn, &copy; <a
                     href="https://www.pexels.com/photo/bunch-of-ripe-blueberries-with-water-drops-5980178/">Alexandra
-                    Patrusheva
-                </a>
+                    Patrusheva</a>
                 </p>
             </div>
+
         </article>);
 }
 
