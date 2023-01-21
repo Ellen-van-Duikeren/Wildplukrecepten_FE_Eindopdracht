@@ -8,10 +8,12 @@ import Button from "../../components/button/Button";
 function Recipe() {
     const {isAuth, user} = useContext(AuthContext);
     const [recipes, setRecipes] = useState([]);
-    const [query, setQuery] = useState("");
     const token = localStorage.getItem('token');
     const [admin, toggleAdmin] = useState(false);
 
+    // search
+    const [filteredRecipes, setFilteredRecipes] = useState();
+    const [query, setQuery] = useState("");
     const [month, setMonth] = useState("selecteer");
     const [tag, setTag] = useState("selecteer");
     const [monthsList] = useState([
@@ -59,6 +61,7 @@ function Recipe() {
     // method to get an overview of all recipes
     useEffect(() => {
         const controller = new AbortController();
+
         async function fetchRecipes() {
             try {
                 const response = await axios.get('http://localhost:8081/recipes', {
@@ -76,15 +79,54 @@ function Recipe() {
                 console.error(e);
             }
         }
+
         void fetchRecipes();
         return function cleanup() {
-            controller.abort(); // <--- request annuleren
+            controller.abort();
         }
     }, [token])
 
 
+    // search for word
+    const filteredByWord = recipes.filter(functionFilterByWord);
+    function functionFilterByWord(recipe) {
+        if (recipe.title.toLowerCase().includes(query.toLowerCase())) {
+            return recipe;
+        } else {
+            //search for ingredients
+            for (let i = 0; i < recipe.ingredients.length; i++) {
+                if (recipe.ingredients[i].ingredient_name.toLowerCase().includes(query.toLowerCase())) {
+                    return recipe;
+                }
+            }
+        }
+    }
 
 
+    // search for month
+    const filteredByMonth = recipes.filter(functionFilterByMonth);
+    function functionFilterByMonth(recipe) {
+        for (let i = 0; i < recipe.months.length; i++) {
+            if (recipe.months[i].toLowerCase().includes(month.toLowerCase())
+                || (recipe.months[i].toLowerCase().includes("jaarrond")))
+                return true;
+        }
+        return false;
+    }
+
+
+    // search for tag
+    const filteredByTag = recipes.filter(functionFilterByTag);
+    function functionFilterByTag(recipe) {
+        for (let i = 0; i < recipe.tags.length; i++) {
+            if (recipe.tags[i].toLowerCase().includes(tag.toLowerCase()))
+                return true;
+        }
+        return false;
+    }
+
+
+    // return...................................................................................................................
     return (
         <section className="page recipes-page">
             <article className="recipes__article">
@@ -110,7 +152,7 @@ function Recipe() {
 
                 </div>
 
-                <h3>Zoek op woord, maand of categorie</h3>
+                <h3>Zoek op woord, maand of categorie en scroll naar beneden</h3>
                 <input
                     id="search"
                     placeholder="zoeken..."
@@ -144,10 +186,12 @@ function Recipe() {
                         </option>
                     ))}
                 </select>
+
             </article>
 
-            {/*tiles............................................................................................................................................*/}
 
+            {/*tiles............................................................................................................................................*/}
+            {/*show all recipes*/}
             <article className="recipes__article--flex">
                 {((query === "") && (month.includes("selecteer") && tag.includes("selecteer")) &&
                     recipes.filter(recipe => {
@@ -176,26 +220,14 @@ function Recipe() {
                 }
             </article>
 
+
+            {/*search for word in title and ingredient*/}
             {query !== "" &&
                 <h3 className="recipes__h3">Geselecteerd op zoekterm "{query}"</h3>}
             <article className="recipes__article--flex">
                 {query !== "" &&
-                    recipes.filter(recipe => {
-                        if (query === "") {
-                            return recipe;
-                            //if query is not empty alias else
-                        } else if (recipe.title.toLowerCase().includes(query.toLowerCase())) {
-                            return recipe;
-                        } else {
-                            //search for ingredients
-                            for (let i = 0; i < recipe.ingredients.length; i++) {
-                                if (recipe.ingredients[i].ingredient_name.toLowerCase().includes(query.toLowerCase())) {
-                                    return recipe;
-                                }
-                            }
-                        }
-                    }).map((recipe) => (
-                        <ul className="recipes__ul key={recipe.id}">
+                    filteredByWord.map((recipe) => (
+                        <ul className="recipes__ul" key={recipe.id}>
                             <div>
                                 <li
                                     className="recipes__li">
@@ -219,77 +251,63 @@ function Recipe() {
             </article>
 
 
+            {/*search for month*/}
             {!month.includes("selecteer") &&
                 <h3 className="recipes__h3">Geselecteerd op maand {month}, inclusief jaarrond</h3>}
             <article className="recipes__article--flex">
-                {!month.includes("selecteer") && (
-                    recipes.filter(recipe => {
-                        for (let i = 0; i < recipe.months.length; i++) {
-                            if (recipe.months[i].toLowerCase().includes(month.toLowerCase())
-                                || (recipe.months[i].toLowerCase().includes("jaarrond"))) {
-                                return recipe;
-                            }
-                        }
-                    }).map((recipe) => (
-                            <ul className="recipes__ul" key={recipe.id}>
-                                <div>
-                                    <li
-                                        className="recipes__li">
-                                        <Link
-                                            to={"/recipe/" + recipe.id}
-                                            className="recipes__a"
-                                        >
-                                            {recipe.file &&
-                                                <img
-                                                    src={recipe.file.url}
-                                                    alt={recipe.name}
-                                                    className="recipes__image"
-                                                />}
-                                            <p>{admin && recipe.id} {recipe.title}</p>
-                                        </Link>
-                                    </li>
-                                </div>
-                            </ul>
-                    )))
+                {!month.includes("selecteer") &&
+                    filteredByMonth.map((recipe) => (
+                        <ul className="recipes__ul" key={recipe.id}>
+                            <div>
+                                <li
+                                    className="recipes__li">
+                                    <Link
+                                        to={"/recipe/" + recipe.id}
+                                        className="recipes__a"
+                                    >
+                                        {recipe.file &&
+                                            <img
+                                                src={recipe.file.url}
+                                                alt={recipe.name}
+                                                className="recipes__image"
+                                            />}
+                                        <p>{admin && recipe.id} {recipe.title}</p>
+                                    </Link>
+                                </li>
+                            </div>
+                        </ul>
+                    ))
                 }
             </article>
 
 
+            {/*search for tag*/}
             {!tag.includes("selecteer") && <h3 className="recipes__h3">Geselecteerd op categorie {tag}</h3>}
             <article className="recipes__article--flex">
-                {!tag.includes("selecteer") && (
-                    recipes.filter(recipe => {
-                        for (let i = 0; i < recipe.tags.length; i++) {
-                            if (recipe.tags[i].toLowerCase().includes(tag.toLowerCase())) {
-                                return recipe;
-                            }
-                        }
-                    }).map((recipe) => (
-                            <ul className="recipes__ul" key={recipe.id}>
-                                <div>
-                                    <li
-                                        className="recipes__li">
-                                        <Link
-                                            to={"/recipe/" + recipe.id}
-                                            className="recipes__a"
-                                        >
-                                            {recipe.file &&
-                                                <img
-                                                    src={recipe.file.url}
-                                                    alt={recipe.name}
-                                                    className="recipes__image"
-                                                />}
-                                            <p>{admin && recipe.id} {recipe.title}</p>
-                                        </Link>
-                                    </li>
-                                </div>
-                            </ul>
-                    )))
+                {!tag.includes("selecteer") &&
+                    filteredByTag.map((recipe) => (
+                        <ul className="recipes__ul" key={recipe.id}>
+                            <div>
+                                <li
+                                    className="recipes__li">
+                                    <Link
+                                        to={"/recipe/" + recipe.id}
+                                        className="recipes__a"
+                                    >
+                                        {recipe.file &&
+                                            <img
+                                                src={recipe.file.url}
+                                                alt={recipe.name}
+                                                className="recipes__image"
+                                            />}
+                                        <p>{admin && recipe.id} {recipe.title}</p>
+                                    </Link>
+                                </li>
+                            </div>
+                        </ul>
+                    ))
                 }
             </article>
-
-
-
 
 
         </section>
