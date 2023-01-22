@@ -12,10 +12,12 @@ function Recipe() {
     const [admin, toggleAdmin] = useState(false);
 
     // search
-    const [filteredRecipes, setFilteredRecipes] = useState();
+    let [filteredRecipes, setFilteredRecipes] = useState([]);
     const [query, setQuery] = useState("");
     const [month, setMonth] = useState("selecteer");
     const [tag, setTag] = useState("selecteer");
+    const [idOfSearchedRecipe, setIdOfSearchedRecipe] = useState(0);
+
     const [monthsList] = useState([
         {
             label: "selecteer een maand",
@@ -37,8 +39,7 @@ function Recipe() {
 
     const [tagsList] = useState([
         {
-            label: "selecteer een categorie",
-            value: "tags"
+            label: "selecteer een categorie", value: "tags"
         },
         {label: "vegetarisch", value: "vegetarisch"},
         {label: "veganistisch", value: "veganistisch"},
@@ -75,6 +76,8 @@ function Recipe() {
                 console.log(response.data);
                 // console.log(response.data[0].months);
                 setRecipes(response.data);
+                setFilteredRecipes(response.data);
+                // setRecipesToShow(response.data);
             } catch (e) {
                 console.error(e);
             }
@@ -87,116 +90,157 @@ function Recipe() {
     }, [token])
 
 
-    // search for word
-    const filteredByWord = recipes.filter(functionFilterByWord);
-    function functionFilterByWord(recipe) {
-        if (recipe.title.toLowerCase().includes(query.toLowerCase())) {
-            return recipe;
-        } else {
-            //search for ingredients
-            for (let i = 0; i < recipe.ingredients.length; i++) {
-                if (recipe.ingredients[i].ingredient_name.toLowerCase().includes(query.toLowerCase())) {
-                    return recipe;
+    // search by word
+    if (query != "") {
+        filteredRecipes = filteredRecipes.filter(functionFilterByWord);
+
+        function functionFilterByWord(recipe) {
+            if (recipe.title.toLowerCase().includes(query.toLowerCase())) {
+                return recipe;
+            } else {
+                //search for ingredients
+                for (let i = 0; i < recipe.ingredients.length; i++) {
+                    if (recipe.ingredients[i].ingredient_name.toLowerCase().includes(query.toLowerCase())) {
+                        return recipe;
+                    }
                 }
             }
         }
     }
 
 
-    // search for month
-    const filteredByMonth = recipes.filter(functionFilterByMonth);
-    function functionFilterByMonth(recipe) {
-        for (let i = 0; i < recipe.months.length; i++) {
-            if (recipe.months[i].toLowerCase().includes(month.toLowerCase())
-                || (recipe.months[i].toLowerCase().includes("jaarrond")))
-                return true;
+    // search by month
+    if (!month.includes("selecteer")) {
+        filteredRecipes = filteredRecipes.filter(functionFilterByMonth);
+
+        function functionFilterByMonth(recipe) {
+            for (let i = 0; i < recipe.months.length; i++) {
+                if (recipe.months[i].toLowerCase().includes(month.toLowerCase())
+                    || (recipe.months[i].toLowerCase().includes("jaarrond")))
+                    return true;
+            }
+            return false;
         }
-        return false;
     }
 
 
-    // search for tag
-    const filteredByTag = recipes.filter(functionFilterByTag);
-    function functionFilterByTag(recipe) {
-        for (let i = 0; i < recipe.tags.length; i++) {
-            if (recipe.tags[i].toLowerCase().includes(tag.toLowerCase()))
-                return true;
+    // search by tag
+    if (!tag.includes("selecteer")) {
+        filteredRecipes = filteredRecipes.filter(functionFilterByTag);
+
+        function functionFilterByTag(recipe) {
+            for (let i = 0; i < recipe.tags.length; i++) {
+                if (recipe.tags[i].toLowerCase().includes(tag.toLowerCase()))
+                    return true;
+            }
+            return false;
         }
-        return false;
     }
 
 
-    // return...................................................................................................................
-    return (
-        <section className="page recipes-page">
-            <article className="recipes__article">
-                <div className="recipes__div--space-between">
-                    {user.firstname ? <h1>Welkom {user.firstname} bij recepten</h1> : <h1>Welkom bij recepten</h1>}
+    // search by id
+    if (idOfSearchedRecipe !== 0) {
+        filteredRecipes = filteredRecipes.filter((recipe) => recipe.id == idOfSearchedRecipe);
+    }
 
-                    {/*buttons for admin*/}
-                    {(isAuth && user.authority === "ROLE_ADMIN" && !admin) && <Button
-                        type="button"
-                        className="button--ellips button--ellips-margin button--ellips-yellow"
-                        onClick={() => toggleAdmin(!admin)}
-                    >
-                        Show id
-                    </Button>}
 
-                    {admin && <Button
-                        type="button"
-                        className="button--ellips button--ellips-margin button--ellips-yellow"
-                        onClick={() => toggleAdmin(!admin)}
-                    >
-                        Hide id
-                    </Button>}
+        // return...................................................................................................................
+        return (
+            <section className="page">
+                <article className="recipes__article margin-bottom1">
+                    <div className="recipes__div--space-between">
+                        {user.firstname ? <h1>Welkom {user.firstname} bij recepten</h1> : <h1>Welkom bij recepten</h1>}
 
-                </div>
-
-                <h3>Zoek op woord, maand of categorie en scroll naar beneden</h3>
-                <input
-                    id="search"
-                    placeholder="zoeken..."
-                    onChange={(e) => setQuery(e.currentTarget.value)}
-                />
-
-                <select
-                    className="recipes__select margin-left1"
-                    value={month}
-                    onChange={(e) => setMonth(e.currentTarget.value)}>
-                    {monthsList.map(month => (
-                        <option
-                            key={month.value}
-                            value={month.value}
+                        {/*buttons for admin*/}
+                        {(isAuth && user.authority === "ROLE_ADMIN" && !admin) && <Button
+                            type="button"
+                            className="button--ellips button--ellips-yellow"
+                            onClick={() => toggleAdmin(!admin)}
                         >
-                            {month.label}
-                        </option>
-                    ))}
-                </select>
+                            Show id
+                        </Button>}
 
-                <select
-                    className="recipes__select margin-left1"
-                    value={tag}
-                    onChange={(e) => setTag(e.currentTarget.value)}>
-                    {tagsList.map(tag => (
-                        <option
-                            key={tag.value}
-                            value={tag.value}
+                        {admin && <Button
+                            type="button"
+                            className="button--ellips button--ellips-yellow"
+                            onClick={() => toggleAdmin(!admin)}
                         >
-                            {tag.label}
-                        </option>
-                    ))}
-                </select>
+                            Hide id
+                        </Button>}
+                    </div>
 
-            </article>
+                    {/*search by word*/}
+                    <h3>Zoek op woord, maand of categorie</h3>
+                    <input
+                        id="search"
+                        placeholder="zoeken..."
+                        onChange={(e) => setQuery(e.currentTarget.value)}
+                    />
+
+                    {/*search by month*/}
+                    <select
+                        className="recipes__select margin-left1"
+                        value={month}
+                        onChange={(e) => setMonth(e.currentTarget.value)}>
+                        {/*onChange={(e) => selectByMonth(e, e.target.value)}>*/}
+                        {monthsList.map(month => (
+                            <option
+                                key={month.value}
+                                value={month.value}
+                            >
+                                {month.label}
+                            </option>
+                        ))}
+                    </select>
+
+                    {/*search by tag*/}
+                    <select
+                        className="recipes__select margin-left1"
+                        value={tag}
+                        onChange={(e) => setTag(e.currentTarget.value)}>
+                        {tagsList.map(tag => (
+                            <option
+                                key={tag.value}
+                                value={tag.value}
+                            >
+                                {tag.label}
+                            </option>
+                        ))}
+                    </select>
 
 
-            {/*tiles............................................................................................................................................*/}
-            {/*show all recipes*/}
-            <article className="recipes__article--flex">
-                {((query === "") && (month.includes("selecteer") && tag.includes("selecteer")) &&
-                    recipes.filter(recipe => {
-                        return recipe;
-                    }).map((recipe) => (
+                    {/*search by id*/}
+                    {admin &&
+                    <select
+                        className="recipes__select margin-left1"
+                        // value={idOfSearchedRecipe}
+                        onChange={(e) => setIdOfSearchedRecipe(e.currentTarget.value)}>
+                        <option>selecteer een id</option>
+                        {recipes.map(recipe => (
+                            <option
+                                key={recipe.id}
+                                value={recipe.id}
+                            >
+                                {recipe.id}
+                            </option>
+                        ))}
+                    </select>
+                    }
+
+                    <Button
+                        type="button"
+                        className="button--ellips button--ellips-yellow margin-left1"
+                        onClick={() => window.location.reload()}
+                    >
+                        reset
+                    </Button>
+
+                </article>
+
+
+                {/*show (selected) recipes*/}
+                <article className="recipes__article--flex">
+                    {filteredRecipes.map((recipe) => (
                         <ul className="recipes__ul" key={recipe.id}>
                             <div>
                                 <li
@@ -212,107 +256,19 @@ function Recipe() {
                                                 className="recipes__image"
                                             />}
                                         <p>{admin && recipe.id} {recipe.title}</p>
-                                    </Link>
-                                </li>
-                            </div>
-                        </ul>
-                    )))
-                }
-            </article>
-
-
-            {/*search for word in title and ingredient*/}
-            {query !== "" &&
-                <h3 className="recipes__h3">Geselecteerd op zoekterm "{query}"</h3>}
-            <article className="recipes__article--flex">
-                {query !== "" &&
-                    filteredByWord.map((recipe) => (
-                        <ul className="recipes__ul" key={recipe.id}>
-                            <div>
-                                <li
-                                    className="recipes__li">
-                                    <Link
-                                        to={"/recipe/" + recipe.id}
-                                        className="recipes__a"
-                                    >
-                                        {recipe.file &&
-                                            <img
-                                                src={recipe.file.url}
-                                                alt={recipe.name}
-                                                className="recipes__image"
-                                            />}
-                                        <p>{admin && recipe.id} {recipe.title}</p>
-                                    </Link>
-                                </li>
-                            </div>
-                        </ul>
-                    ))
-                }
-            </article>
-
-
-            {/*search for month*/}
-            {!month.includes("selecteer") &&
-                <h3 className="recipes__h3">Geselecteerd op maand {month}, inclusief jaarrond</h3>}
-            <article className="recipes__article--flex">
-                {!month.includes("selecteer") &&
-                    filteredByMonth.map((recipe) => (
-                        <ul className="recipes__ul" key={recipe.id}>
-                            <div>
-                                <li
-                                    className="recipes__li">
-                                    <Link
-                                        to={"/recipe/" + recipe.id}
-                                        className="recipes__a"
-                                    >
-                                        {recipe.file &&
-                                            <img
-                                                src={recipe.file.url}
-                                                alt={recipe.name}
-                                                className="recipes__image"
-                                            />}
-                                        <p>{admin && recipe.id} {recipe.title}</p>
-                                    </Link>
-                                </li>
-                            </div>
-                        </ul>
-                    ))
-                }
-            </article>
-
-
-            {/*search for tag*/}
-            {!tag.includes("selecteer") && <h3 className="recipes__h3">Geselecteerd op categorie {tag}</h3>}
-            <article className="recipes__article--flex">
-                {!tag.includes("selecteer") &&
-                    filteredByTag.map((recipe) => (
-                        <ul className="recipes__ul" key={recipe.id}>
-                            <div>
-                                <li
-                                    className="recipes__li">
-                                    <Link
-                                        to={"/recipe/" + recipe.id}
-                                        className="recipes__a"
-                                    >
-                                        {recipe.file &&
-                                            <img
-                                                src={recipe.file.url}
-                                                alt={recipe.name}
-                                                className="recipes__image"
-                                            />}
-                                        <p>{admin && recipe.id} {recipe.title}</p>
+                                        {!month.includes("selecteer") && (recipe.months[0].toLowerCase().includes("jaarrond") ?
+                                            <p>jaarrond</p> : <p>{month}</p>)}
                                     </Link>
                                 </li>
                             </div>
                         </ul>
                     ))
-                }
-            </article>
+                    }
+                </article>
 
+            </section>
+        )
+            ;
+    }
 
-        </section>
-    )
-        ;
-}
-
-export default Recipe;
+    export default Recipe;

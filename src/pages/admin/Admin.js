@@ -174,23 +174,21 @@ function Admin() {
                     <tbody>
                     {users.map((user) => {
                         return (
-                            <React.fragment key={user.username}>
-                                <tr >
-                                    <td>{user.firstname}</td>
-                                    <td>{user.lastname}</td>
-                                    <td>{user.emailadress}</td>
-                                    <td>{user.authorities[0].authority}</td>
-                                    <td>
-                                        <Button
-                                            type="button"
-                                            className="button--round button--round-brown"
-                                            onClick={(e) => deleteUserFunction(e, user.username)}
-                                        >
-                                            -
-                                        </Button>
-                                    </td>
-                                </tr>
-                            </React.fragment>
+                            <tr key={user.username}>
+                                <td>{user.firstname}</td>
+                                <td>{user.lastname}</td>
+                                <td>{user.emailadress}</td>
+                                <td>{user.authorities[0].authority}</td>
+                                <td>
+                                    <Button
+                                        type="button"
+                                        className="button--round button--round-brown"
+                                        onClick={(e) => deleteUserFunction(e, user.username)}
+                                    >
+                                        -
+                                    </Button>
+                                </td>
+                            </tr>
                         )
                     })}
                     </tbody>
@@ -286,6 +284,7 @@ function Admin() {
                 <h3 className="margin-top2">User toevoegen</h3>
                 <p>Als je een user wilt toevoegen, dan kan je dit via <Link to="/register">register</Link> doen.</p>
             </section>
+
 
             {/*mail..................................................................................................*/}
             {/*<section>*/}
