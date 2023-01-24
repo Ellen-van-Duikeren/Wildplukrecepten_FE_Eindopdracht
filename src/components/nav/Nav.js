@@ -51,6 +51,15 @@ function Nav() {
                         <button
                             type="button"
                             className="button--ellips"
+                            onClick={() => navigate('/register')}
+                        >
+                            registreren
+                        </button>}
+
+                    {!isAuth &&
+                        <button
+                            type="button"
+                            className="button--ellips"
                             onClick={() => navigate('/login')}
                         >
                             inloggen

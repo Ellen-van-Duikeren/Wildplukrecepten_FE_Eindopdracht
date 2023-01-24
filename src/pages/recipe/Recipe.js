@@ -8,7 +8,7 @@ import {useReactToPrint} from "react-to-print";
 import {AuthContext} from "../../context/AuthContext";
 import Input from "../../components/input/Input";
 import {useForm} from "react-hook-form";
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 
 function Recipe() {
     const {id} = useParams();
@@ -162,7 +162,7 @@ function Recipe() {
                                         type="button"
                                         className="button--round button--round-yellow"
                                         onClick={() => setCountPersons(countPersons => countPersons - 1)}
-                                        disabled={countPersons <= 0}
+                                        disabled={countPersons <= 1}
                                     >-
                                     </Button>
                                     <p className="counter-persons__p">{countPersons}</p>
@@ -242,7 +242,7 @@ function Recipe() {
                                 >
                                     verwijder
                                 </Button>
-                                {deleted && <h4 className="attention">Dit recept is succesvol verwijderd</h4>}
+                                {deleted && <h4 className="attention">Dit recept is succesvol verwijderd. Ga terug naar <Link to = "/recipes">recepten.</Link></h4> }
                             </>
                         }
 

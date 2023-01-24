@@ -232,7 +232,6 @@ function NewRecipe() {
             <article className="page new-recipe-page">
                 <h1 className="margin-bottom1">Nieuw recept toevoegen</h1>
                 <form onSubmit={handleSubmit(onSubmit)} className="new-recipe-page__form">
-                    {/*<form onSubmit={handleSubmit(handleFormSubmit)}>*/}
                     <div className="texts">
                         <Input
                             labelText="Titel *"
@@ -249,7 +248,6 @@ function NewRecipe() {
                             register={register}
                             errors={errors}
                         />
-                        {errors.title && <p>{errors.title.message}</p>}
 
                         <Input
                             labelText="Subtitel"
@@ -266,7 +264,6 @@ function NewRecipe() {
                             register={register}
                             errors={errors}
                         />
-                        {errors.title && <p>{errors.title.message}</p>}
 
                         <Input
                             labelText="Aantal personen"
@@ -289,7 +286,6 @@ function NewRecipe() {
                             register={register}
                             errors={errors}
                         />
-                        {errors.source && <p>{errors.source.message}</p>}
 
                         <div className="textarea__field">
                             <label htmlFor="textarea__text">
@@ -324,10 +320,9 @@ function NewRecipe() {
                             register={register}
                             errors={errors}
                         />
-                        {errors.prepTime && <p>{errors.prepTime.message}</p>}
 
                         <Input
-                            labelText="Bereidingstijd *"
+                            labelText="Bereidingstijd"
                             type="text"
                             name="cookTime"
                             className="input__text"
@@ -345,7 +340,6 @@ function NewRecipe() {
                             register={register}
                             errors={errors}
                         />
-                        {errors.cookTime && <p>{errors.cookTime.message}</p>}
                     </div>
 
                     <div>
@@ -388,7 +382,7 @@ function NewRecipe() {
 
 
                     <div>
-                        <h3>Ingrediënten *</h3>
+                        <h3>Ingrediënten</h3>
                         <p>Vul hier eerst de hoeveelheid in, dan de maat en als laatste het ingredient</p>
                         <ol>
                             {ingredientList.map((x, i) => {
@@ -444,7 +438,7 @@ function NewRecipe() {
                     </div>
 
                     <div>
-                        <h3>Bereiding *</h3>
+                        <h3>Bereiding</h3>
                         <ol>
                             {instructionList.map((x, i) => {
                                 return (
@@ -690,7 +684,7 @@ function NewRecipe() {
                     <p className="new-recipe-page--required">* is verplicht</p>
 
                     <Button type="submit" className="button--ellips">versturen</Button>
-                    {addSuccesRecipe && <h3>Dankjewel voor het versturen van een nieuw recept. You are awesome.</h3>}
+                    {addSuccesRecipe && <h3 className="attention">Dankjewel voor het versturen van een nieuw recept. You are awesome.</h3>}
                 </form>
 
 

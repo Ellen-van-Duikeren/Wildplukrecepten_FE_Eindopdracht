@@ -1,7 +1,7 @@
 import "./Login.css";
 import garlic from "../../assets/garlic.jpg";
 import {Link, useNavigate} from "react-router-dom";
-import React, {useContext} from "react";
+import React, {useContext, useState} from "react";
 import axios from "axios";
 import {AuthContext} from "../../context/AuthContext";
 import {useForm} from "react-hook-form";
@@ -12,12 +12,17 @@ function Login() {
     const {handleSubmit, formState: {errors}, register} = useForm();
     const {login} = useContext(AuthContext);
     const navigate = useNavigate();
+    const [unknown, setUnknown] = useState(false);
 
     async function onSubmit(data) {
         try {
-            const response = await axios.post('http://localhost:8081/authenticate', data)
-            console.log("Resonse in login page in authenticate function = login.")
+            const response = await axios.post('http://localhost:8081/authenticate', data);
+            console.log("Response login")
             console.log(response);
+            console.log(response.status);
+            if (response.status === 403) {
+                setUnknown(true);
+            }
             navigate('/recipes');
             login(response.data.jwt);
         } catch (e) {
@@ -31,18 +36,11 @@ function Login() {
                 <h1>Inloggen</h1>
                 <p className="login__p--margin">Ben je nieuw hier, ga dan naar <Link
                     to="/register">registreren.</Link></p>
-                {/*<button*/}
-                {/*    type="button"*/}
-                {/*    className="button--ellips login__button"*/}
-                {/*    onClick={() => navigate('/register')}*/}
-                {/*>*/}
-                {/*    registreren*/}
-                {/*</button>*/}
 
                 <div className="login__div">
                 <Input
                     id="username"
-                    labelText="Username:"
+                    labelText="Gebruikersnaam:"
                     type="email"
                     name="username"
                     autocomplete="username"
@@ -57,7 +55,6 @@ function Login() {
                     register={register}
                     errors={errors}
                 />
-                {errors.username && <p>{errors.username.message}</p>}
 
                 <Input
                     id="password"
@@ -76,8 +73,6 @@ function Login() {
                     register={register}
                     errors={errors}
                 />
-                {errors.password && <p>{errors.password.message}</p>}
-
 
                 <button
                     type="submit"
@@ -85,6 +80,9 @@ function Login() {
                 >
                     inloggen
                 </button>
+
+                    {unknown && <h3>Gebruikersnaam is onbekend of wachtwoord klopt niet.</h3>}
+
                 </div>
             </form>
 

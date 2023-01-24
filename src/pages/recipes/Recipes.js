@@ -34,7 +34,8 @@ function Recipe() {
         {label: "september", value: "september"},
         {label: "oktober", value: "oktober"},
         {label: "november", value: "november"},
-        {label: "december", value: "december"}
+        {label: "december", value: "december"},
+        {label: "jaarrond", value: "jaarrond"}
     ]);
 
     const [tagsList] = useState([
@@ -149,7 +150,7 @@ function Recipe() {
             <section className="page">
                 <article className="recipes__article margin-bottom1">
                     <div className="recipes__div--space-between">
-                        {user.firstname ? <h1>Welkom {user.firstname} bij recepten</h1> : <h1>Welkom bij recepten</h1>}
+                        {user.firstname ? <h1>Welkom {user.firstname} bij recepten</h1> : <h1>Welkom bij wildplukrecepten</h1>}
 
                         {/*buttons for admin*/}
                         {(isAuth && user.authority === "ROLE_ADMIN" && !admin) && <Button

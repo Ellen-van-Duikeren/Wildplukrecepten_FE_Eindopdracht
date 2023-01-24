@@ -42,7 +42,7 @@ function Register() {
                     to="/login">inloggen</Link></p>
                 <Input
                     id="username"
-                    labelText="Username:"
+                    labelText="Gebruikersnaam:"
                     type="email"
                     name="username"
                     className="input__text"
@@ -56,7 +56,6 @@ function Register() {
                     register={register}
                     errors={errors}
                 />
-                {errors.username && <p>{errors.username.message}</p>}
 
                 <Input
                     id="firstname"
@@ -74,7 +73,6 @@ function Register() {
                     register={register}
                     errors={errors}
                 />
-                {errors.firstname && <p>{errors.firstname.message}</p>}
 
                 <Input
                     id="lastname"
@@ -92,7 +90,6 @@ function Register() {
                     register={register}
                     errors={errors}
                 />
-                {errors.lastname && <p>{errors.lastname.message}</p>}
 
                 <Input
                     id="email"
@@ -110,7 +107,6 @@ function Register() {
                     register={register}
                     errors={errors}
                 />
-                {errors.email && <p>{errors.email.message}</p>}
 
                 <Input
                     id="password"
@@ -128,7 +124,6 @@ function Register() {
                     register={register}
                     errors={errors}
                 />
-                {errors.password && <p>{errors.password.message}</p>}
 
                 {!succesRegister && <h3>Het registreren is niet gelukt. Stuur een mail naar e.vanduikeren@gmail.com</h3>}
 

@@ -121,35 +121,35 @@ function Admin() {
 
 
     // methods to send mail
-    // function emailUserFunction(data) {
-    //     console.log("Data in helperfunction emailUserFunction");
-    //     console.log(data);
-    //     data.recipient = idOfUserToEmail;
-    //     void sendMail(data);
-    // }
+    function emailUserFunction(data) {
+        console.log("Data in helperfunction emailUserFunction");
+        console.log(data);
+        data.recipient = idOfUserToEmail;
+        void sendMail(data);
+    }
 
 
-    // async function sendMail(data) {
-    //     console.log("Data in sendMail function");
-    //     console.log(data);
-    //     try {
-    //         const response = await axios.post('http://localhost:8081/sendMail', {
-    //             data
-    //         }, {
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //                 "Authorization": `Bearer ${token}`,
-    //             }
-    //         });
-    //         console.log("Response sendMail(): " + response.data);
-    //         console.log("Response.status: " + response.status);
-    //         if (response.status === 200) {
-    //             toggleSuccesSendMail(true);
-    //         }
-    //     } catch (e) {
-    //         console.error(e);
-    //     }
-    // }
+    async function sendMail(data) {
+        console.log("Data in sendMail function");
+        console.log(data);
+        try {
+            const response = await axios.post('http://localhost:8081/sendMail', {
+                data
+            }, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`,
+                }
+            });
+            console.log("Response sendMail(): " + response.data);
+            console.log("Response.status: " + response.status);
+            if (response.status === 200) {
+                toggleSuccesSendMail(true);
+            }
+        } catch (e) {
+            console.error(e);
+        }
+    }
 
 
 // return..............................................................................................................................................
@@ -229,7 +229,7 @@ function Admin() {
                     className="margin-top2"
                     onSubmit={handleSubmit1(patchUser)}>
                     <Input
-                        labelText="password"
+                        labelText="wachtwoord"
                         type="text"
                         name="password"
                         className="input__text"
@@ -282,97 +282,97 @@ function Admin() {
 
             <section>
                 <h3 className="margin-top2">User toevoegen</h3>
-                <p>Als je een user wilt toevoegen, dan kan je dit via <Link to="/register">register</Link> doen.</p>
+                <p>Als je een user wilt toevoegen, dan kan je dit via de pagina <Link to="/register">registreren</Link> doen.</p>
             </section>
 
 
             {/*mail..................................................................................................*/}
-            {/*<section>*/}
-            {/*    <h2 className="h2__margin">Bericht versturen</h2>*/}
-            {/*    <form*/}
-            {/*        key={2}*/}
-            {/*        onSubmit={handleSubmit2(emailUserFunction)}*/}
-            {/*    >*/}
-            {/*        <div className="recipient__div">*/}
-            {/*            <label htmlFor="recipient">*/}
-            {/*                Email naar:*/}
-            {/*                <select*/}
-            {/*                    className="input__text label__select"*/}
-            {/*                    onChange={e => setIdOfUserToEmail(e.currentTarget.value)}*/}
-            {/*                >*/}
-            {/*                    <option>selecteer een emailadres</option>*/}
-            {/*                    {users.map((user) => {*/}
-            {/*                        return (*/}
-            {/*                            <option*/}
-            {/*                                key={user.username}*/}
-            {/*                                // name="recipient"*/}
-            {/*                                //{...register2("recipient", {*/}
-            {/*                                //    required: {*/}
-            {/*                                //        value: true,*/}
-            {/*                                //        message: 'Dit veld is verplicht',*/}
-            {/*                                //    }*/}
-            {/*                                // })}*/}
-            {/*                            >*/}
-            {/*                                /!*{errors2.recipient && <p>{errors2.recipient.message}</p>}*!/*/}
-            {/*                                {user.emailadress}*/}
-            {/*                            </option>*/}
-            {/*                        )*/}
-            {/*                    })}*/}
-            {/*                </select>*/}
-            {/*            </label>*/}
-            {/*        </div>*/}
+            <section>
+                <h2 className="h2__margin">Bericht versturen</h2>
+                <form
+                    key={2}
+                    onSubmit={handleSubmit2(emailUserFunction)}
+                >
+                    <div className="recipient__div">
+                        <label htmlFor="recipient">
+                            Email naar:
+                            <select
+                                className="input__text label__select"
+                                onChange={e => setIdOfUserToEmail(e.currentTarget.value)}
+                            >
+                                <option>selecteer een emailadres</option>
+                                {users.map((user) => {
+                                    return (
+                                        <option
+                                            key={user.username}
+                                            // name="recipient"
+                                            //{...register2("recipient", {
+                                            //    required: {
+                                            //        value: true,
+                                            //        message: 'Dit veld is verplicht',
+                                            //    }
+                                            // })}
+                                        >
+                                            {/*{errors2.recipient && <p>{errors2.recipient.message}</p>}*/}
+                                            {user.emailadress}
+                                        </option>
+                                    )
+                                })}
+                            </select>
+                        </label>
+                    </div>
 
-            {/*        <Input*/}
-            {/*            id="subject"*/}
-            {/*            labelText="Onderwerp:"*/}
-            {/*            type="text"*/}
-            {/*            name="subject"*/}
-            {/*            className="input__text"*/}
-            {/*            placeholder="onderwerp"*/}
-            {/*            validationRules={{*/}
-            {/*                required: {*/}
-            {/*                    value: true,*/}
-            {/*                    message: 'Dit veld is verplicht',*/}
-            {/*                }*/}
-            {/*            }}*/}
-            {/*            register={register2}*/}
-            {/*            errors={errors2}*/}
-            {/*        />*/}
-            {/*        {errors2.subject && <p>{errors2.subject.message}</p>}*/}
+                    <Input
+                        id="subject"
+                        labelText="Onderwerp:"
+                        type="text"
+                        name="subject"
+                        className="input__text"
+                        placeholder="onderwerp"
+                        validationRules={{
+                            required: {
+                                value: true,
+                                message: 'Dit veld is verplicht',
+                            }
+                        }}
+                        register={register2}
+                        errors={errors2}
+                    />
+                    {errors2.subject && <p>{errors2.subject.message}</p>}
 
 
-            {/*        <div className="textarea__field">*/}
-            {/*            <label htmlFor="textarea__text">*/}
-            {/*                Bericht*/}
-            {/*                <textarea*/}
-            {/*                    className="textarea__text"*/}
-            {/*                    name="msgBody"*/}
-            {/*                    rows="4"*/}
-            {/*                    cols="55"*/}
-            {/*                    placeholder="typ hier je bericht"*/}
-            {/*                    {...register2("msgBody", {*/}
-            {/*                        required: {*/}
-            {/*                            maxLength: "500",*/}
-            {/*                            message: 'Maximaal 500 karakters'*/}
-            {/*                        }*/}
-            {/*                    })}*/}
-            {/*                    errors={errors2}*/}
-            {/*                >*/}
-            {/*            {errors2.msgBody && <p>{errors2.msgBody.message}</p>}*/}
-            {/*                </textarea>*/}
-            {/*            </label>*/}
-            {/*        </div>*/}
+                    <div className="textarea__field">
+                        <label htmlFor="textarea__text">
+                            Bericht
+                            <textarea
+                                className="textarea__text"
+                                name="msgBody"
+                                rows="4"
+                                cols="55"
+                                placeholder="typ hier je bericht"
+                                {...register2("msgBody", {
+                                    required: {
+                                        maxLength: "500",
+                                        message: 'Maximaal 500 karakters'
+                                    }
+                                })}
+                                errors={errors2}
+                            >
+                        {errors2.msgBody && <p>{errors2.msgBody.message}</p>}
+                            </textarea>
+                        </label>
+                    </div>
 
-            {/*        <button*/}
-            {/*            type="submit"*/}
-            {/*            className="button--ellips"*/}
-            {/*        >*/}
-            {/*            versturen*/}
-            {/*        </button>*/}
+                    <button
+                        type="submit"
+                        className="button--ellips"
+                    >
+                        versturen
+                    </button>
 
-            {/*        {succesSendMail && <h4 className="attention margin-top1"> Je mail is succesvol verzonden.</h4>}*/}
-            {/*    </form>*/}
-            {/*</section>*/}
+                    {succesSendMail && <h4 className="attention margin-top1"> Je mail is succesvol verzonden.</h4>}
+                </form>
+            </section>
 
 
         </article>
