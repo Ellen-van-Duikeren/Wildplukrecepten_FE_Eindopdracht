@@ -168,28 +168,20 @@ function NewRecipe() {
 
     // photo
     function handleImageChange(e) {
-        // Sla het gekozen bestand op en de 0 moet blijven staan
         const uploadedFile = e.target.files[0];
         console.log(uploadedFile);
-        // Sla het gekozen bestand op in de state
         setFile(uploadedFile);
-        // Sla de preview URL op zodat we deze kunnen laten zien in een <img>
         setPreviewUrl(URL.createObjectURL(uploadedFile));
     }
 
-    // nog aanpassen want nu path alleen naar recipe with id 1
     // photo
     async function sendImage(e) {
         e.preventDefault();
-        // maak een nieuw FormData object (ingebouwd type van JavaScript)
         const formData = new FormData();
-        // Voeg daar ons bestand uit de state aan toe onder de key "file"
         formData.append("file", file);
 
         try {
             console.log("De upload button activeert de methode sendImage en de recipe_id is: " + recipe_id);
-            // verstuur ons formData object en geef in de header aan dat het om een form-data type gaat
-            // Let op: we wijzigen nu ALTIJD de afbeelding voor student 1001, als je een andere student wil kiezen of dit dynamisch wil maken, pas je de url aan!
             const response = await axios.post(`http://localhost:8081/recipes/${recipe_id}/photo`, formData,
                 {
                     headers: {
@@ -197,8 +189,9 @@ function NewRecipe() {
                         "Authorization": `Bearer ${token}`,
                     },
                 })
-            console.log(response.data);
-            if (response.status === 200) {
+            console.log("Photo")
+            console.log(response);
+            if (response.status === 204) {
                 toggleAddSuccessPhoto(true);
             }
         } catch (e) {
