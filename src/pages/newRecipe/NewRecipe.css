@@ -1,0 +1,112 @@
+/*form................................................*/
+.new-recipe-page__form {
+    width: 80vw;
+    display: flex;
+    flex-direction: column;
+}
+
+/*persons................................................*/
+.input__text--width {
+    width: 3.5em;
+}
+
+/*textarea...............................................*/
+.textarea__field {
+    position: relative;
+    margin-bottom: 6.5em;
+}
+
+.textarea__text {
+    padding: 0.5em;
+    position: absolute;
+    top: 0;
+    left: var(--position--left);
+    border-radius: 0.5em;
+    border: 2px solid lightgray;
+    width: 30em;
+    font-size: calc(var(--baseFont) * 0.9);
+}
+
+/*utensils, ingredients & instructions.......................................*/
+.utensil__div, .ingredient__div, .instruction__div {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    margin-bottom: 1.7em;
+}
+
+.utensil__li, .ingredient__li, .instruction__li {
+    margin-left: 20px;
+    font-size: calc(var(--baseFont) * 0.8);
+    font-family: merriweather, sans-serif;
+
+}
+
+.utensil__li:before, .ingredient__li:before, .instruction__li:before {
+    font-size: var(--baseFont);
+    text-shadow: 1px 1px 0 #fff, 2px 2px 0;
+    border: 2px solid red;
+}
+
+.utensil__input, .instruction__input {
+    width: 31em;
+}
+
+.ingredient__amount {
+    width: 4em;
+}
+
+.ingredient__unit {
+    width: 7em;
+}
+
+.ingredient__name {
+    width: 20em;
+}
+
+/*required.................................................*/
+.new-recipe-page--required {
+    margin: 1em 0;
+}
+
+/*photo.................................................*/
+.image {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2em;
+}
+
+.image__li {
+    margin-left: 1em;
+}
+
+.image__label {
+margin-top: 1em;
+}
+
+.image__input {
+    display: inline-block;
+    position: absolute;
+    left: calc(var(--position--left) - 1em);
+    margin-top: -0.6em;
+}
+
+.preview__label {
+    height: 10.5em;
+    position: relative;
+}
+
+.preview__image {
+    height: 10em;
+    position: absolute;
+    top: 0;
+    left: calc(var(--position--left) - 1em);
+}
+
+.image__button {
+    margin-bottom: 2em;
+    left: var(--position--left);}
+
+.register__p {
+  margin-bottom: 2em;
+}

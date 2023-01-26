@@ -1,0 +1,47 @@
+/*button....................................................*/
+button {
+    background-color: var(--green);
+    border: transparent;
+    font-size: 1em;
+}
+
+.button--round {
+    width: calc(var(--baseFont) * 2);
+    height: calc(var(--baseFont) * 2);
+    padding: calc(var(--baseFont) * 0.5);
+    border-radius: 50%;
+}
+
+.button--round-yellow {
+    background-color: var(--yellowpink);
+}
+
+.button--round-brown {
+    background-color: var(--purplebrown);
+    color: white;
+}
+
+.button--round-margin{
+    margin-left: 0.5em;
+}
+
+.button--ellips {
+    width: 120px;
+    padding: calc(var(--baseFont) * 0.5);
+    border-radius: 0.5em;
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.15);
+}
+
+.button--ellips-margin {
+    margin-bottom:2em;
+}
+
+.button--ellips-yellow {
+    background-color: var(--yellowpink);
+}
+
+.button--ellips-brown {
+    background-color: var(--purplebrown);
+    color: white;
+}
+

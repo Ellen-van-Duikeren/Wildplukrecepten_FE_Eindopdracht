@@ -1,0 +1,132 @@
+.recipe__description {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+/*left-side............................................*/
+.left-side__narrow {
+    background-color: var(--green);
+    width: 20em;
+    border-radius: 0.5em;
+    padding-left: 1.5em;
+    padding-top: 1.2em;
+    padding-right: 1.5em;
+    margin-right: 2em;
+}
+
+/*persons*/
+.counter-persons {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+}
+
+.counter-persons__p {
+    padding-inline: 1em;
+    margin-bottom: 2em;
+}
+
+/*ingredients*/
+.ingredients--h3 {
+    margin-bottom: 1em;
+}
+
+.ingredient--label {
+    padding-left: 1.6em;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: baseline;
+}
+
+.ingredient--p {
+    padding-right: 3px;
+}
+
+
+/*right side.........................................*/
+.recipe-page__descriptions {
+    min-width: 35em;
+    background-color: var(--yellowpink);
+    padding: 1em;
+}
+
+.recipe__div {
+    display: flex;
+    flex-direction: column;
+}
+
+.recipe__image {
+    display: block;
+    width: 20em;
+    height: 15em;
+    object-fit: cover;
+    margin-bottom: 2em;
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.15);
+}
+
+/*months, tags*/
+.tags {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    margin-bottom: 1.5em;
+}
+
+.tag {
+    text-transform: lowercase;
+    text-align: center;
+    width: 8em;
+    border-radius: 0.5em;
+    background-color: var(--purplebrown);
+    color: white;
+    padding: 0.2em;
+}
+
+/*prep and cook_time*/
+.times {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 1em;
+    gap: 2em;
+    align-items: center;
+}
+
+.times--div {
+    display: flex;
+    flex-direction: column;
+}
+
+/*utensils*/
+.utensils--li {
+    margin-left: 1.6em;
+}
+
+/*instruction*/
+.instructions--div {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    margin-bottom: 1.5em;
+}
+
+.p__strong {
+    font-weight: bold;
+}
+
+/*source*/
+.source {
+    margin-top: 2em;
+    font-size: calc(var(--baseFont) * 0.7);
+}
+
+/*printen*/
+@media print {
+
+    .recipes__button {
+        display: none;
+    }
+
+}

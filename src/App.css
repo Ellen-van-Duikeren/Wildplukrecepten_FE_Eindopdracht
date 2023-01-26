@@ -1,38 +1,122 @@
-.App {
-  text-align: center;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: merriweather, sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+:root {
+    --green: #A8C256;
+    --yellowpink: #F3D9B1;
+    --purplebrown: #481620;
+    --blue: #1C6E8C;
+    --pinkred: #D55672;
+    --baseFont: 16px;
+    --position--left: 12em;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+body {
+    background-color: var(--green);
+    margin: 0 auto;
+    max-width: 1200px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.page {
+    background-color: var(--yellowpink);
+    padding: 2em 2em 4em 2em;
+    margin-left: 1em;
+    margin-right: 1em;
 }
 
-.App-link {
-  color: #61dafb;
+/*css on page where left text and right photo................*/
+.left-side {
+    padding-left: 1em;
+    width: 40vw;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.right-side {
+    width: 40vw;
+}
+
+/*photo.....................................................*/
+.photo {
+    width: 100%;
+}
+
+.photo-caption {
+    color: black;
+    font-size: calc(var(--baseFont)*0.7);
+}
+
+/*font-size.................................................*/
+h1 {
+    font-size: calc(var(--baseFont) * 1.6);
+    padding-bottom: 0.5em;
+}
+
+h2 {
+    font-size: calc(var(--baseFont) * 1.4);
+    padding-bottom: 0.5em;
+}
+
+h3 {
+    font-size: calc(var(--baseFont) * 1.2);
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+
+p{
+    font-size: var(--baseFont);
+    /*padding-bottom: 0.2em;*/
+    line-height: 1.5em;
+}
+
+.p__line-height {
+
+}
+
+li {
+    font-size: var(--baseFont);
+    line-height: 1.6em;
+}
+
+/*anchor tags.................................................*/
+a {
+    color: black;
+}
+
+/*margin.....................................................*/
+.margin-top1 {
+    margin-top: 1em;
+}
+
+.margin-top2 {
+    margin-top: 2em;
+}
+
+.margin-bottom1 {
+    margin-bottom: 1em;
+}
+
+.margin-bottom2 {
+    margin-bottom: 2em;
+}
+
+.margin-left1 {
+    margin-left: 1em;
+}
+
+.margin-right1 {
+    margin-right: 1em;
+}
+
+/*attention.................................................*/
+.attention {
+    margin-bottom: 2em;
+    color: black;
+}
+
+.error {
+    margin-bottom: 2em;
+    color: red;
 }

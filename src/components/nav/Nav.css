@@ -1,0 +1,33 @@
+nav {
+    font-size: var(--baseFont);
+    margin-top: 1em;
+    margin-bottom: 1em;
+    margin-left: 1em;
+    margin-right: 1em;
+    max-width: 1200px;
+}
+
+.nav__ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    list-style-type: none;
+    background-color: var(--yellowpink);
+    padding: 0.8em;
+}
+
+nav a {
+    text-decoration-line: none;
+}
+
+nav a:hover {
+    color: var(--green);
+}
+
+nav .active-menu-link {
+    border-bottom: 1px solid black;
+}
+
+
+
