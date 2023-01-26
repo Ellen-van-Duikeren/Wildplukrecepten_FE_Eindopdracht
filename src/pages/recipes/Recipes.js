@@ -19,10 +19,7 @@ function Recipe() {
     const [idOfSearchedRecipe, setIdOfSearchedRecipe] = useState(0);
 
     const [monthsList] = useState([
-        {
-            label: "selecteer een maand",
-            value: "months"
-        },
+        {label: "selecteer een maand", value: "months"},
         {label: "januari", value: "januari"},
         {label: "februari", value: "februari"},
         {label: "maart", value: "maart"},
@@ -39,9 +36,7 @@ function Recipe() {
     ]);
 
     const [tagsList] = useState([
-        {
-            label: "selecteer een categorie", value: "tags"
-        },
+        {label: "selecteer een categorie", value: "tags"},
         {label: "vegetarisch", value: "vegetarisch"},
         {label: "veganistisch", value: "veganistisch"},
         {label: "lactosevrij", value: "lactosevrij"},
