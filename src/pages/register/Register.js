@@ -24,9 +24,8 @@ function Register() {
                 console.log("Registratie is niet gelukt");
                 toggleSuccessRegister(false);
             }
-            // after registrating not login automatically
             // login(response.data.jwt);
-            // but go to login
+            // after register not login automatically but go to login
             navigate('/login')
         } catch (e) {
             console.error(e)
@@ -36,9 +35,9 @@ function Register() {
 
     return (
         <article className="page login-page">
-            <form onSubmit={handleSubmit(registerUser)}>
+            <form onSubmit={handleSubmit(registerUser)} className="left-side">
                 <h1>Registreren</h1>
-                <p className="login__p--margin">Heb je je al geregistreerd, ga dan naar <Link
+                <p className="margin-bottom2">Heb je je al geregistreerd, ga dan naar <Link
                     to="/login">inloggen</Link></p>
                 <Input
                     id="username"
@@ -127,7 +126,7 @@ function Register() {
 
                 {!succesRegister && <h3>Het registreren is niet gelukt. Stuur een mail naar e.vanduikeren@gmail.com</h3>}
 
-                <p className="register__p">Let op. Als je registratie is gelukt, word je meteen ingelogd en kom je op de recepten pagina uit.</p>
+                <p className="margin-bottom2">Let op. Als je registratie is gelukt, kom je op de pagina waarop je direct kan inloggen.</p>
 
 
                 <button

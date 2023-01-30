@@ -35,9 +35,9 @@ function Recipe() {
     const [patchThisRecipe, togglePatchThisRecipe] = useState(false);
     const [search, setSearch] = useState([]);
     const [searchGeneral, setSearchGeneral] = useState("");
-    const [searchUtensil, setSearchUtensil] = useState("");
-    const [searchIngredient, setSearchIngredient] = useState("");
-    const [searchInstruction, setSearchInstruction] = useState("");
+    // const [utensilList, setUtensilList] = useState([{utensil: ""}]);
+    // const [searchIngredient, setSearchIngredient] = useState("");
+    // const [searchInstruction, setSearchInstruction] = useState("");
 
     const [recipeList] = useState([
         {
@@ -68,38 +68,56 @@ function Recipe() {
 
     // method to get a recipe by id
     useEffect(() => {
-            async function fetchRecipe() {
-                setDeleted(false);
-                togglePatchThisRecipe(false);
-                try {
-                    const response = await axios.get(`http://localhost:8081/recipes/${id}`, {
-                        headers: {
-                            "Content-Type": "application/json",
-                            "Authorization": `Bearer ${token}`,
-                        }
-                    });
-                    console.log(response.data);
-                    setRecipe(response.data);
-                    setIngredients(response.data.ingredients);
-                    setMonths(response.data.months);
-                    setUtensils(response.data.utensils);
-                    setInstructions(response.data.instructions);
-                    setTags(response.data.tags);
+        async function fetchRecipe() {
+            setDeleted(false);
+            togglePatchThisRecipe(false);
+            try {
+                const response = await axios.get(`http://localhost:8081/recipes/${id}`, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`,
+                    }
+                });
+                console.log(response.data);
+                setRecipe(response.data);
+                setIngredients(response.data.ingredients);
+                setMonths(response.data.months);
+                setUtensils(response.data.utensils);
+                setInstructions(response.data.instructions);
+                setTags(response.data.tags);
 
-                } catch (e) {
-                    console.error(e);
-                }
+            } catch (e) {
+                console.error(e);
             }
+        }
 
-            if (id) {
-                void fetchRecipe();
-            }
-        },[]);
+        if (id) {
+            void fetchRecipe();
+        }
+    }, []);
+
+
+    // methods to change recipe
+    // const handleInputChangePatch = (e, index, item, setItem) => {
+    //     const {name, value} = e.target;
+    //     const list = [...item];
+    //     list[index][name] = value;
+    //     setItem(list);
+    // };
 
 
     async function patchRecipe(data) {
-        console.log("Data recipe:");
-        console.log(data);
+        console.log("Data in patch function to patch")
+        console.log(data)
+        // if (utensilList.length > 0) {
+        //     data.utensils = [];
+        //     for (let ut in utensilList) {
+        //         data.utensils.push(utensilList[ut])
+        //     }
+        // }
+        //
+        // console.log("Data recipe:");
+        // console.log(data);
         try {
             const response = await axios.patch(`http://localhost:8081/recipes/${id}`,
                 data,
@@ -120,6 +138,8 @@ function Recipe() {
         void patchRecipe();
     }
 
+
+    // method to delete recipe
     async function deleteRecipe() {
         try {
             const response = await axios.delete(`http://localhost:8081/recipes/${recipe.id}`, {
@@ -139,7 +159,8 @@ function Recipe() {
         void deleteRecipe();
     }
 
-// printing
+
+    // printing
     const componentRef = useRef();
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
@@ -149,12 +170,12 @@ function Recipe() {
     return (
         <article className="page" key={`${recipe.id}-1`}>
             <form onSubmit={handleSubmit(patchRecipe)}>
-                <div className="recipe__description" ref={componentRef}>
+                <div className="recipe-description" ref={componentRef}>
 
                     {/*left-side..........................................*/}
-                    <section className="left-side__narrow">
+                    <section className="left-side--narrow">
 
-                        <h3 className="ingredients--h3">Ingredienten:</h3>
+                        <h3 className="margin-bottom1">Ingredienten:</h3>
                         {recipe.persons > 0 &&
                             <>
                                 <div className="counter-persons">
@@ -165,7 +186,7 @@ function Recipe() {
                                         disabled={countPersons <= 1}
                                     >-
                                     </Button>
-                                    <p className="counter-persons__p">{countPersons}</p>
+                                    <p className="counter-persons__p margin-bottom2">{countPersons}</p>
                                     <Button
                                         type="button"
                                         className="button--round button--round-yellow"
@@ -182,27 +203,27 @@ function Recipe() {
                                 {ingredients.map((ingredient) => {
                                     return (
                                         <div key={`${ingredient.ingredient_name}`}>
-                                            <label className="ingredient--label">
+                                            <label className="ingredient__label">
                                                 <input
                                                     type="checkbox"
                                                     className="checkbox__input checkbox__input--margin"/>
                                                 {ingredient.amount > 0 &&
-                                                     (
-                                                         <>
-                                                         {/*{admin && <p>id {ingredient.id}: </p>}*/}
-                                                    <p className="ingredient--p">
-                                                        {recipe.persons > 0
-                                                            ?
-                                                            ((countPersons * parseInt(ingredient.amount) / recipe.persons) < 1)
-                                                                ? (countPersons * parseInt(ingredient.amount) / recipe.persons).toFixed(1)
-                                                                : (countPersons * parseInt(ingredient.amount) / recipe.persons)
-                                                            :
-                                                            ingredient.amount}
-                                                    </p>
-                                                    </>
-                                                     )}
-                                                <p className="ingredient--p">{ingredient.unit}</p>
-                                                <p className="ingredient--p">{ingredient.ingredient_name}</p>
+                                                    (
+                                                        <>
+                                                            {/*{admin && <p>id {ingredient.id}: </p>}*/}
+                                                            <p className="ingredient__p">
+                                                                {recipe.persons > 0
+                                                                    ?
+                                                                    ((countPersons * parseInt(ingredient.amount) / recipe.persons) < 1)
+                                                                        ? (countPersons * parseInt(ingredient.amount) / recipe.persons).toFixed(1)
+                                                                        : (countPersons * parseInt(ingredient.amount) / recipe.persons)
+                                                                    :
+                                                                    ingredient.amount}
+                                                            </p>
+                                                        </>
+                                                    )}
+                                                <p className="ingredient__p">{ingredient.unit}</p>
+                                                <p className="ingredient__p">{ingredient.ingredient_name}</p>
                                             </label>
                                         </div>
                                     );
@@ -213,12 +234,12 @@ function Recipe() {
 
 
                     {/*right-side.......................................................*/}
-                    <section className="recipe-page__descriptions right-side">
+                    <section className="recipe-page-descriptions right-side">
 
                         {/*buttons for admin*/}
                         {(isAuth && user.authority === "ROLE_ADMIN" && !admin) && <Button
                             type="button"
-                            className="button--ellips button--ellips-margin"
+                            className="button--ellips margin-bottom2"
                             onClick={() => toggleAdmin(!admin)}
                         >
                             show admin
@@ -234,7 +255,7 @@ function Recipe() {
 
                         {admin &&
                             <>
-                                <h3 className="">Recept verwijderen</h3>
+                                <h3>Recept verwijderen</h3>
                                 <Button
                                     type="button"
                                     className="button--ellips button--ellips-margin"
@@ -242,7 +263,9 @@ function Recipe() {
                                 >
                                     verwijder
                                 </Button>
-                                {deleted && <h4 className="attention">Dit recept is succesvol verwijderd. Ga terug naar <Link to = "/recipes">recepten.</Link></h4> }
+                                {deleted &&
+                                    <h4 className="attention">Dit recept is succesvol verwijderd. Ga terug naar <Link
+                                        to="/recipes">recepten.</Link></h4>}
                             </>
                         }
 
@@ -250,7 +273,9 @@ function Recipe() {
                         {admin &&
                             <div className="recipe__div">
                                 <h3>Recept aanpassen</h3>
-                                <p className="margin-bottom1">Selecteer een categorie: bijv algemeen > titel. Op de plek van die categorie verschijnt nu een invoerveld. Hiervoor moet je dus naar beneden scrollen.</p>
+                                <p className="margin-bottom1">Selecteer een categorie: bijv algemeen > titel. Op de plek
+                                    van die categorie verschijnt nu een invoerveld. Hiervoor moet je dus naar beneden
+                                    scrollen.</p>
                                 <select
                                     className="recipes__select margin-bottom2"
                                     value={search}
@@ -268,7 +293,6 @@ function Recipe() {
                                 {search.includes("general") &&
                                     <select
                                         className="recipes__select margin-bottom2"
-                                        multiple={true}
                                         value={searchGeneral}
                                         onChange={(e) => setSearchGeneral(e.currentTarget.value)}>
                                         {generalList.map(generalCategory => (
@@ -281,13 +305,21 @@ function Recipe() {
                                         ))}
                                     </select>}
 
-                                {search.includes("utensils") && <p className="attention margin-bottom2">Deze functie werkt nog niet. De categorie algemeen werkt wel.</p>}
-                                {search.includes("ingredients") && <p className="attention margin-bottom2">Deze functie werkt nog niet. De categorie algemeen werkt wel.</p>}
-                                {search.includes("instructions") && <p className="attention margin-bottom2">Deze functie werkt nog niet. De categorie algemeen werkt wel.</p>}
-                                {search.includes("months") && <p className="attention margin-bottom2">Deze functie werkt nog niet. De categorie algemeen werkt wel.</p>}
-                                {search.includes("tags") && <p className="attention margin-bottom2">Deze functie werkt nog niet. De categorie algemeen werkt wel.</p>}
-
-
+                                {search.includes("utensils") &&
+                                    <p className="attention margin-bottom2">Deze functie werkt nog niet. De categorie
+                                        algemeen werkt wel.</p>}
+                                {search.includes("ingredients") &&
+                                    <p className="attention margin-bottom2">Deze functie werkt nog niet. De categorie
+                                        algemeen werkt wel.</p>}
+                                {search.includes("instructions") &&
+                                    <p className="attention margin-bottom2">Deze functie werkt nog niet. De categorie
+                                        algemeen werkt wel.</p>}
+                                {search.includes("months") &&
+                                    <p className="attention margin-bottom2">Deze functie werkt nog niet. De categorie
+                                        algemeen werkt wel.</p>}
+                                {search.includes("tags") &&
+                                    <p className="attention margin-bottom2">Deze functie werkt nog niet. De categorie
+                                        algemeen werkt wel.</p>}
                             </div>
                         }
 
@@ -316,7 +348,6 @@ function Recipe() {
                                 register={register}
                                 errors={errors}
                             />}
-                        {errors.title && <p>{errors.title.message}</p>}
 
                         {recipe.sub_title && <p className="margin-bottom1">{recipe.sub_title}</p>}
                         {searchGeneral.includes("sub_title") &&
@@ -328,7 +359,6 @@ function Recipe() {
                                 register={register}
                                 errors={errors}
                             />}
-                        {errors.sub_title && <p>{errors.sub_title.message}</p>}
 
                         {recipe.file &&
                             <img
@@ -348,9 +378,8 @@ function Recipe() {
                                 register={register}
                                 errors={errors}
                             />}
-                        {errors.story && <p>{errors.story.message}</p>}
 
-                        <div className="times">
+                        <div className="times margin-top1">
                             {recipe.prep_time &&
                                 <>
                                     <RiKnifeLine size="40px" color="#A8C256"/>
@@ -369,7 +398,6 @@ function Recipe() {
                                     register={register}
                                     errors={errors}
                                 />}
-                            {errors.prep_time && <p>{errors.prep_time.message}</p>}
 
 
                             {recipe.cook_time &&
@@ -390,17 +418,24 @@ function Recipe() {
                                     register={register}
                                     errors={errors}
                                 />}
-                            {errors.cook_time && <p>{errors.cook_time.message}</p>}
                         </div>
 
                         {utensils &&
                             <>
-                                <h3>Benodigdheden:</h3>
-                                <div className="utensils--div">
-                                    {utensils.map((utensil, index) => {
+                                <h3 className="margin-top1">Benodigdheden:</h3>
+                                <div>
+                                    {utensils.map((utensil, i) => {
                                         return (
-                                            <ul key={`${utensil}-${index}`}>
-                                                <li className="utensils--li">{utensil.utensil}</li>
+                                            <ul key={`${utensil}-${i}`}>
+                                                <li className="margin-left1">{utensil.utensil}</li>
+                                                {/*{search.includes("utensils") &&*/}
+                                                {/*    <input*/}
+                                                {/*        type="text"*/}
+                                                {/*        name="utensil"*/}
+                                                {/*        className="input"*/}
+                                                {/*        value={i.utensil}*/}
+                                                {/*        onChange={e => handleInputChangePatch(e, i, utensilList, setUtensilList)}*/}
+                                                {/*    />}*/}
                                             </ul>
                                         );
                                     })}
@@ -408,9 +443,10 @@ function Recipe() {
                             </>
                         }
 
+
                         {instructions &&
                             <>
-                                <h3>Bereiding:</h3>
+                                <h3 className="margin-top1">Bereiding:</h3>
                                 <div>
                                     {instructions.map((instruction, index) => {
                                         return (
@@ -422,7 +458,7 @@ function Recipe() {
                                                     {index + 1}
                                                 </Button>
                                                 <div>
-                                                    <p className="p__strong">Stap {index + 1}</p>
+                                                    <p className="p--strong">Stap {index + 1}</p>
                                                     <p>{instruction.instruction}</p>
                                                 </div>
                                             </div>
@@ -463,7 +499,7 @@ function Recipe() {
                         </button>
 
 
-                        {recipe.source && <p className="source">bron: {recipe.source}</p>}
+                        {recipe.source && <p className="source margin-top2">bron: {recipe.source}</p>}
                         {searchGeneral.includes("source") &&
                             <Input
                                 type="text"
@@ -475,13 +511,20 @@ function Recipe() {
                             />}
                         {errors.source && <p>{errors.source.message}</p>}
 
+                        {admin &&
+                            <Button
+                                type="submit"
+                                className="button--ellips margin-top2"
+                            >
+                                versturen
+                            </Button>}
+                        {patchThisRecipe &&
+                            <h4 className="attention margin-top2">Dit recept is succesvol aangepast. Ververs deze pagina
+                                om je aangepaste recept te zien.</h4>}
+
                     </section>
 
                 </div>
-
-                <Button type="submit" className="button--ellips margin-top2">versturen</Button>
-                {patchThisRecipe && <h4 className="attention margin-top2">Dit recept is succesvol aangepast. Ververs deze pagina om je aangepaste recept te zien.</h4>}
-
 
             </form>
         </article>

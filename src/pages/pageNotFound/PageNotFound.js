@@ -1,10 +1,9 @@
 import React from 'react';
-import './PageNotFound.css';
 import {Link} from "react-router-dom";
 
-function PageNotFound(props) {
+function PageNotFound() {
     return (
-        <article className="page page-not-found">
+        <article className="page margin-bottom2">
            <h2>Oeps... Deze pagina bestaat niet</h2>
            <p>Ga terug naar de <Link to="/">homepage.</Link></p>
         </article>

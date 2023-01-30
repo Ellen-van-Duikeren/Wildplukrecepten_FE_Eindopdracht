@@ -34,10 +34,10 @@ function Login() {
         <article className="page login-page">
             <form onSubmit={handleSubmit(onSubmit)}>
                 <h1>Inloggen</h1>
-                <p className="login__p--margin">Ben je nieuw hier, ga dan naar <Link
+                <p>Ben je nieuw hier, ga dan naar <Link
                     to="/register">registreren.</Link></p>
 
-                <div className="login__div">
+                <div className="margin-top2">
                 <Input
                     id="username"
                     labelText="Gebruikersnaam:"

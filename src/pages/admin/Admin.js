@@ -90,16 +90,7 @@ function Admin() {
     }, [deleteThisUser])
 
 
-    // methods to change user
-    // function handleFormSubmit(data) {
-    //     console.log("Dit is de handleFormSubmit functie");
-    //     console.log(data);
-    //     console.log("IdOfUserToPatch")
-    //     console.log(idOfUserToPatch)
-    //     void patchUser(data);
-    // }
-
-    async function patchUser(data) {
+        async function patchUser(data) {
         console.log("Data in axios patchUser:");
         console.log(data);
         try {
@@ -207,7 +198,7 @@ function Admin() {
             {/*change user*/}
             <section>
                 <h3 className="margin-top2">Aanpassen van user</h3>
-                <p>Welke user wil je aanpassen?</p>
+                <p className="margin-bottom1">Welke user wil je aanpassen?</p>
                 <select
                     className="recipes__select"
                     onChange={e => setIdOfUserToPatch(e.currentTarget.value)}
@@ -288,7 +279,8 @@ function Admin() {
 
             {/*mail..................................................................................................*/}
             <section>
-                <h2 className="h2__margin">Bericht versturen</h2>
+                <h2 className="margin-top2">Bericht versturen</h2>
+                <p className="margin-bottom2">Bericht versturen werkt (nog) niet. Ik krijg zowel een Error while sending mail en een Response.status 200 en ik kon geen hulp krijgen bij het debuggen van deze errors omdat dit buiten de scope van de opleiding valt.. </p>
                 <form
                     key={2}
                     onSubmit={handleSubmit2(emailUserFunction)}
@@ -305,15 +297,8 @@ function Admin() {
                                     return (
                                         <option
                                             key={user.username}
-                                            // name="recipient"
-                                            //{...register2("recipient", {
-                                            //    required: {
-                                            //        value: true,
-                                            //        message: 'Dit veld is verplicht',
-                                            //    }
-                                            // })}
+
                                         >
-                                            {/*{errors2.recipient && <p>{errors2.recipient.message}</p>}*/}
                                             {user.emailadress}
                                         </option>
                                     )
@@ -343,7 +328,7 @@ function Admin() {
 
                     <div className="textarea__field">
                         <label htmlFor="textarea__text">
-                            Bericht
+                            Bericht:
                             <textarea
                                 className="textarea__text"
                                 name="msgBody"
@@ -370,7 +355,7 @@ function Admin() {
                         versturen
                     </button>
 
-                    {succesSendMail && <h4 className="attention margin-top1"> Je mail is succesvol verzonden.</h4>}
+                    {/*{succesSendMail && <h4 className="attention margin-top1"> Je mail is succesvol verzonden.</h4>}*/}
                 </form>
             </section>
 

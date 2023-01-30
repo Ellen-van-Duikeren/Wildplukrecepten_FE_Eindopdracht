@@ -35,12 +35,6 @@
     background-color: var(--green);
 }
 
-.recipes__div--flex {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-}
-
 .recipes__li {
     flex-basis: 18em;
     list-style-type: none;

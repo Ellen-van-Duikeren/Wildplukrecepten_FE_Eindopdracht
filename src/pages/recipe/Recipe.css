@@ -1,11 +1,11 @@
-.recipe__description {
+.recipe-description {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
 }
 
 /*left-side............................................*/
-.left-side__narrow {
+.left-side--narrow {
     background-color: var(--green);
     width: 20em;
     border-radius: 0.5em;
@@ -24,15 +24,10 @@
 
 .counter-persons__p {
     padding-inline: 1em;
-    margin-bottom: 2em;
 }
 
 /*ingredients*/
-.ingredients--h3 {
-    margin-bottom: 1em;
-}
-
-.ingredient--label {
+.ingredient__label {
     padding-left: 1.6em;
     display: flex;
     flex-direction: row;
@@ -40,13 +35,13 @@
     align-items: baseline;
 }
 
-.ingredient--p {
-    padding-right: 3px;
+.ingredient__p {
+    padding-right: calc(var(--baseFont) * 0.25);
 }
 
 
 /*right side.........................................*/
-.recipe-page__descriptions {
+.recipe-page-descriptions {
     min-width: 35em;
     background-color: var(--yellowpink);
     padding: 1em;
@@ -89,7 +84,6 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    margin-top: 1em;
     gap: 2em;
     align-items: center;
 }
@@ -97,11 +91,6 @@
 .times--div {
     display: flex;
     flex-direction: column;
-}
-
-/*utensils*/
-.utensils--li {
-    margin-left: 1.6em;
 }
 
 /*instruction*/
@@ -112,13 +101,12 @@
     margin-bottom: 1.5em;
 }
 
-.p__strong {
+.p--strong {
     font-weight: bold;
 }
 
 /*source*/
 .source {
-    margin-top: 2em;
     font-size: calc(var(--baseFont) * 0.7);
 }
 

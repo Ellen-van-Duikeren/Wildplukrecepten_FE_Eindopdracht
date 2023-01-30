@@ -14,6 +14,8 @@ function NewRecipe() {
     const {register, handleSubmit, formState: {errors}} = useForm();
     const token = localStorage.getItem('token');
 
+    // const months = ["JANUARI", "FEBRUARI", "MAART", "APRIL", "MEI", "JUNI", "JULI", "AUGUSTUS", "SEPTEMBER", "OKTOBER", "NOVEMBER", "DECEMBER", "YEARROUND]
+// const months = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december", "jaarrond"]
 
     // some extra inputs in useState while I want to be able to add and remove instructions, utensils and ingredients
     const [instructionList, setInstructionList] = useState([{instruction: ""}]);
@@ -41,20 +43,30 @@ function NewRecipe() {
         for (let ut in utensilList) {
             data.utensils.push(utensilList[ut])
         }
-        ;
         data.ingredients = [];
         for (let ut in ingredientList) {
             data.ingredients.push(ingredientList[ut])
         }
-        ;
         data.instructions = [];
         for (let ut in instructionList) {
             data.instructions.push(instructionList[ut])
         }
-        ;
 
         // add checkboxes to data.months
         data.months = [];
+
+        // months.map((month) => {
+        //     console.log("Data.month:")
+        //     console.log(data)
+        //     console.log(month)
+        //     if (data.month == true) {
+        //         console.log(data.month)
+        //         data.months.push(month)
+        //     }
+        // })
+        // console.log("Months mapping");
+        // console.log(data.months);
+
         if (data.january) {
             data.months.push("JANUARI")
         }
@@ -217,7 +229,6 @@ function NewRecipe() {
             default:
                 console.log("The add button is not functioning correctly")
         }
-        ;
     }
 
     return (
@@ -677,7 +688,9 @@ function NewRecipe() {
                     <p className="new-recipe-page--required">* is verplicht</p>
 
                     <Button type="submit" className="button--ellips">versturen</Button>
-                    {addSuccesRecipe && <h3 className="attention">Dankjewel voor het versturen van een nieuw recept. You are awesome.</h3>}
+                    {addSuccesRecipe &&
+                        <h3 className="attention">Dankjewel voor het versturen van een nieuw recept. You are
+                            awesome.</h3>}
                 </form>
 
 
@@ -685,22 +698,24 @@ function NewRecipe() {
                     <h3>Foto toevoegen (optioneel)</h3>
                     <p>Werkwijze:</p>
                     <ol>
-                        <li className="image__li">Vul eerst hierboven alle gegevens in en (belangrijk) klik op de groene
+                        <li className="margin-left1">Vul eerst hierboven alle gegevens in en (belangrijk) klik op de
+                            groene
                             button
                             met "versturen"
                         </li>
-                        <li className="image__li">Klik hieronder op de witte button met "choose file" en selecteer je
+                        <li className="margin-left1">Klik hieronder op de witte button met "choose file" en selecteer je
                             foto (jpg/jpeg/png)
                         </li>
-                        <li className="image__li">Je kan maar 1 foto per recept uploaden van maximaal 5Mb</li>
-                        <li className="image__li">Je krijgt nu een preview van je foto te zien</li>
-                        <li className="image__li">Als je toch een andere foto wilt, klik je opnieuw op de witte button
+                        <li className="margin-left1">Je kan maar 1 foto per recept uploaden van maximaal 5Mb</li>
+                        <li className="margin-left1">Je krijgt nu een preview van je foto te zien</li>
+                        <li className="margin-left1">Als je toch een andere foto wilt, klik je opnieuw op de witte
+                            button
                             met "choose file"
                         </li>
-                        <li className="image__li">Klik op de groene button met "uploaden"</li>
+                        <li className="margin-left1">Klik op de groene button met "uploaden"</li>
 
                     </ol>
-                    <label htmlFor="image" className="image__label">
+                    <label htmlFor="image" className="margin-top1">
                         Voeg foto toe
                         <input
                             type="file"
@@ -721,7 +736,7 @@ function NewRecipe() {
 
                     <Button
                         type="submit"
-                        className="button--ellips image__button"
+                        className="button--ellips"
                     >
                         uploaden
                     </Button>
