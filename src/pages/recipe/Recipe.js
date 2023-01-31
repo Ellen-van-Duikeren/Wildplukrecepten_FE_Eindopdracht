@@ -35,14 +35,11 @@ function Recipe() {
     const {register, handleSubmit, formState: {errors}} = useForm();
     const [patchThisRecipe, togglePatchThisRecipe] = useState(false);
     const [showInputFields, toggleShowInputFields] = useState(false);
-    const [utensilList, setUtensilList] = useState([{utensil: ""}]);
-    const [ingredientList, setIngredientList] = useState("");
+    const [utensilList, setUtensilList] = useState([{}]);
     const [instructionList, setInstructionList] = useState("");
 
 
-
-
-    // method to get a recipe by id
+    // method to get a recipe by id.....................................................................................
     useEffect(() => {
         async function fetchRecipe() {
             setDeleted(false);
@@ -59,9 +56,10 @@ function Recipe() {
                 setIngredients(response.data.ingredients);
                 setMonths(response.data.months);
                 setUtensils(response.data.utensils);
+                // sort utensils by id, necessary after patching
+                response.data.instructions.sort((a, b) => a.id - b.id);
                 setInstructions(response.data.instructions);
                 setTags(response.data.tags);
-
             } catch (e) {
                 console.error(e);
             }
@@ -73,40 +71,50 @@ function Recipe() {
     }, []);
 
 
-    const handleInputChangePatch = (e, i, item, setItem, idItem) => {
-        const {name, value} = e.target;
-        if (value) {
-        const list = [...item];
-        // console.log("List")
-        // console.log(list)
-        // console.log("Iditem")
-        list[i].id = idItem;
-        list[i][name] = value;
-        setItem(list);
+    // methods to patch recipe..........................................................................................
+    // patch utensils
+    const handleInputChangePatchUtensil = (e, i, idItem) => {
+        // to prevent adding a key-value pair to the list after input of each letter you have to press enter
+        if (e.key === 'Enter') {
+            const {value} = e.target;
+            const list = [...utensilList, {id: idItem, utensil: value}]
+            setUtensilList(list);
+            console.log("Utensillist");
+            console.log(utensilList);
         }
-    };
+    }
+
+    // patch instructions
+    const handleInputChangePatchInstruction = (e, i, idItem) => {
+        // to prevent adding a key-value pair to the list after input of each letter you have to press enter
+        if (e.key === 'Enter') {
+            const {value} = e.target;
+            const list = [...instructionList, {id: idItem, instruction: value}]
+            setInstructionList(list);
+            console.log("Instructionlist");
+            console.log(instructionList);
+        }
+    }
 
     async function patchRecipe(data) {
         console.log("Data in patch function to patch")
         console.log(data)
-              // added because in backend title is required (may not be blanc)
+        // added because in backend title is required (may not be blanc)
         if (!data.title) {
             data.title = recipe.title;
         }
 
         // add lists to data
         data.utensils = [];
-        for (let ut in utensilList) {
-            data.utensils.push(utensilList[ut])
+        for (let utensil in utensilList) {
+            data.utensils.push(utensilList[utensil])
         }
-        data.ingredients = [];
-        for (let ut in ingredientList) {
-            data.ingredients.push(ingredientList[ut])
-        }
+
         data.instructions = [];
-        for (let ut in instructionList) {
-            data.instructions.push(instructionList[ut])
+        for (let instruction in instructionList) {
+            data.instructions.push(instructionList[instruction])
         }
+
 
         data.months = [];
         if (data.january) {
@@ -207,7 +215,9 @@ function Recipe() {
                         "Authorization": `Bearer ${token}`,
                     }
                 });
-            togglePatchThisRecipe(true);
+            if (response.status == 200) {
+                togglePatchThisRecipe(true);
+            }
             setRecipe(response.data);
         } catch (e) {
             console.error(e);
@@ -215,8 +225,7 @@ function Recipe() {
     }
 
 
-
-    // method to delete recipe
+    // method to delete recipe..........................................................................................
     async function deleteRecipe() {
         console.log("Id in deletefunction:");
         console.log({idRecipe})
@@ -235,7 +244,7 @@ function Recipe() {
     }
 
 
-    // printing
+    // printing.........................................................................................................
     const componentRef = useRef();
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
@@ -243,14 +252,20 @@ function Recipe() {
 
 
     return (
+
         <article className="page" key={`${recipe.id}-1`}>
             <form onSubmit={handleSubmit(patchRecipe)}>
                 <div className="recipe-description" ref={componentRef}>
 
+                    {console.log("instructions in return of recipe")}
+                    {console.log(instructions)}
+
+
+
                     {/*left-side..........................................*/}
                     <section className="left-side--narrow">
 
-                        <h3 className="margin-bottom1">Ingredienten:</h3>
+                        {ingredients && <h3 className="margin-bottom1">Ingredienten:</h3>}
                         {recipe.persons > 0 &&
                             <>
                                 <div className="counter-persons">
@@ -294,38 +309,11 @@ function Recipe() {
                                                                         : (countPersons * parseInt(ingredient.amount) / recipe.persons)
                                                                     :
                                                                     ingredient.amount}
-                                                                {showInputFields &&
-                                                                    <input
-                                                                        type="number"
-                                                                        name="amount"
-                                                                        min="0"
-                                                                        step="0.1"
-                                                                        className="ingredient__amount"
-                                                                        placeholder={ingredient.amount}
-                                                                        value={i.amount}
-                                                                    />}
                                                             </p>
                                                         </>
                                                     )}
                                                 <p className="ingredient__p">{ingredient.unit}</p>
-                                                {showInputFields &&
-                                                    <input
-                                                        type="text"
-                                                        name="unit"
-                                                        className="input"
-                                                        placeholder={ingredient.unit}
-                                                        value={i.unit}
-                                                    />}
                                                 <p className="ingredient__p">{ingredient.ingredient_name}</p>
-                                                {showInputFields &&
-                                                    <input
-                                                        type="text"
-                                                        name="ingredient_name"
-                                                        className="input"
-                                                        placeholder={ingredient.ingredient_name}
-                                                        value={i.ingredient_name}
-                                                        onChange={e => handleInputChangePatch(e, i, instructionList, setInstructionList)}
-                                                    />}
                                             </label>
                                         </div>
                                     );
@@ -341,7 +329,7 @@ function Recipe() {
                         {/*buttons for admin*/}
                         {(isAuth && user.authority === "ROLE_ADMIN" && !admin) && <Button
                             type="button"
-                            className="button--ellips margin-bottom2"
+                            className="button--ellips margin-bottom1"
                             onClick={() => toggleAdmin(!admin)}
                         >
                             show admin
@@ -583,7 +571,7 @@ function Recipe() {
                         </div>
 
 
-                        {utensils &&
+                        {utensils.length > 0 &&
                             <>
                                 <h3 className="margin-top1">Benodigdheden:</h3>
                                 <div>
@@ -596,9 +584,9 @@ function Recipe() {
                                                         type="text"
                                                         name="utensil"
                                                         className="input input--width"
-                                                        placeholder={utensil.utensil}
+                                                        placeholder="pas eventueel aan en druk op enter"
                                                         value={i.utensil}
-                                                        onChange={e => handleInputChangePatch(e, i, utensilList, setUtensilList, utensil.id)}
+                                                        onKeyDown={e => handleInputChangePatchUtensil(e, i, utensil.id)}
                                                     />}
                                             </ul>
                                         );
@@ -608,7 +596,7 @@ function Recipe() {
                         }
 
 
-                        {instructions &&
+                        {instructions.length > 0 &&
                             <>
                                 <h3 className="margin-top1">Bereiding:</h3>
                                 <div>
@@ -623,15 +611,17 @@ function Recipe() {
                                                 </Button>
                                                 <div>
                                                     <p className="p--strong">Stap {i + 1}</p>
-                                                    <p>{instruction.instruction}</p>
+                                                    {showInputFields ?
+                                                        <p>id {instruction.id}: {instruction.instruction}</p> :
+                                                        <p>{instruction.instruction}</p>}
                                                     {showInputFields &&
                                                         <input
                                                             type="text"
                                                             name="instruction"
                                                             className="input input--width"
-                                                            placeholder={instruction.instruction}
+                                                            placeholder="pas eventueel aan en druk op enter"
                                                             value={i.instruction}
-                                                            onChange={e => handleInputChangePatch(e, i, instructionList, setInstructionList)}
+                                                            onKeyDown={e => handleInputChangePatchInstruction(e, i, instruction.id)}
                                                         />}
                                                 </div>
                                             </div>
@@ -661,124 +651,128 @@ function Recipe() {
                             })}
 
                             {showInputFields &&
-                            <>
-                                <Checkbox
-                                    name="vegetarian"
-                                    labelText="vegetarisch"
-                                    className="component-checkbox__input"
-                                    register={register}
-                                />
+                                <>
+                                    <Checkbox
+                                        name="vegetarian"
+                                        labelText="vegetarisch"
+                                        className="component-checkbox__input"
+                                        register={register}
+                                    />
 
-                                <Checkbox
-                                    name="vegan"
-                                    labelText="veganistisch"
-                                    className="component-checkbox__input"
-                                    register={register}
-                                />
+                                    <Checkbox
+                                        name="vegan"
+                                        labelText="veganistisch"
+                                        className="component-checkbox__input"
+                                        register={register}
+                                    />
 
-                                <Checkbox
-                                    name="lactosefree"
-                                    labelText="lactosevrij"
-                                    className="component-checkbox__input"
-                                    register={register}
-                                />
+                                    <Checkbox
+                                        name="lactosefree"
+                                        labelText="lactosevrij"
+                                        className="component-checkbox__input"
+                                        register={register}
+                                    />
 
-                                <Checkbox
-                                    name="glutenfree"
-                                    labelText="glutenvrij"
-                                    className="component-checkbox__input"
-                                    register={register}
-                                />
+                                    <Checkbox
+                                        name="glutenfree"
+                                        labelText="glutenvrij"
+                                        className="component-checkbox__input"
+                                        register={register}
+                                    />
 
-                                <Checkbox
-                                    name="breakfast"
-                                    labelText="ontbijt"
-                                    className="component-checkbox__input"
-                                    register={register}
-                                />
+                                    <Checkbox
+                                        name="breakfast"
+                                        labelText="ontbijt"
+                                        className="component-checkbox__input"
+                                        register={register}
+                                    />
 
-                                <Checkbox
-                                    name="lunch"
-                                    labelText="lunch"
-                                    className="component-checkbox__input"
-                                    register={register}
-                                />
+                                    <Checkbox
+                                        name="lunch"
+                                        labelText="lunch"
+                                        className="component-checkbox__input"
+                                        register={register}
+                                    />
 
-                                <Checkbox
-                                    name="diner"
-                                    labelText="diner"
-                                    className="component-checkbox__input"
-                                    register={register}
-                                />
+                                    <Checkbox
+                                        name="diner"
+                                        labelText="diner"
+                                        className="component-checkbox__input"
+                                        register={register}
+                                    />
 
-                                <Checkbox
-                                    name="snack"
-                                    labelText="snack"
-                                    className="component-checkbox__input"
-                                    register={register}
-                                />
+                                    <Checkbox
+                                        name="snack"
+                                        labelText="snack"
+                                        className="component-checkbox__input"
+                                        register={register}
+                                    />
 
-                                <Checkbox
-                                    name="sidedish"
-                                    labelText="bijgerecht"
-                                    className="component-checkbox__input"
-                                    register={register}
-                                />
+                                    <Checkbox
+                                        name="sidedish"
+                                        labelText="bijgerecht"
+                                        className="component-checkbox__input"
+                                        register={register}
+                                    />
 
-                                <Checkbox
-                                    name="starter"
-                                    labelText="voorgerecht"
-                                    className="component-checkbox__input"
-                                    register={register}
-                                />
+                                    <Checkbox
+                                        name="starter"
+                                        labelText="voorgerecht"
+                                        className="component-checkbox__input"
+                                        register={register}
+                                    />
 
-                                <Checkbox
-                                    name="maindish"
-                                    labelText="hoofdgerecht"
-                                    className="component-checkbox__input"
-                                    register={register}
-                                />
+                                    <Checkbox
+                                        name="maindish"
+                                        labelText="hoofdgerecht"
+                                        className="component-checkbox__input"
+                                        register={register}
+                                    />
 
-                                <Checkbox
-                                    name="drinks"
-                                    labelText="drinken"
-                                    className="component-checkbox__input"
-                                    register={register}
-                                />
+                                    <Checkbox
+                                        name="drinks"
+                                        labelText="drinken"
+                                        className="component-checkbox__input"
+                                        register={register}
+                                    />
 
-                                <Checkbox
-                                    name="alcoholic"
-                                    labelText="met alcohol"
-                                    className="component-checkbox__input"
-                                    register={register}
-                                />
+                                    <Checkbox
+                                        name="alcoholic"
+                                        labelText="met alcohol"
+                                        className="component-checkbox__input"
+                                        register={register}
+                                    />
 
-                                <Checkbox
-                                    name="openfire"
-                                    labelText="op open vuur"
-                                    className="component-checkbox__input"
-                                    register={register}
-                                />
+                                    <Checkbox
+                                        name="openfire"
+                                        labelText="op open vuur"
+                                        className="component-checkbox__input"
+                                        register={register}
+                                    />
 
-                                <Checkbox
-                                    name="dutchoven"
-                                    labelText="dutch oven"
-                                    className="component-checkbox__input"
-                                    register={register}
-                                />
-                            </>}
+                                    <Checkbox
+                                        name="dutchoven"
+                                        labelText="dutch oven"
+                                        className="component-checkbox__input"
+                                        register={register}
+                                    />
+                                </>}
 
                         </div>
 
                         <h2>Eet smakelijk!</h2>
 
                         {/*printing*/}
-                        <button
+                        {/*because after patching an utensil, ingredient or instruction one have to press enter to make it work, the form to print is automatically shown.*/}
+                        {/*to prevent this I have decided to prevent printing when patching.*/}
+
+                        {!showInputFields && <button
                             onClick={handlePrint}
                             className="button--ellips recipes__button"
                         >
                             print
                         </button>
+                        }
 
 
                         {recipe.source && <p className="source margin-top2">bron: {recipe.source}</p>}
@@ -812,7 +806,8 @@ function Recipe() {
         </article>
 
 
-    );
+    )
+        ;
 }
 
 export default Recipe;

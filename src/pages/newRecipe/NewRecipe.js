@@ -675,7 +675,7 @@ function NewRecipe() {
 
                     <p className="new-recipe-page--required">* is verplicht</p>
 
-                    <Button type="submit" className="button--ellips">versturen</Button>
+                    <Button type="submit" className="button--ellips">toevoegen</Button>
                     {addSuccesRecipe &&
                         <h3 className="attention">Dankjewel voor het versturen van een nieuw recept. You are
                             awesome.</h3>}
