@@ -18,13 +18,13 @@
 
 .textarea__text {
     padding: 0.5em;
+    border-radius: 0.5em;
+    border: 2px solid lightgray;
+    font-size: calc(var(--baseFont) * 0.9);
     position: absolute;
     top: 0;
     left: var(--position--left);
-    border-radius: 0.5em;
-    border: 2px solid lightgray;
     width: 30em;
-    font-size: calc(var(--baseFont) * 0.9);
 }
 
 /*utensils, ingredients & instructions.......................................*/

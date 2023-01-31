@@ -9,9 +9,10 @@ import {AuthContext} from "../../context/AuthContext";
 import Input from "../../components/input/Input";
 import {useForm} from "react-hook-form";
 import {Link, useParams} from "react-router-dom";
+import Checkbox from "../../components/checkbox/Checkbox";
 
 function Recipe() {
-    const {id} = useParams();
+    let {idRecipe} = useParams();
     const token = localStorage.getItem('token');
     const {isAuth, user} = useContext(AuthContext);
 
@@ -33,37 +34,12 @@ function Recipe() {
     // updates
     const {register, handleSubmit, formState: {errors}} = useForm();
     const [patchThisRecipe, togglePatchThisRecipe] = useState(false);
-    const [search, setSearch] = useState([]);
-    const [searchGeneral, setSearchGeneral] = useState("");
-    // const [utensilList, setUtensilList] = useState([{utensil: ""}]);
-    // const [searchIngredient, setSearchIngredient] = useState("");
-    // const [searchInstruction, setSearchInstruction] = useState("");
+    const [showInputFields, toggleShowInputFields] = useState(false);
+    const [utensilList, setUtensilList] = useState([{utensil: ""}]);
+    const [ingredientList, setIngredientList] = useState("");
+    const [instructionList, setInstructionList] = useState("");
 
-    const [recipeList] = useState([
-        {
-            label: "selecteer een categorie",
-            value: "recipelist"
-        },
-        {label: "algemeen", value: "general"},
-        {label: "benodigdheden", value: "utensils"},
-        {label: "ingredienten", value: "ingredients"},
-        {label: "instructies", value: "instructions"},
-        {label: "maanden", value: "months"},
-        {label: "tags", value: "tags"}
-    ]);
 
-    const [generalList] = useState([
-        {
-            label: "selecteer een categorie",
-            value: "generallist"
-        },
-        {label: "titel", value: "title"},
-        {label: "subtitel", value: "sub_title"},
-        {label: "bron", value: "source"},
-        {label: "tekst", value: "story"},
-        {label: "voorbereidingstijd", value: "prep_time"},
-        {label: "bereidingstijd", value: "cook_time"}
-    ]);
 
 
     // method to get a recipe by id
@@ -72,7 +48,7 @@ function Recipe() {
             setDeleted(false);
             togglePatchThisRecipe(false);
             try {
-                const response = await axios.get(`http://localhost:8081/recipes/${id}`, {
+                const response = await axios.get(`http://localhost:8081/recipes/${idRecipe}`, {
                     headers: {
                         "Content-Type": "application/json",
                         "Authorization": `Bearer ${token}`,
@@ -91,35 +67,139 @@ function Recipe() {
             }
         }
 
-        if (id) {
+        if (idRecipe) {
             void fetchRecipe();
         }
     }, []);
 
 
-    // methods to change recipe
-    // const handleInputChangePatch = (e, index, item, setItem) => {
-    //     const {name, value} = e.target;
-    //     const list = [...item];
-    //     list[index][name] = value;
-    //     setItem(list);
-    // };
-
+    const handleInputChangePatch = (e, i, item, setItem, idItem) => {
+        const {name, value} = e.target;
+        if (value) {
+        const list = [...item];
+        // console.log("List")
+        // console.log(list)
+        // console.log("Iditem")
+        list[i].id = idItem;
+        list[i][name] = value;
+        setItem(list);
+        }
+    };
 
     async function patchRecipe(data) {
         console.log("Data in patch function to patch")
         console.log(data)
-        // if (utensilList.length > 0) {
-        //     data.utensils = [];
-        //     for (let ut in utensilList) {
-        //         data.utensils.push(utensilList[ut])
-        //     }
-        // }
-        //
-        // console.log("Data recipe:");
-        // console.log(data);
+              // added because in backend title is required (may not be blanc)
+        if (!data.title) {
+            data.title = recipe.title;
+        }
+
+        // add lists to data
+        data.utensils = [];
+        for (let ut in utensilList) {
+            data.utensils.push(utensilList[ut])
+        }
+        data.ingredients = [];
+        for (let ut in ingredientList) {
+            data.ingredients.push(ingredientList[ut])
+        }
+        data.instructions = [];
+        for (let ut in instructionList) {
+            data.instructions.push(instructionList[ut])
+        }
+
+        data.months = [];
+        if (data.january) {
+            data.months.push("JANUARI")
+        }
+        if (data.february) {
+            data.months.push("FEBRUARI")
+        }
+        if (data.march) {
+            data.months.push("MAART")
+        }
+        if (data.april) {
+            data.months.push("APRIL")
+        }
+        if (data.may) {
+            data.months.push("MEI")
+        }
+        if (data.june) {
+            data.months.push("JUNI")
+        }
+        if (data.july) {
+            data.months.push("JULI")
+        }
+        if (data.august) {
+            data.months.push("AUGUSTUS")
+        }
+        if (data.september) {
+            data.months.push("SEPTEMBER")
+        }
+        if (data.october) {
+            data.months.push("OKTOBER")
+        }
+        if (data.november) {
+            data.months.push("NOVEMBER")
+        }
+        if (data.december) {
+            data.months.push("DECEMBER")
+        }
+        if (data.yearround) {
+            data.months.push("JAARROND")
+        }
+
+        // add checkboxes to data.tags
+        data.tags = [];
+        if (data.vegetarian) {
+            data.tags.push("VEGETARISCH")
+        }
+        if (data.vegan) {
+            data.tags.push("VEGANISTISCH")
+        }
+        if (data.lactosefree) {
+            data.tags.push("LACTOSEVRIJ")
+        }
+        if (data.glutenfree) {
+            data.tags.push("GLUTENVRIJ")
+        }
+        if (data.breakfast) {
+            data.tags.push("ONTBIJT")
+        }
+        if (data.lunch) {
+            data.tags.push("LUNCH")
+        }
+        if (data.diner) {
+            data.tags.push("DINER")
+        }
+        if (data.snack) {
+            data.tags.push("SNACK")
+        }
+        if (data.sidedish) {
+            data.tags.push("BIJGERECHT")
+        }
+        if (data.starter) {
+            data.tags.push("VOORGERECHT")
+        }
+        if (data.maindish) {
+            data.tags.push("HOOFDGERECHT")
+        }
+        if (data.drinks) {
+            data.tags.push("DRINKEN")
+        }
+        if (data.alcoholic) {
+            data.tags.push("ALCOHOLISCH")
+        }
+        if (data.openfire) {
+            data.tags.push("OPENVUUR")
+        }
+        if (data.dutchoven) {
+            data.tags.push("DUTCHOVEN")
+        }
+
+
         try {
-            const response = await axios.patch(`http://localhost:8081/recipes/${id}`,
+            const response = await axios.patch(`http://localhost:8081/recipes/${idRecipe}`,
                 data,
                 {
                     headers: {
@@ -134,15 +214,14 @@ function Recipe() {
         }
     }
 
-    if (patchThisRecipe) {
-        void patchRecipe();
-    }
 
 
     // method to delete recipe
     async function deleteRecipe() {
+        console.log("Id in deletefunction:");
+        console.log({idRecipe})
         try {
-            const response = await axios.delete(`http://localhost:8081/recipes/${recipe.id}`, {
+            const response = await axios.delete(`http://localhost:8081/recipes/${idRecipe}`, {
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`,
@@ -153,10 +232,6 @@ function Recipe() {
         } catch (e) {
             console.error(e);
         }
-    }
-
-    if (deleted) {
-        void deleteRecipe();
     }
 
 
@@ -200,7 +275,7 @@ function Recipe() {
 
                         {ingredients &&
                             <div>
-                                {ingredients.map((ingredient) => {
+                                {ingredients.map((ingredient, i) => {
                                     return (
                                         <div key={`${ingredient.ingredient_name}`}>
                                             <label className="ingredient__label">
@@ -219,11 +294,38 @@ function Recipe() {
                                                                         : (countPersons * parseInt(ingredient.amount) / recipe.persons)
                                                                     :
                                                                     ingredient.amount}
+                                                                {showInputFields &&
+                                                                    <input
+                                                                        type="number"
+                                                                        name="amount"
+                                                                        min="0"
+                                                                        step="0.1"
+                                                                        className="ingredient__amount"
+                                                                        placeholder={ingredient.amount}
+                                                                        value={i.amount}
+                                                                    />}
                                                             </p>
                                                         </>
                                                     )}
                                                 <p className="ingredient__p">{ingredient.unit}</p>
+                                                {showInputFields &&
+                                                    <input
+                                                        type="text"
+                                                        name="unit"
+                                                        className="input"
+                                                        placeholder={ingredient.unit}
+                                                        value={i.unit}
+                                                    />}
                                                 <p className="ingredient__p">{ingredient.ingredient_name}</p>
+                                                {showInputFields &&
+                                                    <input
+                                                        type="text"
+                                                        name="ingredient_name"
+                                                        className="input"
+                                                        placeholder={ingredient.ingredient_name}
+                                                        value={i.ingredient_name}
+                                                        onChange={e => handleInputChangePatch(e, i, instructionList, setInstructionList)}
+                                                    />}
                                             </label>
                                         </div>
                                     );
@@ -248,14 +350,18 @@ function Recipe() {
                         {admin && <Button
                             type="button"
                             className="button--ellips button--ellips-margin"
-                            onClick={() => toggleAdmin(!admin)}
+                            onClick={() => {
+                                toggleAdmin(!admin)
+                                toggleShowInputFields(false)
+                            }
+                            }
                         >
                             hide admin
                         </Button>}
 
                         {admin &&
                             <>
-                                <h3>Recept verwijderen</h3>
+                                <h3 className="margin-top2">Recept verwijderen</h3>
                                 <Button
                                     type="button"
                                     className="button--ellips button--ellips-margin"
@@ -272,89 +378,142 @@ function Recipe() {
 
                         {admin &&
                             <div className="recipe__div">
-                                <h3>Recept aanpassen</h3>
-                                <p className="margin-bottom1">Selecteer een categorie: bijv algemeen > titel. Op de plek
-                                    van die categorie verschijnt nu een invoerveld. Hiervoor moet je dus naar beneden
-                                    scrollen.</p>
-                                <select
-                                    className="recipes__select margin-bottom2"
-                                    value={search}
-                                    onChange={(e) => setSearch(e.currentTarget.value)}>
-                                    {recipeList.map(category => (
-                                        <option
-                                            key={category.value}
-                                            value={category.value}
-                                        >
-                                            {category.label}
-                                        </option>
-                                    ))}
-                                </select>
-
-                                {search.includes("general") &&
-                                    <select
-                                        className="recipes__select margin-bottom2"
-                                        value={searchGeneral}
-                                        onChange={(e) => setSearchGeneral(e.currentTarget.value)}>
-                                        {generalList.map(generalCategory => (
-                                            <option
-                                                key={generalCategory.value}
-                                                value={generalCategory.value}
-                                            >
-                                                {generalCategory.label}
-                                            </option>
-                                        ))}
-                                    </select>}
-
-                                {search.includes("utensils") &&
-                                    <p className="attention margin-bottom2">Deze functie werkt nog niet. De categorie
-                                        algemeen werkt wel.</p>}
-                                {search.includes("ingredients") &&
-                                    <p className="attention margin-bottom2">Deze functie werkt nog niet. De categorie
-                                        algemeen werkt wel.</p>}
-                                {search.includes("instructions") &&
-                                    <p className="attention margin-bottom2">Deze functie werkt nog niet. De categorie
-                                        algemeen werkt wel.</p>}
-                                {search.includes("months") &&
-                                    <p className="attention margin-bottom2">Deze functie werkt nog niet. De categorie
-                                        algemeen werkt wel.</p>}
-                                {search.includes("tags") &&
-                                    <p className="attention margin-bottom2">Deze functie werkt nog niet. De categorie
-                                        algemeen werkt wel.</p>}
+                                <h3 className="margin-top2">Recept aanpassen</h3>
+                                {showInputFields ?
+                                    <Button
+                                        type="button"
+                                        className="button--ellips margin-bottom2"
+                                        onClick={() => toggleShowInputFields(!showInputFields)}
+                                    >
+                                        hide input
+                                    </Button>
+                                    :
+                                    <Button
+                                        type="button"
+                                        className="button--ellips margin-bottom2"
+                                        onClick={() => toggleShowInputFields(!showInputFields)}
+                                    >
+                                        show input
+                                    </Button>
+                                }
                             </div>
                         }
 
                         {months &&
                             <div className="tags">
-                                {months.map((month, index) => {
+                                {months.map((month, i) => {
                                     return (
                                         <p
+                                            key={`${month}-${i}`}
                                             className="tag"
-                                            key={`${month}-${index}`}
                                         >
                                             {month}
                                         </p>
-                                    );
+                                    )
                                 })}
+
+                                {showInputFields &&
+                                    <div className="">
+                                        <Checkbox
+                                            name="january"
+                                            labelText="januari"
+                                            register={register}
+                                        />
+
+                                        <Checkbox
+                                            name="february"
+                                            labelText="februari"
+                                            register={register}
+                                        />
+
+                                        <Checkbox
+                                            name="march"
+                                            labelText="maart"
+                                            register={register}
+                                        />
+
+                                        <Checkbox
+                                            name="april"
+                                            labelText="april"
+                                            register={register}
+                                        />
+
+                                        <Checkbox
+                                            name="may"
+                                            labelText="mei"
+                                            register={register}
+                                        />
+
+                                        <Checkbox
+                                            name="june"
+                                            labelText="juni"
+                                            register={register}
+                                        />
+
+                                        <Checkbox
+                                            name="july"
+                                            labelText="juli"
+                                            register={register}
+                                        />
+
+                                        <Checkbox
+                                            name="august"
+                                            labelText="augustus"
+                                            register={register}
+                                        />
+
+                                        <Checkbox
+                                            name="september"
+                                            labelText="september"
+                                            register={register}
+                                        />
+
+                                        <Checkbox
+                                            name="october"
+                                            labelText="oktober"
+                                            register={register}
+                                        />
+
+                                        <Checkbox
+                                            name="november"
+                                            labelText="november"
+                                            register={register}
+                                        />
+
+                                        <Checkbox
+                                            name="december"
+                                            labelText="december"
+                                            register={register}
+                                        />
+
+                                        <Checkbox
+                                            name="yearround"
+                                            labelText="jaarrond"
+                                            register={register}
+                                        />
+                                    </div>
+                                }
                             </div>
                         }
 
                         {admin ? <h1>{recipe.id} {recipe.title}</h1> : <h1>{recipe.title}</h1>}
-                        {searchGeneral.includes("title") &&
+                        {showInputFields &&
                             <Input
                                 type="text"
                                 name="title"
-                                className="input"
+                                className="input input--width"
                                 placeholder={recipe.title}
                                 register={register}
                                 errors={errors}
-                            />}
+                            />
+                        }
 
                         {recipe.sub_title && <p className="margin-bottom1">{recipe.sub_title}</p>}
-                        {searchGeneral.includes("sub_title") &&
+                        {showInputFields &&
                             <Input
                                 type="text"
                                 name="sub_title"
-                                className="input"
+                                className="input input--width"
                                 placeholder={recipe.sub_title}
                                 register={register}
                                 errors={errors}
@@ -368,16 +527,19 @@ function Recipe() {
                             />}
 
                         {recipe.story && <p>{recipe.story}</p>}
-                        {searchGeneral.includes("story") &&
-                            <Input
-                                type="text"
-                                name="story"
-                                className="input"
-                                placeholder={recipe.story}
-
-                                register={register}
-                                errors={errors}
-                            />}
+                        {showInputFields &&
+                            <textarea
+                                className="textarea--border" name="story" rows="4" cols="55"
+                                placeholder="bijv een verhaaltje over jouw eigen ervaringen met dit recept"
+                                {...register("story", {
+                                    required: {
+                                        maxLength: "500",
+                                        message: 'Maximaal 500 karakters'
+                                    }
+                                })}
+                            >
+                                    </textarea>
+                        }
 
                         <div className="times margin-top1">
                             {recipe.prep_time &&
@@ -386,18 +548,18 @@ function Recipe() {
                                     <div className="times--div">
                                         <h4>{recipe.prep_time}</h4>
                                         <p>voorbereidingstijd</p>
+                                        {showInputFields &&
+                                            <Input
+                                                type="text"
+                                                name="prep_time"
+                                                className="input"
+                                                placeholder={recipe.prep_time}
+                                                register={register}
+                                                errors={errors}
+                                            />}
                                     </div>
                                 </>
                             }
-                            {searchGeneral.includes("prep_time") &&
-                                <Input
-                                    type="text"
-                                    name="prep_time"
-                                    className="input"
-                                    placeholder={recipe.prep_time}
-                                    register={register}
-                                    errors={errors}
-                                />}
 
 
                             {recipe.cook_time &&
@@ -406,19 +568,20 @@ function Recipe() {
                                     <div className="times--div">
                                         <h4>{recipe.cook_time}</h4>
                                         <p>bereidingstijd</p>
+                                        {showInputFields &&
+                                            <Input
+                                                type="text"
+                                                name="cook_time"
+                                                className="input"
+                                                placeholder={recipe.cook_time}
+                                                register={register}
+                                                errors={errors}
+                                            />}
                                     </div>
                                 </>
                             }
-                            {searchGeneral.includes("cook_time") &&
-                                <Input
-                                    type="text"
-                                    name="cook_time"
-                                    className="input"
-                                    placeholder={recipe.cook_time}
-                                    register={register}
-                                    errors={errors}
-                                />}
                         </div>
+
 
                         {utensils &&
                             <>
@@ -428,14 +591,15 @@ function Recipe() {
                                         return (
                                             <ul key={`${utensil}-${i}`}>
                                                 <li className="margin-left1">{utensil.utensil}</li>
-                                                {/*{search.includes("utensils") &&*/}
-                                                {/*    <input*/}
-                                                {/*        type="text"*/}
-                                                {/*        name="utensil"*/}
-                                                {/*        className="input"*/}
-                                                {/*        value={i.utensil}*/}
-                                                {/*        onChange={e => handleInputChangePatch(e, i, utensilList, setUtensilList)}*/}
-                                                {/*    />}*/}
+                                                {showInputFields &&
+                                                    <input
+                                                        type="text"
+                                                        name="utensil"
+                                                        className="input input--width"
+                                                        placeholder={utensil.utensil}
+                                                        value={i.utensil}
+                                                        onChange={e => handleInputChangePatch(e, i, utensilList, setUtensilList, utensil.id)}
+                                                    />}
                                             </ul>
                                         );
                                     })}
@@ -448,18 +612,27 @@ function Recipe() {
                             <>
                                 <h3 className="margin-top1">Bereiding:</h3>
                                 <div>
-                                    {instructions.map((instruction, index) => {
+                                    {instructions.map((instruction, i) => {
                                         return (
-                                            <div className="instructions--div" key={`${instruction}-${index}`}>
+                                            <div className="instructions--div" key={`${instruction}-${i}`}>
                                                 <Button
                                                     type="button"
                                                     className="button--round margin-left1 margin-right1"
                                                 >
-                                                    {index + 1}
+                                                    {i + 1}
                                                 </Button>
                                                 <div>
-                                                    <p className="p--strong">Stap {index + 1}</p>
+                                                    <p className="p--strong">Stap {i + 1}</p>
                                                     <p>{instruction.instruction}</p>
+                                                    {showInputFields &&
+                                                        <input
+                                                            type="text"
+                                                            name="instruction"
+                                                            className="input input--width"
+                                                            placeholder={instruction.instruction}
+                                                            value={i.instruction}
+                                                            onChange={e => handleInputChangePatch(e, i, instructionList, setInstructionList)}
+                                                        />}
                                                 </div>
                                             </div>
                                         );
@@ -486,6 +659,115 @@ function Recipe() {
                                     </p>
                                 );
                             })}
+
+                            {showInputFields &&
+                            <>
+                                <Checkbox
+                                    name="vegetarian"
+                                    labelText="vegetarisch"
+                                    className="component-checkbox__input"
+                                    register={register}
+                                />
+
+                                <Checkbox
+                                    name="vegan"
+                                    labelText="veganistisch"
+                                    className="component-checkbox__input"
+                                    register={register}
+                                />
+
+                                <Checkbox
+                                    name="lactosefree"
+                                    labelText="lactosevrij"
+                                    className="component-checkbox__input"
+                                    register={register}
+                                />
+
+                                <Checkbox
+                                    name="glutenfree"
+                                    labelText="glutenvrij"
+                                    className="component-checkbox__input"
+                                    register={register}
+                                />
+
+                                <Checkbox
+                                    name="breakfast"
+                                    labelText="ontbijt"
+                                    className="component-checkbox__input"
+                                    register={register}
+                                />
+
+                                <Checkbox
+                                    name="lunch"
+                                    labelText="lunch"
+                                    className="component-checkbox__input"
+                                    register={register}
+                                />
+
+                                <Checkbox
+                                    name="diner"
+                                    labelText="diner"
+                                    className="component-checkbox__input"
+                                    register={register}
+                                />
+
+                                <Checkbox
+                                    name="snack"
+                                    labelText="snack"
+                                    className="component-checkbox__input"
+                                    register={register}
+                                />
+
+                                <Checkbox
+                                    name="sidedish"
+                                    labelText="bijgerecht"
+                                    className="component-checkbox__input"
+                                    register={register}
+                                />
+
+                                <Checkbox
+                                    name="starter"
+                                    labelText="voorgerecht"
+                                    className="component-checkbox__input"
+                                    register={register}
+                                />
+
+                                <Checkbox
+                                    name="maindish"
+                                    labelText="hoofdgerecht"
+                                    className="component-checkbox__input"
+                                    register={register}
+                                />
+
+                                <Checkbox
+                                    name="drinks"
+                                    labelText="drinken"
+                                    className="component-checkbox__input"
+                                    register={register}
+                                />
+
+                                <Checkbox
+                                    name="alcoholic"
+                                    labelText="met alcohol"
+                                    className="component-checkbox__input"
+                                    register={register}
+                                />
+
+                                <Checkbox
+                                    name="openfire"
+                                    labelText="op open vuur"
+                                    className="component-checkbox__input"
+                                    register={register}
+                                />
+
+                                <Checkbox
+                                    name="dutchoven"
+                                    labelText="dutch oven"
+                                    className="component-checkbox__input"
+                                    register={register}
+                                />
+                            </>}
+
                         </div>
 
                         <h2>Eet smakelijk!</h2>
@@ -500,7 +782,7 @@ function Recipe() {
 
 
                         {recipe.source && <p className="source margin-top2">bron: {recipe.source}</p>}
-                        {searchGeneral.includes("source") &&
+                        {showInputFields &&
                             <Input
                                 type="text"
                                 name="source"

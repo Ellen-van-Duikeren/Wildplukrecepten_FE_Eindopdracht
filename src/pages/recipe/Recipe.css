@@ -65,6 +65,7 @@
 .tags {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     gap: 1em;
     margin-bottom: 1.5em;
 }
@@ -72,19 +73,27 @@
 .tag {
     text-transform: lowercase;
     text-align: center;
-    width: 8em;
+    width: 7.5em;
     border-radius: 0.5em;
     background-color: var(--purplebrown);
     color: white;
     padding: 0.2em;
 }
 
+/*textarea story*/
+.textarea--border {
+    padding: 0.5em;
+    border-radius: 0.5em;
+    border: 2px solid lightgray;
+    font-size: calc(var(--baseFont) * 0.9);
+}
+
 /*prep and cook_time*/
 .times {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
-    gap: 2em;
+    /*flex-wrap: wrap;*/
+    gap: 1em;
     align-items: center;
 }
 

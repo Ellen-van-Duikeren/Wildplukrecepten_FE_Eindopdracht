@@ -14,8 +14,11 @@ function NewRecipe() {
     const {register, handleSubmit, formState: {errors}} = useForm();
     const token = localStorage.getItem('token');
 
-    // const months = ["JANUARI", "FEBRUARI", "MAART", "APRIL", "MEI", "JUNI", "JULI", "AUGUSTUS", "SEPTEMBER", "OKTOBER", "NOVEMBER", "DECEMBER", "YEARROUND]
-// const months = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december", "jaarrond"]
+    const months = Array.from({length: 12}, (item, i) => {
+        return new Date(0, i).toLocaleString('nl-NL', {month: 'long'})
+    });
+    const tags = new Array("vegetarisch", "veganistisch", "lactosevrij", "glutenvrij", "breakfast", "lunch", "diner", "snack", "bijgerecht", "voorgerecht", "hoofdgerecht", "drinken", "met alcohol", "op open vuur", "dutch oven");
+
 
     // some extra inputs in useState while I want to be able to add and remove instructions, utensils and ingredients
     const [instructionList, setInstructionList] = useState([{instruction: ""}]);
@@ -36,7 +39,6 @@ function NewRecipe() {
     const [file, setFile] = useState([]);
     const [previewUrl, setPreviewUrl] = useState('');
 
-
     async function onSubmit(data) {
         // add lists to data
         data.utensils = [];
@@ -54,19 +56,6 @@ function NewRecipe() {
 
         // add checkboxes to data.months
         data.months = [];
-
-        // months.map((month) => {
-        //     console.log("Data.month:")
-        //     console.log(data)
-        //     console.log(month)
-        //     if (data.month == true) {
-        //         console.log(data.month)
-        //         data.months.push(month)
-        //     }
-        // })
-        // console.log("Months mapping");
-        // console.log(data.months);
-
         if (data.january) {
             data.months.push("JANUARI")
         }
@@ -576,8 +565,7 @@ function NewRecipe() {
 
 
                     <div className="checkboxes">
-                        <h3>Vink hieronder aan wat van toepassing is</h3>
-
+                        <h3 className="margin-top2">Vink hieronder aan wat van toepassing is</h3>
                         <Checkbox
                             name="vegetarian"
                             labelText="vegetarisch"
