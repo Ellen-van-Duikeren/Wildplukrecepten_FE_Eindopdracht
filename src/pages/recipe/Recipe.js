@@ -304,9 +304,9 @@ function Recipe() {
                                                             <p className="ingredient__p">
                                                                 {recipe.persons > 0
                                                                     ?
-                                                                    ((countPersons * parseInt(ingredient.amount) / recipe.persons) < 1)
-                                                                        ? (countPersons * parseInt(ingredient.amount) / recipe.persons).toFixed(1)
-                                                                        : (countPersons * parseInt(ingredient.amount) / recipe.persons)
+                                                                    ((countPersons * (ingredient.amount) / recipe.persons) < 1)
+                                                                        ? (countPersons * (ingredient.amount) / recipe.persons).toFixed(1)
+                                                                        : (countPersons * (ingredient.amount) / recipe.persons)
                                                                     :
                                                                     ingredient.amount}
                                                             </p>

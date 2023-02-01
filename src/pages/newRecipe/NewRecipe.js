@@ -245,7 +245,7 @@ function NewRecipe() {
                         <Input
                             labelText="Subtitel"
                             type="text"
-                            name="subtitle"
+                            name="sub_title"
                             className="input__text"
                             placeholder="bijv de heerlijkste ter wereld"
                             validationRules={{
@@ -301,7 +301,7 @@ function NewRecipe() {
                         <Input
                             labelText="Voorbereidingstijd"
                             type="text"
-                            name="prepTime"
+                            name="prep_time"
                             className="input__text"
                             placeholder="bijv 20 min"
                             validationRules={{
@@ -317,7 +317,7 @@ function NewRecipe() {
                         <Input
                             labelText="Bereidingstijd"
                             type="text"
-                            name="cookTime"
+                            name="cook_time"
                             className="input__text"
                             placeholder="bijv 20 min"
                             validationRules={{
