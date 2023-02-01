@@ -5,7 +5,7 @@ function Input({ value, name, labelText, type, className, placeholder, min, max,
 
 
     return (
-        <div className="component__input">
+        <div className="margin-bottom2">
             <label htmlFor={name} >
                 {labelText}
                 <input

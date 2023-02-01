@@ -18,13 +18,13 @@
 
 .textarea__text {
     padding: 0.5em;
+    border-radius: 0.5em;
+    border: 2px solid lightgray;
+    font-size: calc(var(--baseFont) * 0.9);
     position: absolute;
     top: 0;
     left: var(--position--left);
-    border-radius: 0.5em;
-    border: 2px solid lightgray;
     width: 30em;
-    font-size: calc(var(--baseFont) * 0.9);
 }
 
 /*utensils, ingredients & instructions.......................................*/
@@ -38,8 +38,6 @@
 .utensil__li, .ingredient__li, .instruction__li {
     margin-left: 20px;
     font-size: calc(var(--baseFont) * 0.8);
-    font-family: merriweather, sans-serif;
-
 }
 
 .utensil__li:before, .ingredient__li:before, .instruction__li:before {
@@ -76,14 +74,6 @@
     margin-top: 2em;
 }
 
-.image__li {
-    margin-left: 1em;
-}
-
-.image__label {
-margin-top: 1em;
-}
-
 .image__input {
     display: inline-block;
     position: absolute;
@@ -103,10 +93,6 @@ margin-top: 1em;
     left: calc(var(--position--left) - 1em);
 }
 
-.image__button {
-    margin-bottom: 2em;
-    left: var(--position--left);}
 
-.register__p {
-  margin-bottom: 2em;
-}
+
+

@@ -26,11 +26,6 @@
     color: white;
 }
 
-.h2__margin {
-    margin-top: 2em;
-    margin-bottom: 0.7em;
-}
-
 .recipient__div {
     margin-bottom: 2em;
 }
@@ -41,7 +36,6 @@
     border-radius: 0.5em;
     border: 2px solid lightgray;
     font-size: var(--baseFont);
-    /*color: #757575;*/
 }
 
 @media print {

@@ -44,7 +44,7 @@ function App() {
                 />
 
                 <Route
-                    path="/recipe/:id"
+                    path="/recipe/:idRecipe"
                     element={isAuth ? <Recipe/> : <Navigate to="/login"/>}/>
                 />
 

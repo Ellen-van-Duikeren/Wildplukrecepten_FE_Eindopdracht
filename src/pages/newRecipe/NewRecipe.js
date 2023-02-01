@@ -14,6 +14,11 @@ function NewRecipe() {
     const {register, handleSubmit, formState: {errors}} = useForm();
     const token = localStorage.getItem('token');
 
+    const months = Array.from({length: 12}, (item, i) => {
+        return new Date(0, i).toLocaleString('nl-NL', {month: 'long'})
+    });
+    const tags = new Array("vegetarisch", "veganistisch", "lactosevrij", "glutenvrij", "breakfast", "lunch", "diner", "snack", "bijgerecht", "voorgerecht", "hoofdgerecht", "drinken", "met alcohol", "op open vuur", "dutch oven");
+
 
     // some extra inputs in useState while I want to be able to add and remove instructions, utensils and ingredients
     const [instructionList, setInstructionList] = useState([{instruction: ""}]);
@@ -34,24 +39,20 @@ function NewRecipe() {
     const [file, setFile] = useState([]);
     const [previewUrl, setPreviewUrl] = useState('');
 
-
     async function onSubmit(data) {
         // add lists to data
         data.utensils = [];
         for (let ut in utensilList) {
             data.utensils.push(utensilList[ut])
         }
-        ;
         data.ingredients = [];
         for (let ut in ingredientList) {
             data.ingredients.push(ingredientList[ut])
         }
-        ;
         data.instructions = [];
         for (let ut in instructionList) {
             data.instructions.push(instructionList[ut])
         }
-        ;
 
         // add checkboxes to data.months
         data.months = [];
@@ -217,7 +218,6 @@ function NewRecipe() {
             default:
                 console.log("The add button is not functioning correctly")
         }
-        ;
     }
 
     return (
@@ -245,7 +245,7 @@ function NewRecipe() {
                         <Input
                             labelText="Subtitel"
                             type="text"
-                            name="subtitle"
+                            name="sub_title"
                             className="input__text"
                             placeholder="bijv de heerlijkste ter wereld"
                             validationRules={{
@@ -301,7 +301,7 @@ function NewRecipe() {
                         <Input
                             labelText="Voorbereidingstijd"
                             type="text"
-                            name="prepTime"
+                            name="prep_time"
                             className="input__text"
                             placeholder="bijv 20 min"
                             validationRules={{
@@ -317,7 +317,7 @@ function NewRecipe() {
                         <Input
                             labelText="Bereidingstijd"
                             type="text"
-                            name="cookTime"
+                            name="cook_time"
                             className="input__text"
                             placeholder="bijv 20 min"
                             validationRules={{
@@ -565,8 +565,7 @@ function NewRecipe() {
 
 
                     <div className="checkboxes">
-                        <h3>Vink hieronder aan wat van toepassing is</h3>
-
+                        <h3 className="margin-top2">Vink hieronder aan wat van toepassing is</h3>
                         <Checkbox
                             name="vegetarian"
                             labelText="vegetarisch"
@@ -676,8 +675,10 @@ function NewRecipe() {
 
                     <p className="new-recipe-page--required">* is verplicht</p>
 
-                    <Button type="submit" className="button--ellips">versturen</Button>
-                    {addSuccesRecipe && <h3 className="attention">Dankjewel voor het versturen van een nieuw recept. You are awesome.</h3>}
+                    <Button type="submit" className="button--ellips">toevoegen</Button>
+                    {addSuccesRecipe &&
+                        <h3 className="attention">Dankjewel voor het versturen van een nieuw recept. You are
+                            awesome.</h3>}
                 </form>
 
 
@@ -685,22 +686,24 @@ function NewRecipe() {
                     <h3>Foto toevoegen (optioneel)</h3>
                     <p>Werkwijze:</p>
                     <ol>
-                        <li className="image__li">Vul eerst hierboven alle gegevens in en (belangrijk) klik op de groene
+                        <li className="margin-left1">Vul eerst hierboven alle gegevens in en (belangrijk) klik op de
+                            groene
                             button
                             met "versturen"
                         </li>
-                        <li className="image__li">Klik hieronder op de witte button met "choose file" en selecteer je
+                        <li className="margin-left1">Klik hieronder op de witte button met "choose file" en selecteer je
                             foto (jpg/jpeg/png)
                         </li>
-                        <li className="image__li">Je kan maar 1 foto per recept uploaden van maximaal 5Mb</li>
-                        <li className="image__li">Je krijgt nu een preview van je foto te zien</li>
-                        <li className="image__li">Als je toch een andere foto wilt, klik je opnieuw op de witte button
+                        <li className="margin-left1">Je kan maar 1 foto per recept uploaden van maximaal 5Mb</li>
+                        <li className="margin-left1">Je krijgt nu een preview van je foto te zien</li>
+                        <li className="margin-left1">Als je toch een andere foto wilt, klik je opnieuw op de witte
+                            button
                             met "choose file"
                         </li>
-                        <li className="image__li">Klik op de groene button met "uploaden"</li>
+                        <li className="margin-left1">Klik op de groene button met "uploaden"</li>
 
                     </ol>
-                    <label htmlFor="image" className="image__label">
+                    <label htmlFor="image" className="margin-top1">
                         Voeg foto toe
                         <input
                             type="file"
@@ -721,7 +724,7 @@ function NewRecipe() {
 
                     <Button
                         type="submit"
-                        className="button--ellips image__button"
+                        className="button--ellips"
                     >
                         uploaden
                     </Button>
