@@ -99,7 +99,7 @@ function Recipe() {
     async function patchRecipe(data) {
         console.log("Data in patch function to patch")
         console.log(data)
-        // added because in backend title is required (may not be blanc)
+        // added because in backend the title is required (may not be blanc)
         if (!data.title) {
             data.title = recipe.title;
         }
@@ -205,7 +205,6 @@ function Recipe() {
             data.tags.push("DUTCHOVEN")
         }
 
-
         try {
             const response = await axios.patch(`http://localhost:8081/recipes/${idRecipe}`,
                 data,
@@ -215,7 +214,7 @@ function Recipe() {
                         "Authorization": `Bearer ${token}`,
                     }
                 });
-            if (response.status == 200) {
+            if (response.status === 200) {
                 togglePatchThisRecipe(true);
             }
             setRecipe(response.data);
@@ -261,8 +260,7 @@ function Recipe() {
                     {console.log(instructions)}
 
 
-
-                    {/*left-side..........................................*/}
+                    {/*left-side.....................................................................................*/}
                     <section className="left-side--narrow">
 
                         {ingredients && <h3 className="margin-bottom1">Ingredienten:</h3>}
@@ -323,7 +321,7 @@ function Recipe() {
                     </section>
 
 
-                    {/*right-side.......................................................*/}
+                    {/*right-side....................................................................................*/}
                     <section className="recipe-page-descriptions right-side">
 
                         {/*buttons for admin*/}
@@ -766,7 +764,7 @@ function Recipe() {
                         {/*because after patching an utensil, ingredient or instruction one have to press enter to make it work, the form to print is automatically shown.*/}
                         {/*to prevent this I have decided to prevent printing when patching.*/}
 
-                        {!showInputFields && <button
+                        {!admin && <button
                             onClick={handlePrint}
                             className="button--ellips recipes__button"
                         >
