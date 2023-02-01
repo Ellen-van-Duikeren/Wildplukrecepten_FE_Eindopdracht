@@ -5,7 +5,7 @@ import Input from "../../components/input/Input";
 import {useForm} from "react-hook-form";
 import {useReactToPrint} from "react-to-print";
 import Button from "../../components/button/Button";
-import {Link, NavLink} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 function Admin() {
     const token = localStorage.getItem('token');
@@ -13,17 +13,16 @@ function Admin() {
     //get users
     const [users, setUsers] = useState([]);
 
-    //patch
+    //patch user
     const {register, handleSubmit: handleSubmit1, formState: {errors}} = useForm();
     const [patchThisUser, togglePatchThisUser] = useState(false);
     const [idOfUserToPatch, setIdOfUserToPatch] = useState("");
 
-
-    // delete
+    // delete user
     const [deleteThisUser, toggleDeleteThisUser] = useState(false);
     const [idOfUserToDelete, setIdOfUserToDelete] = useState("");
 
-    // print
+    // print users
     const componentRef = useRef();
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
@@ -37,6 +36,7 @@ function Admin() {
 
     // method to get an overview of all users
     useEffect(() => {
+        const controller = new AbortController();
         async function fetchUsers() {
             toggleDeleteThisUser(false);
             togglePatchThisUser(false);
@@ -45,9 +45,9 @@ function Admin() {
                     headers: {
                         "Content-Type": "application/json",
                         "Authorization": `Bearer ${token}`,
-                    }
+                    },
+                    signal: controller.signal,
                 });
-                console.log(response.data);
                 setUsers(response.data);
             } catch (e) {
                 console.error(e);
@@ -55,6 +55,9 @@ function Admin() {
         }
 
         void fetchUsers();
+        return function cleanup() {
+            controller.abort();
+        }
     }, []);
 
 
@@ -67,7 +70,6 @@ function Admin() {
 
     useEffect(() => {
         const controller = new AbortController();
-
         async function deleteUser() {
             try {
                 const response = await axios.delete(`http://localhost:8081/users/${idOfUserToDelete}`, {
@@ -77,7 +79,6 @@ function Admin() {
                     },
                     signal: controller.signal,
                 });
-                console.log(response);
             } catch (e) {
                 console.error(e);
             }
@@ -90,9 +91,7 @@ function Admin() {
     }, [deleteThisUser])
 
 
-        async function patchUser(data) {
-        console.log("Data in axios patchUser:");
-        console.log(data);
+    async function patchUser(data) {
         try {
             const response = await axios.patch(`http://localhost:8081/users/${idOfUserToPatch}`,
                 data,
@@ -103,8 +102,6 @@ function Admin() {
                     },
                 });
             togglePatchThisUser(true);
-            console.log("Patchuser: ");
-            console.log(response);
         } catch (e) {
             console.error(e);
         }
@@ -113,16 +110,12 @@ function Admin() {
 
     // methods to send mail
     function emailUserFunction(data) {
-        console.log("Data in helperfunction emailUserFunction");
-        console.log(data);
         data.recipient = idOfUserToEmail;
         void sendMail(data);
     }
 
 
     async function sendMail(data) {
-        console.log("Data in sendMail function");
-        console.log(data);
         try {
             const response = await axios.post('http://localhost:8081/sendMail', {
                 data
@@ -132,11 +125,12 @@ function Admin() {
                     "Authorization": `Bearer ${token}`,
                 }
             });
-            console.log("Response sendMail(): " + response.data);
-            console.log("Response.status: " + response.status);
             if (response.status === 200) {
                 toggleSuccesSendMail(true);
             }
+            console.log("Response in sending email on adminpage")
+            console.log(response);
+            console.log(response.status);
         } catch (e) {
             console.error(e);
         }
@@ -148,16 +142,16 @@ function Admin() {
         <article className="page admin-page">
             <h1>Admin pagina</h1>
 
-            {/*users & delete user........................................................................................*/}
+            {/*users.................................................................................................*/}
             <section ref={componentRef}>
                 <h2>Users</h2>
-                <h3>Overzicht en mogelijkheid tot verwijderen van user</h3>
+                <h3>Overzicht van users en mogelijkheid tot verwijderen van een user</h3>
                 <table className="users">
                     <thead>
                     <tr>
                         <th>Voornaam</th>
                         <th>Achternaam</th>
-                        <th>Emailadres</th>
+                        <th>Emailadres / username</th>
                         <th>Rol</th>
                         <th>Verwijder</th>
                     </tr>
@@ -186,12 +180,11 @@ function Admin() {
                 </table>
                 {deleteThisUser &&
                     <h4 className="attention">De user is succesvol verwijderd. Refresh deze pagina om het resultaat
-                        te
-                        zien in de tabel hierboven.</h4>}
+                        te zien in de tabel hierboven.</h4>}
 
 
                 {/*printing*/}
-                <button onClick={handlePrint} className="button--ellips print__button">print</button>
+                <button onClick={handlePrint} className="button--ellips">print</button>
             </section>
 
 
@@ -218,79 +211,81 @@ function Admin() {
                 <form
                     key={1}
                     className="margin-top2"
-                    onSubmit={handleSubmit1(patchUser)}>
+                    onSubmit={handleSubmit1(patchUser)}
+                >
                     <Input
                         labelText="wachtwoord"
                         type="text"
                         name="password"
                         className="input__text"
-                        // placeholder={userToPatch.password}
                         register={register}
                         errors={errors}
                     />
-                    {errors.password && <p>{errors.password.message}</p>}
 
                     <Input
                         labelText="voornaam"
                         type="text"
                         name="firstname"
                         className="input__text"
-                        // placeholder={userToPatch.firstname}
                         register={register}
                         errors={errors}
                     />
-                    {errors.firstname && <p>{errors.firstname.message}</p>}
 
                     <Input
                         labelText="achternaam"
                         type="text"
                         name="lastname"
                         className="input__text"
-                        // placeholder={userToPatch.lastname}
                         register={register}
                         errors={errors}
                     />
-                    {errors.lastname && <p>{errors.lastname.message}</p>}
 
                     <Input
                         labelText="emailadres"
                         type="email"
                         name="emailadress"
                         className="input__text"
-                        // placeholder={userToPatch.emailadress}
                         register={register}
                         errors={errors}
                     />
-                    {errors.emailadress && <p>{errors.emailadress.message}</p>}
 
-                    <Button type="submit" className="button--ellips">versturen</Button>
+                    <Button
+                        type="submit"
+                        className="button--ellips"
+                    >
+                        versturen
+                    </Button>
                     {patchThisUser &&
                         <h4 className="attention margin-top1">De user is succesvol gewijzigd. Refresh deze pagina om het
-                            resultaat te zien in de tabel hierboven.</h4>}
+                            resultaat te zien in de tabel hierboven, tenzij je het wachtwoord hebt gewijzigd.</h4>}
+
                 </form>
             </section>
 
 
             <section>
                 <h3 className="margin-top2">User toevoegen</h3>
-                <p>Als je een user wilt toevoegen, dan kan je dit via de pagina <Link to="/register">registreren</Link> doen.</p>
+                <p>Als je een user wilt toevoegen, dan kan je dit via de pagina <Link
+                    to="/register">registreren</Link> doen.</p>
             </section>
 
 
             {/*mail..................................................................................................*/}
             <section>
                 <h2 className="margin-top2">Bericht versturen</h2>
-                <p className="margin-bottom2">Bericht versturen werkt (nog) niet. Ik krijg zowel een Error while sending mail en een Response.status 200 en ik kon geen hulp krijgen bij het debuggen van deze errors omdat dit buiten de scope van de opleiding valt.. </p>
+                <p className="margin-bottom2">Bericht versturen vanuit de frontend werkt (nog) niet; in de backend wel.
+                    Ik krijg zowel een "Error while sending mail" en een Response.status 200. Ik kon geen hulp krijgen
+                    bij het debuggen van deze errors omdat dit buiten de scope van de opleiding valt.</p>
                 <form
                     key={2}
                     onSubmit={handleSubmit2(emailUserFunction)}
                 >
-                    <div className="recipient__div">
+                    <div className="margin-bottom2">
                         <label htmlFor="recipient">
                             Email naar:
                             <select
                                 className="input__text label__select"
-                                onChange={e => setIdOfUserToEmail(e.currentTarget.value)}
+                                onChange={e => setIdOfUserToEmail(e.target.value)}
                             >
                                 <option>selecteer een emailadres</option>
                                 {users.map((user) => {
@@ -355,7 +350,7 @@ function Admin() {
                         versturen
                     </button>
 
-                    {/*{succesSendMail && <h4 className="attention margin-top1"> Je mail is succesvol verzonden.</h4>}*/}
+                    {succesSendMail && <h4 className="attention margin-top1"> Je mail is succesvol verzonden.</h4>}
                 </form>
             </section>
 

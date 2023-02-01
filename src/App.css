@@ -28,6 +28,13 @@ body {
     margin-right: 1em;
 }
 
+.page--flex {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
 /*css on page where left text and right photo................*/
 .left-side {
     padding-left: 1em;
@@ -104,6 +111,10 @@ a {
 
 .margin-left1 {
     margin-left: 1em;
+}
+
+.margin-left16 {
+    margin-left: 1.6em;
 }
 
 .margin-right1 {

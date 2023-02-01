@@ -51,7 +51,6 @@ function Recipe() {
                         "Authorization": `Bearer ${token}`,
                     }
                 });
-                console.log(response.data);
                 setRecipe(response.data);
                 setIngredients(response.data.ingredients);
                 setMonths(response.data.months);
@@ -79,8 +78,6 @@ function Recipe() {
             const {value} = e.target;
             const list = [...utensilList, {id: idItem, utensil: value}]
             setUtensilList(list);
-            console.log("Utensillist");
-            console.log(utensilList);
         }
     }
 
@@ -91,14 +88,10 @@ function Recipe() {
             const {value} = e.target;
             const list = [...instructionList, {id: idItem, instruction: value}]
             setInstructionList(list);
-            console.log("Instructionlist");
-            console.log(instructionList);
         }
     }
 
     async function patchRecipe(data) {
-        console.log("Data in patch function to patch")
-        console.log(data)
         // added because in backend the title is required (may not be blanc)
         if (!data.title) {
             data.title = recipe.title;
@@ -226,8 +219,6 @@ function Recipe() {
 
     // method to delete recipe..........................................................................................
     async function deleteRecipe() {
-        console.log("Id in deletefunction:");
-        console.log({idRecipe})
         try {
             const response = await axios.delete(`http://localhost:8081/recipes/${idRecipe}`, {
                 headers: {
@@ -235,7 +226,6 @@ function Recipe() {
                     "Authorization": `Bearer ${token}`,
                 }
             });
-            console.log(response);
             setDeleted(true);
         } catch (e) {
             console.error(e);
@@ -255,10 +245,6 @@ function Recipe() {
         <article className="page" key={`${recipe.id}-1`}>
             <form onSubmit={handleSubmit(patchRecipe)}>
                 <div className="recipe-description" ref={componentRef}>
-
-                    {console.log("instructions in return of recipe")}
-                    {console.log(instructions)}
-
 
                     {/*left-side.....................................................................................*/}
                     <section className="left-side--narrow">
@@ -294,7 +280,7 @@ function Recipe() {
                                             <label className="ingredient__label">
                                                 <input
                                                     type="checkbox"
-                                                    className="checkbox__input checkbox__input--margin"/>
+                                                    className="checkbox__input margin-left16"/>
                                                 {ingredient.amount > 0 &&
                                                     (
                                                         <>
@@ -487,7 +473,7 @@ function Recipe() {
                             <Input
                                 type="text"
                                 name="title"
-                                className="input input--width"
+                                className="input input--large"
                                 placeholder={recipe.title}
                                 register={register}
                                 errors={errors}
@@ -499,7 +485,7 @@ function Recipe() {
                             <Input
                                 type="text"
                                 name="sub_title"
-                                className="input input--width"
+                                className="input input--large"
                                 placeholder={recipe.sub_title}
                                 register={register}
                                 errors={errors}
@@ -581,7 +567,7 @@ function Recipe() {
                                                     <input
                                                         type="text"
                                                         name="utensil"
-                                                        className="input input--width"
+                                                        className="input input--large"
                                                         placeholder="pas eventueel aan en druk op enter"
                                                         value={i.utensil}
                                                         onKeyDown={e => handleInputChangePatchUtensil(e, i, utensil.id)}
@@ -616,7 +602,7 @@ function Recipe() {
                                                         <input
                                                             type="text"
                                                             name="instruction"
-                                                            className="input input--width"
+                                                            className="input input--large"
                                                             placeholder="pas eventueel aan en druk op enter"
                                                             value={i.instruction}
                                                             onKeyDown={e => handleInputChangePatchInstruction(e, i, instruction.id)}

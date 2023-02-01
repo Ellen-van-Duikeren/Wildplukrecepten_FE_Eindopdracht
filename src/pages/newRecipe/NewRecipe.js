@@ -155,9 +155,7 @@ function NewRecipe() {
                         "Authorization": `Bearer ${token}`,
                     }
                 });
-            console.log(response.data);
             setRecipe_id(response.data);
-            console.log(data);
             if (response.status === 201) {
                 toggleAddSuccessRecipe(true);
             }
@@ -170,7 +168,6 @@ function NewRecipe() {
     // photo
     function handleImageChange(e) {
         const uploadedFile = e.target.files[0];
-        console.log(uploadedFile);
         setFile(uploadedFile);
         setPreviewUrl(URL.createObjectURL(uploadedFile));
     }
@@ -182,7 +179,6 @@ function NewRecipe() {
         formData.append("file", file);
 
         try {
-            console.log("De upload button activeert de methode sendImage en de recipe_id is: " + recipe_id);
             const response = await axios.post(`http://localhost:8081/recipes/${recipe_id}/photo`, formData,
                 {
                     headers: {
@@ -190,8 +186,6 @@ function NewRecipe() {
                         "Authorization": `Bearer ${token}`,
                     },
                 })
-            console.log("Photo")
-            console.log(response);
             if (response.status === 204) {
                 toggleAddSuccessPhoto(true);
             }
@@ -354,14 +348,14 @@ function NewRecipe() {
                                         <div>
                                             {utensilList.length !== 1 &&
                                                 <button
-                                                    className="button--round button--round-margin"
+                                                    className="button--round margin-left1"
                                                     onClick={() => handleRemoveClick(i, utensilList, setUtensilList)}
                                                 >
                                                     -
                                                 </button>}
                                             {utensilList.length - 1 === i &&
                                                 <button
-                                                    className="button--round button--round-margin"
+                                                    className="button--round margin-left1"
                                                     onClick={() => handleAddClick(utensilList, setUtensilList)}
                                                 >
                                                     +
@@ -411,14 +405,14 @@ function NewRecipe() {
                                         <div>
                                             {ingredientList.length !== 1 &&
                                                 <button
-                                                    className="button--round button--round-margin"
+                                                    className="button--round margin-left1"
                                                     onClick={() => handleRemoveClick(i, ingredientList, setIngredientList)}
                                                 >
                                                     -
                                                 </button>}
                                             {ingredientList.length - 1 === i &&
                                                 <button
-                                                    className="button--round button--round-margin"
+                                                    className="button--round margin-left1"
                                                     onClick={() => handleAddClick(ingredientList, setIngredientList)}
                                                 >
                                                     +
@@ -449,14 +443,14 @@ function NewRecipe() {
                                         <div>
                                             {instructionList.length !== 1 &&
                                                 <button
-                                                    className="button--round button--round-margin"
+                                                    className="button--round margin-left1"
                                                     onClick={() => handleRemoveClick(i, instructionList, setInstructionList)}
                                                 >
                                                     -
                                                 </button>}
                                             {instructionList.length - 1 === i &&
                                                 <button
-                                                    className="button--round button--round-margin"
+                                                    className="button--round margin-left1"
                                                     onClick={() => handleAddClick(instructionList, setInstructionList)}
                                                 >
                                                     +

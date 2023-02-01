@@ -14,18 +14,11 @@ function Register() {
     const [succesRegister, toggleSuccessRegister] = useState(true);
 
     async function registerUser(data) {
-        console.log("Data in register:");
-        console.log(data);
         try {
             const response = await axios.post('http://localhost:8081/users/register', data)
-            console.log("Response in register: ")
-            console.log(response);
             if (response.status !== 201) {
-                console.log("Registratie is niet gelukt");
                 toggleSuccessRegister(false);
             }
-            // login(response.data.jwt);
-            // after register not login automatically but go to login
             navigate('/login')
         } catch (e) {
             console.error(e)

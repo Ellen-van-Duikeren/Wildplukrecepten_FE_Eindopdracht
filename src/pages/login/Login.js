@@ -1,4 +1,3 @@
-import "./Login.css";
 import garlic from "../../assets/garlic.jpg";
 import {Link, useNavigate} from "react-router-dom";
 import React, {useContext, useState} from "react";
@@ -17,9 +16,6 @@ function Login() {
     async function onSubmit(data) {
         try {
             const response = await axios.post('http://localhost:8081/authenticate', data);
-            console.log("Response login")
-            console.log(response);
-            console.log(response.status);
             if (response.status === 403) {
                 setUnknown(true);
             }
@@ -31,7 +27,7 @@ function Login() {
     }
 
     return (
-        <article className="page login-page">
+        <article className="page page--flex">
             <form onSubmit={handleSubmit(onSubmit)}>
                 <h1>Inloggen</h1>
                 <p>Ben je nieuw hier, ga dan naar <Link
@@ -44,7 +40,7 @@ function Login() {
                     type="email"
                     name="username"
                     autocomplete="username"
-                    className="input__text"
+                    className="input__text input--medium"
                     placeholder="typ hier je emailadres"
                     validationRules={{
                         required: {
@@ -62,7 +58,7 @@ function Login() {
                     type="password"
                     name="password"
                     autocomplete="current-password"
-                    className="input__text"
+                    className="input__text input--medium"
                     placeholder="wachtwoord"
                     validationRules={{
                         required: {

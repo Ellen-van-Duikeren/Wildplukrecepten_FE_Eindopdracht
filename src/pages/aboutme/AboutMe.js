@@ -1,11 +1,10 @@
 import React from 'react';
-import './AboutMe.css';
 import raspberry from '../../assets/raspberry.png';
 
 function AboutMe() {
     return (
-        <article className="page about-me-page">
-            <div className="left-side" id="text-why">
+        <article className="page page--flex">
+            <div className="left-side">
                 <h1>Ellen van Duikeren</h1>
                 <p>Ik heb deze website wildplukrecepten ontwikkeld als eindopdracht voor mijn
                     opleiding tot full stack

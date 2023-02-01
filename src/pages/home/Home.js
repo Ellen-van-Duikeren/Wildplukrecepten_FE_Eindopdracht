@@ -1,10 +1,9 @@
-import './Home.css';
 import garlic from "../../assets/garlic.jpg";
 
 function Home() {
 
     return (
-        <article className="page home-page">
+        <article className="page page--flex">
             <section className="left-side">
                 <h1>Wildplukrecepten</h1>
 

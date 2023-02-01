@@ -23,13 +23,18 @@ label {
     margin-left: 2em;
 }
 
-.input--width {
-    width: 30em;
-}
-
 .input--small {
     width: 4em;
 }
+
+.input--medium {
+    width: 20em;
+}
+.input--large {
+    width: 30em;
+}
+
+
 
 
 

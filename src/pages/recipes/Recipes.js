@@ -68,8 +68,6 @@ function Recipe() {
                     },
                     signal: controller.signal,
                 });
-                console.log("Response get all recipes:")
-                console.log(response.data);
                 response.data.sort((a, b) => a.id - b.id);
                 setRecipes(response.data);
                 setFilteredRecipes(response.data);

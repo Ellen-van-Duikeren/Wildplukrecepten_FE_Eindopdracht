@@ -1,4 +1,3 @@
-/*button....................................................*/
 button {
     background-color: var(--green);
     border: transparent;
@@ -19,10 +18,6 @@ button {
 .button--round-brown {
     background-color: var(--purplebrown);
     color: white;
-}
-
-.button--round-margin{
-    margin-left: 0.5em;
 }
 
 .button--ellips {
