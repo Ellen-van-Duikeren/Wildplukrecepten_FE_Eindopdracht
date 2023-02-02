@@ -13,16 +13,22 @@ function Login() {
     const navigate = useNavigate();
     const [unknown, setUnknown] = useState(false);
 
-    async function onSubmit(data) {
+    async function onSubmit(data, e) {
+        e.preventDefault();
         try {
             const response = await axios.post('http://localhost:8081/authenticate', data);
-            if (response.status === 403) {
+            if (response.status != 200) {
                 setUnknown(true);
             }
+            console.log(response);
             navigate('/recipes');
             login(response.data.jwt);
-        } catch (e) {
-            console.error(e);
+        } catch ( e ) {
+            if(axios.isCancel(e)){
+                console.log('The axios request was cancelled')
+            } else {
+                console.error(e)
+            }
         }
     }
 
@@ -30,8 +36,7 @@ function Login() {
         <article className="page page--flex">
             <form onSubmit={handleSubmit(onSubmit)}>
                 <h1>Inloggen</h1>
-                <p>Ben je nieuw hier, ga dan naar <Link
-                    to="/register">registreren.</Link></p>
+                <p>Ben je nieuw hier, ga dan naar <Link to="/register">registreren.</Link></p>
 
                 <div className="margin-top2">
                 <Input
@@ -72,7 +77,7 @@ function Login() {
 
                 <button
                     type="submit"
-                    className="button--ellips"
+                    className="button--ellips margin-bottom2"
                 >
                     inloggen
                 </button>

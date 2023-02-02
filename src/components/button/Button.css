@@ -8,6 +8,7 @@ button {
     width: calc(var(--baseFont) * 2);
     height: calc(var(--baseFont) * 2);
     padding: calc(var(--baseFont) * 0.5);
+    font-size: calc(var(--baseFont) * 0.9);
     border-radius: 50%;
 }
 

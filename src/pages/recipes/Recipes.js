@@ -71,7 +71,6 @@ function Recipe() {
                 response.data.sort((a, b) => a.id - b.id);
                 setRecipes(response.data);
                 setFilteredRecipes(response.data);
-                // setRecipesToShow(response.data);
             } catch (e) {
                 console.error(e);
             }
@@ -143,8 +142,9 @@ function Recipe() {
         <section className="page">
             <article className="recipes__article margin-bottom1">
                 <div className="recipes__div--space-between">
-                    {user.firstname ? <h1>Welkom {user.firstname} bij recepten</h1> :
-                        <h1>Welkom bij wildplukrecepten</h1>}
+                    {user.firstname ? <h1>Welkom {user.firstname}, bij de wildplukrecepten</h1> :
+                        <h1>Welkom bij de wildplukrecepten</h1>}
+
 
                     {/*buttons for admin*/}
                     {(isAuth && user.authority === "ROLE_ADMIN" && !admin) && <Button
@@ -164,10 +164,10 @@ function Recipe() {
                     </Button>}
                 </div>
 
+
                 {/*search by word*/}
                 <h3>Zoek op woord, maand of categorie</h3>
                 <input
-                    id="search"
                     placeholder="zoeken..."
                     onChange={(e) => setQuery(e.currentTarget.value)}
                 />
@@ -177,7 +177,6 @@ function Recipe() {
                     className="recipes__select margin-left1"
                     value={month}
                     onChange={(e) => setMonth(e.currentTarget.value)}>
-                    {/*onChange={(e) => selectByMonth(e, e.target.value)}>*/}
                     {monthsList.map(month => (
                         <option
                             key={month.value}
@@ -221,6 +220,7 @@ function Recipe() {
                     </select>
                 }
 
+
                 <Button
                     type="button"
                     className="button--ellips button--ellips-yellow margin-left1"
@@ -228,7 +228,6 @@ function Recipe() {
                 >
                     reset
                 </Button>
-
             </article>
 
 
@@ -241,10 +240,9 @@ function Recipe() {
                         key={recipe.id}
                     >
                         <ul className="recipes__ul">
-
                             <li
-                                className="recipes__li">
-
+                                className="recipes__li"
+                            >
                                 {recipe.file &&
                                     <img
                                         src={recipe.file.url}
@@ -260,10 +258,8 @@ function Recipe() {
                 ))
                 }
             </article>
-
         </section>
-    )
-        ;
+    );
 }
 
 export default Recipe;

@@ -31,7 +31,7 @@ function Recipe() {
     // delete recipe
     const [deleted, setDeleted] = useState(false);
 
-    // updates
+    // change recipe
     const {register, handleSubmit, formState: {errors}} = useForm();
     const [patchThisRecipe, togglePatchThisRecipe] = useState(false);
     const [showInputFields, toggleShowInputFields] = useState(false);
@@ -41,6 +41,8 @@ function Recipe() {
 
     // method to get a recipe by id.....................................................................................
     useEffect(() => {
+        const controller = new AbortController();
+
         async function fetchRecipe() {
             setDeleted(false);
             togglePatchThisRecipe(false);
@@ -49,7 +51,8 @@ function Recipe() {
                     headers: {
                         "Content-Type": "application/json",
                         "Authorization": `Bearer ${token}`,
-                    }
+                    },
+                    signal: controller.signal,
                 });
                 setRecipe(response.data);
                 setIngredients(response.data.ingredients);
@@ -66,6 +69,9 @@ function Recipe() {
 
         if (idRecipe) {
             void fetchRecipe();
+            return function cleanup() {
+                controller.abort();
+            }
         }
     }, []);
 
@@ -108,7 +114,7 @@ function Recipe() {
             data.instructions.push(instructionList[instruction])
         }
 
-
+        // add months to data.months
         data.months = [];
         if (data.january) {
             data.months.push("JANUARI")
@@ -150,7 +156,7 @@ function Recipe() {
             data.months.push("JAARROND")
         }
 
-        // add checkboxes to data.tags
+        // add tags to data.tags
         data.tags = [];
         if (data.vegetarian) {
             data.tags.push("VEGETARISCH")
@@ -260,7 +266,9 @@ function Recipe() {
                                         disabled={countPersons <= 1}
                                     >-
                                     </Button>
+
                                     <p className="counter-persons__p margin-bottom2">{countPersons}</p>
+
                                     <Button
                                         type="button"
                                         className="button--round button--round-yellow"
@@ -271,6 +279,7 @@ function Recipe() {
                                 </div>
                             </>
                         }
+
 
                         {ingredients &&
                             <div>
@@ -283,18 +292,15 @@ function Recipe() {
                                                     className="checkbox__input margin-left16"/>
                                                 {ingredient.amount > 0 &&
                                                     (
-                                                        <>
-                                                            {/*{admin && <p>id {ingredient.id}: </p>}*/}
-                                                            <p className="ingredient__p">
-                                                                {recipe.persons > 0
-                                                                    ?
-                                                                    ((countPersons * (ingredient.amount) / recipe.persons) < 1)
-                                                                        ? (countPersons * (ingredient.amount) / recipe.persons).toFixed(1)
-                                                                        : (countPersons * (ingredient.amount) / recipe.persons)
-                                                                    :
-                                                                    ingredient.amount}
-                                                            </p>
-                                                        </>
+                                                        <p className="ingredient__p">
+                                                            {recipe.persons > 0
+                                                                ?
+                                                                ((countPersons * (ingredient.amount) / recipe.persons) < 1)
+                                                                    ? (countPersons * (ingredient.amount) / recipe.persons).toFixed(1)
+                                                                    : (countPersons * (ingredient.amount) / recipe.persons)
+                                                                :
+                                                                ingredient.amount}
+                                                        </p>
                                                     )}
                                                 <p className="ingredient__p">{ingredient.unit}</p>
                                                 <p className="ingredient__p">{ingredient.ingredient_name}</p>
@@ -313,7 +319,7 @@ function Recipe() {
                         {/*buttons for admin*/}
                         {(isAuth && user.authority === "ROLE_ADMIN" && !admin) && <Button
                             type="button"
-                            className="button--ellips margin-bottom1"
+                            className="button--ellips margin-bottom2"
                             onClick={() => toggleAdmin(!admin)}
                         >
                             show admin
@@ -371,6 +377,7 @@ function Recipe() {
                             </div>
                         }
 
+
                         {months &&
                             <div className="tags">
                                 {months.map((month, i) => {
@@ -385,7 +392,7 @@ function Recipe() {
                                 })}
 
                                 {showInputFields &&
-                                    <div className="">
+                                    <div>
                                         <Checkbox
                                             name="january"
                                             labelText="januari"
@@ -468,7 +475,7 @@ function Recipe() {
                             </div>
                         }
 
-                        {admin ? <h1>{recipe.id} {recipe.title}</h1> : <h1>{recipe.title}</h1>}
+                        {admin ? <h1>{recipe.id}: {recipe.title}</h1> : <h1>{recipe.title}</h1>}
                         {showInputFields &&
                             <Input
                                 type="text"
@@ -510,7 +517,7 @@ function Recipe() {
                                     }
                                 })}
                             >
-                                    </textarea>
+                            </textarea>
                         }
 
                         <div className="times margin-top1">
@@ -558,24 +565,22 @@ function Recipe() {
                         {utensils.length > 0 &&
                             <>
                                 <h3 className="margin-top1">Benodigdheden:</h3>
-                                <div>
-                                    {utensils.map((utensil, i) => {
-                                        return (
-                                            <ul key={`${utensil}-${i}`}>
-                                                <li className="margin-left1">{utensil.utensil}</li>
-                                                {showInputFields &&
-                                                    <input
-                                                        type="text"
-                                                        name="utensil"
-                                                        className="input input--large"
-                                                        placeholder="pas eventueel aan en druk op enter"
-                                                        value={i.utensil}
-                                                        onKeyDown={e => handleInputChangePatchUtensil(e, i, utensil.id)}
-                                                    />}
-                                            </ul>
-                                        );
-                                    })}
-                                </div>
+                                {utensils.map((utensil, i) => {
+                                    return (
+                                        <ul key={`${utensil}-${i}`}>
+                                            <li className="margin-left1">{utensil.utensil}</li>
+                                            {showInputFields &&
+                                                <input
+                                                    type="text"
+                                                    name="utensil"
+                                                    className="input input--large"
+                                                    placeholder="pas eventueel aan en druk op enter"
+                                                    value={i.utensil}
+                                                    onKeyDown={e => handleInputChangePatchUtensil(e, i, utensil.id)}
+                                                />}
+                                        </ul>
+                                    );
+                                })}
                             </>
                         }
 
@@ -583,42 +588,39 @@ function Recipe() {
                         {instructions.length > 0 &&
                             <>
                                 <h3 className="margin-top1">Bereiding:</h3>
-                                <div>
-                                    {instructions.map((instruction, i) => {
-                                        return (
-                                            <div className="instructions--div" key={`${instruction}-${i}`}>
-                                                <Button
-                                                    type="button"
-                                                    className="button--round margin-left1 margin-right1"
-                                                >
-                                                    {i + 1}
-                                                </Button>
-                                                <div>
-                                                    <p className="p--strong">Stap {i + 1}</p>
-                                                    {showInputFields ?
-                                                        <p>id {instruction.id}: {instruction.instruction}</p> :
-                                                        <p>{instruction.instruction}</p>}
-                                                    {showInputFields &&
-                                                        <input
-                                                            type="text"
-                                                            name="instruction"
-                                                            className="input input--large"
-                                                            placeholder="pas eventueel aan en druk op enter"
-                                                            value={i.instruction}
-                                                            onKeyDown={e => handleInputChangePatchInstruction(e, i, instruction.id)}
-                                                        />}
-                                                </div>
+                                {instructions.map((instruction, i) => {
+                                    return (
+                                        <div className="instructions--div" key={`${instruction}-${i}`}>
+                                            <Button
+                                                type="button"
+                                                className="button--round margin-left1 margin-right1"
+                                            >
+                                                {i + 1}
+                                            </Button>
+                                            <div>
+                                                <p className="p--strong">Stap {i + 1}</p>
+                                                <p>{instruction.instruction}</p>
+                                                {showInputFields &&
+                                                    <input
+                                                        type="text"
+                                                        name="instruction"
+                                                        className="input input--large"
+                                                        placeholder="pas eventueel aan en druk op enter"
+                                                        value={i.instruction}
+                                                        onKeyDown={e => handleInputChangePatchInstruction(e, i, instruction.id)}
+                                                    />}
                                             </div>
-                                        );
-                                    })}
-                                </div>
+                                        </div>
+                                    );
+                                })}
                             </>
                         }
 
-                        {recipe.tip && <>
-                            <h4>Tip: </h4>
-                            <p>{recipe.tip}</p>
-                        </>
+                        {recipe.tip &&
+                            <>
+                                <h4>Tip: </h4>
+                                <p>{recipe.tip}</p>
+                            </>
                         }
 
 
@@ -740,19 +742,19 @@ function Recipe() {
                                         className="component-checkbox__input"
                                         register={register}
                                     />
-                                </>}
-
+                                </>
+                            }
                         </div>
 
                         <h2>Eet smakelijk!</h2>
 
                         {/*printing*/}
-                        {/*because after patching an utensil, ingredient or instruction one have to press enter to make it work, the form to print is automatically shown.*/}
-                        {/*to prevent this I have decided to prevent printing when patching.*/}
+                        {/*Because after patching an utensil, ingredient or instruction one have to press enter to make it work, the form to print is automatically shown.*/}
+                        {/*To prevent this I have decided to prevent printing when patching.*/}
 
                         {!admin && <button
                             onClick={handlePrint}
-                            className="button--ellips recipes__button"
+                            className="button--ellips recipes__button margin-top1"
                         >
                             print
                         </button>
@@ -769,7 +771,7 @@ function Recipe() {
                                 register={register}
                                 errors={errors}
                             />}
-                        {errors.source && <p>{errors.source.message}</p>}
+
 
                         {admin &&
                             <Button
@@ -777,21 +779,16 @@ function Recipe() {
                                 className="button--ellips margin-top2"
                             >
                                 versturen
-                            </Button>}
+                            </Button>
+                        }
                         {patchThisRecipe &&
                             <h4 className="attention margin-top2">Dit recept is succesvol aangepast. Ververs deze pagina
                                 om je aangepaste recept te zien.</h4>}
-
                     </section>
-
                 </div>
-
             </form>
         </article>
-
-
-    )
-        ;
+    );
 }
 
 export default Recipe;

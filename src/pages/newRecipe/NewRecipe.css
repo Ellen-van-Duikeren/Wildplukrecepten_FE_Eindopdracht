@@ -36,7 +36,7 @@
 }
 
 .utensil__li, .ingredient__li, .instruction__li {
-    margin-left: 20px;
+    margin-left: 1em;
     font-size: calc(var(--baseFont) * 0.8);
 }
 
