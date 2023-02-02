@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
+
 * {
     margin: 0;
     padding: 0;
@@ -11,7 +13,7 @@
     --purplebrown: #481620;
     --blue: #1C6E8C;
     --pinkred: #D55672;
-    --baseFont: 16px;
+    --baseFont: 15px;
     --position--left: 12em;
 }
 
@@ -26,6 +28,13 @@ body {
     padding: 2em 2em 4em 2em;
     margin-left: 1em;
     margin-right: 1em;
+}
+
+.page--flex {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 
 /*css on page where left text and right photo................*/
@@ -45,7 +54,7 @@ body {
 
 .photo-caption {
     color: black;
-    font-size: calc(var(--baseFont)*0.7);
+    font-size: calc(var(--baseFont) * 0.7);
 }
 
 /*font-size.................................................*/
@@ -65,14 +74,9 @@ h3 {
     padding-bottom: 0.5em;
 }
 
-p{
+p {
     font-size: var(--baseFont);
-    /*padding-bottom: 0.2em;*/
     line-height: 1.5em;
-}
-
-.p__line-height {
-
 }
 
 li {
@@ -106,6 +110,10 @@ a {
     margin-left: 1em;
 }
 
+.margin-left16 {
+    margin-left: 1.6em;
+}
+
 .margin-right1 {
     margin-right: 1em;
 }
@@ -115,9 +123,4 @@ a {
     margin-top: 1em;
     margin-bottom: 2em;
     color: black;
-}
-
-.error {
-    margin-bottom: 2em;
-    color: red;
 }

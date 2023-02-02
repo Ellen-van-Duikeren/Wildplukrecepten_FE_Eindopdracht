@@ -1,3 +1,42 @@
+# Wildplukrecepten_FE_eindopdracht
+
+## Algemeen
+De applicatie wildplukrecepten is een receptenwebsite waarin als ingredient wildpluksel is gebruikt. Wildpluksels zijn bladeren, stengels, wortels, bloemen, vruchten van planten, struiken of bomen, die eetbaar zijn.
+Het onderscheidende van deze website ten opzichte van vele andere receptenwebsites is dat het hier mogelijk is om te zoeken op maand waarin het wildpluksel geoogst kan worden.
+
+## Beveiliging
+De applicatie maakt gebruik van 2 rollen: user en admin.
+
+## Functionaliteiten
+Voor de rollen user en admin:
+* Overzicht van alle recepten op titel en foto
+* Recept zoeken op zoekterm, maand of tag
+* Recept bekijken
+* Aanpassen van het aantal personen in een recept waarop de ingredienten automatisch aangepast worden
+* Printen van een recept
+* Nieuw recept toevoegen
+* Foto toevoegen aan een nieuw recept
+* User registreren
+* User inloggen
+
+En specifiek voor de rol admin:
+* Recept wijzigen
+* Recept verwijderen
+* Recept zoeken op id
+* User wijzigen
+* User verwijderen
+  
+  
+Have fun met wildplukken en eet smakelijk.  
+Ellen van Duikeren  
+februari 2023
+
+  
+  
+  
+# Hieronder vind je meer info over React
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

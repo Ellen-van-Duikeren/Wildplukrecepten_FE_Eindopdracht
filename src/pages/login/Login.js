@@ -1,4 +1,3 @@
-import "./Login.css";
 import garlic from "../../assets/garlic.jpg";
 import {Link, useNavigate} from "react-router-dom";
 import React, {useContext, useState} from "react";
@@ -14,28 +13,30 @@ function Login() {
     const navigate = useNavigate();
     const [unknown, setUnknown] = useState(false);
 
-    async function onSubmit(data) {
+    async function onSubmit(data, e) {
+        e.preventDefault();
         try {
             const response = await axios.post('http://localhost:8081/authenticate', data);
-            console.log("Response login")
-            console.log(response);
-            console.log(response.status);
-            if (response.status === 403) {
+            if (response.status != 200) {
                 setUnknown(true);
             }
+            console.log(response);
             navigate('/recipes');
             login(response.data.jwt);
-        } catch (e) {
-            console.error(e);
+        } catch ( e ) {
+            if(axios.isCancel(e)){
+                console.log('The axios request was cancelled')
+            } else {
+                console.error(e)
+            }
         }
     }
 
     return (
-        <article className="page login-page">
+        <article className="page page--flex">
             <form onSubmit={handleSubmit(onSubmit)}>
                 <h1>Inloggen</h1>
-                <p>Ben je nieuw hier, ga dan naar <Link
-                    to="/register">registreren.</Link></p>
+                <p>Ben je nieuw hier, ga dan naar <Link to="/register">registreren.</Link></p>
 
                 <div className="margin-top2">
                 <Input
@@ -44,7 +45,7 @@ function Login() {
                     type="email"
                     name="username"
                     autocomplete="username"
-                    className="input__text"
+                    className="input__text input--medium"
                     placeholder="typ hier je emailadres"
                     validationRules={{
                         required: {
@@ -62,7 +63,7 @@ function Login() {
                     type="password"
                     name="password"
                     autocomplete="current-password"
-                    className="input__text"
+                    className="input__text input--medium"
                     placeholder="wachtwoord"
                     validationRules={{
                         required: {
@@ -76,7 +77,7 @@ function Login() {
 
                 <button
                     type="submit"
-                    className="button--ellips"
+                    className="button--ellips margin-bottom2"
                 >
                     inloggen
                 </button>

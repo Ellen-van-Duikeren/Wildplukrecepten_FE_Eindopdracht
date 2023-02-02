@@ -15,19 +15,15 @@ function AuthContextProvider({children}) {
 
 
     useEffect(() => {
-            console.log("Je zit nu aan het begin van eerste useEffect in authcontext.")
             const storedToken = localStorage.getItem("token");
-            console.log("Token in authcontext: " + storedToken);
             if (storedToken) {
                 // when token then fetchUserData
-                console.log("Er is een token bekend in authcontext.")
                 const decodedToken = jwtDecode(storedToken)
                 if (Math.floor(Date.now() / 1000) < decodedToken.exp) {
                     void fetchUserData(storedToken, decodedToken.sub);
                 }
             } else {
-                // when no token set status done and render app in authContextProvider
-                console.log("Er is GEEN token bekend in authcontext.")
+                // when no token set status done and render app
                 setAuth({
                     ...auth,
                     isAuth: false,
@@ -35,19 +31,13 @@ function AuthContextProvider({children}) {
                     status: 'done',
                 });
             }
-        }
-        ,
-        []
-    )
-    ;
+        }, []
+    );
 
 
     function login(token) {
-        console.log(token);
-        console.log("De gebruiker is ingelogd");
         localStorage.setItem('token', token);
         const decodedToken = jwtDecode(token);
-        console.log(decodedToken);
         void fetchUserData(token, decodedToken.sub, "/recipes");
     }
 
@@ -60,10 +50,6 @@ function AuthContextProvider({children}) {
                     Authorization: `Bearer ${token}`,
                 }
             })
-            console.log("Response user na inlog:")
-            console.log(response);
-            console.log(response.data.authorities);
-            console.log(response.data.authorities[0].authority);
             setAuth({
                 ...auth,
                 isAuth: true,

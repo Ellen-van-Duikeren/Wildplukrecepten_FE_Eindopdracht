@@ -1,4 +1,3 @@
-/*users*/
 .users {
     border-collapse: collapse;
     width: 90%;
@@ -24,10 +23,6 @@
     text-align: left;
     background-color: var(--purplebrown);
     color: white;
-}
-
-.recipient__div {
-    margin-bottom: 2em;
 }
 
 .label__select {

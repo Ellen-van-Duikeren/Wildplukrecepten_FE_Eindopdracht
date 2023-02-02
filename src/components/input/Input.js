@@ -1,7 +1,7 @@
 import React from 'react';
 import './Input.css';
 
-function Input({ value, name, labelText, type, className, placeholder, min, max, step, register,  validationRules, errors }) {
+function Input({ type, name, labelText, className, placeholder, value, min, max, step, register, validationRules, errors }) {
 
 
     return (

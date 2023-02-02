@@ -3,8 +3,6 @@ import {NavLink, useNavigate} from 'react-router-dom';
 import './Nav.css';
 import {AuthContext} from "../../context/AuthContext";
 
-//nog logo toevoegen?
-
 function Nav() {
     const {isAuth, user, logout} = useContext(AuthContext);
     const navigate = useNavigate();

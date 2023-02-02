@@ -155,34 +155,29 @@ function NewRecipe() {
                         "Authorization": `Bearer ${token}`,
                     }
                 });
-            console.log(response.data);
             setRecipe_id(response.data);
-            console.log(data);
             if (response.status === 201) {
                 toggleAddSuccessRecipe(true);
             }
         } catch (e) {
             console.error(e);
         }
-
     }
+
 
     // photo
     function handleImageChange(e) {
         const uploadedFile = e.target.files[0];
-        console.log(uploadedFile);
         setFile(uploadedFile);
         setPreviewUrl(URL.createObjectURL(uploadedFile));
     }
 
-    // photo
     async function sendImage(e) {
         e.preventDefault();
         const formData = new FormData();
         formData.append("file", file);
 
         try {
-            console.log("De upload button activeert de methode sendImage en de recipe_id is: " + recipe_id);
             const response = await axios.post(`http://localhost:8081/recipes/${recipe_id}/photo`, formData,
                 {
                     headers: {
@@ -190,8 +185,6 @@ function NewRecipe() {
                         "Authorization": `Bearer ${token}`,
                     },
                 })
-            console.log("Photo")
-            console.log(response);
             if (response.status === 204) {
                 toggleAddSuccessPhoto(true);
             }
@@ -220,12 +213,13 @@ function NewRecipe() {
         }
     }
 
+
     return (
         <>
-            <article className="page new-recipe-page">
+            <article className="page">
                 <h1 className="margin-bottom1">Nieuw recept toevoegen</h1>
                 <form onSubmit={handleSubmit(onSubmit)} className="new-recipe-page__form">
-                    <div className="texts">
+                    <div>
                         <Input
                             labelText="Titel *"
                             type="text"
@@ -324,10 +318,6 @@ function NewRecipe() {
                                 maxLength: {
                                     value: 50,
                                     message: 'Maximaal 50 karakters',
-                                },
-                                required: {
-                                    value: false,
-                                    message: 'Dit veld is verplicht'
                                 }
                             }}
                             register={register}
@@ -354,14 +344,14 @@ function NewRecipe() {
                                         <div>
                                             {utensilList.length !== 1 &&
                                                 <button
-                                                    className="button--round button--round-margin"
+                                                    className="button--round margin-left1"
                                                     onClick={() => handleRemoveClick(i, utensilList, setUtensilList)}
                                                 >
                                                     -
                                                 </button>}
                                             {utensilList.length - 1 === i &&
                                                 <button
-                                                    className="button--round button--round-margin"
+                                                    className="button--round margin-left1"
                                                     onClick={() => handleAddClick(utensilList, setUtensilList)}
                                                 >
                                                     +
@@ -376,7 +366,7 @@ function NewRecipe() {
 
                     <div>
                         <h3>Ingrediënten</h3>
-                        <p>Vul hier eerst de hoeveelheid in, dan de maat en als laatste het ingredient</p>
+                        <p className="margin-bottom1">Vul hier eerst de hoeveelheid in, dan de eenheid (gram, liter,..) en tenslotte het ingredient</p>
                         <ol>
                             {ingredientList.map((x, i) => {
                                 return (
@@ -395,8 +385,6 @@ function NewRecipe() {
                                                 type="text"
                                                 name="unit"
                                                 className="ingredient__unit"
-                                                min="0"
-                                                step="0.1"
                                                 value={x.unit}
                                                 onChange={e => handleInputChange(e, i, ingredientList, setIngredientList)}
                                             />
@@ -411,14 +399,14 @@ function NewRecipe() {
                                         <div>
                                             {ingredientList.length !== 1 &&
                                                 <button
-                                                    className="button--round button--round-margin"
+                                                    className="button--round margin-left1"
                                                     onClick={() => handleRemoveClick(i, ingredientList, setIngredientList)}
                                                 >
                                                     -
                                                 </button>}
                                             {ingredientList.length - 1 === i &&
                                                 <button
-                                                    className="button--round button--round-margin"
+                                                    className="button--round margin-left1"
                                                     onClick={() => handleAddClick(ingredientList, setIngredientList)}
                                                 >
                                                     +
@@ -449,14 +437,14 @@ function NewRecipe() {
                                         <div>
                                             {instructionList.length !== 1 &&
                                                 <button
-                                                    className="button--round button--round-margin"
+                                                    className="button--round margin-left1"
                                                     onClick={() => handleRemoveClick(i, instructionList, setInstructionList)}
                                                 >
                                                     -
                                                 </button>}
                                             {instructionList.length - 1 === i &&
                                                 <button
-                                                    className="button--round button--round-margin"
+                                                    className="button--round margin-left1"
                                                     onClick={() => handleAddClick(instructionList, setInstructionList)}
                                                 >
                                                     +
@@ -470,7 +458,7 @@ function NewRecipe() {
 
                     <div>
                         {/*checkboxes............................................*/}
-                        <h3 className="margin-top1">In welke maanden kan je de wildpluk halen. Vink hieronder aan.</h3>
+                        <h3 className="margin-top1">In welke maanden kan je de wildpluk oogsten. Vink hieronder aan.</h3>
                         <Checkbox
                             name="january"
                             labelText="januari"
@@ -670,7 +658,6 @@ function NewRecipe() {
                             className="component-checkbox__input"
                             register={register}
                         />
-
                     </div>
 
                     <p className="new-recipe-page--required">* is verplicht</p>
@@ -686,21 +673,16 @@ function NewRecipe() {
                     <h3>Foto toevoegen (optioneel)</h3>
                     <p>Werkwijze:</p>
                     <ol>
-                        <li className="margin-left1">Vul eerst hierboven alle gegevens in en (belangrijk) klik op de
-                            groene
-                            button
-                            met "versturen"
+                        <li className="margin-left1">Vul eerst hierboven alle gegevens in en (belangrijk) klik op de groene button met "toevoegen".
                         </li>
                         <li className="margin-left1">Klik hieronder op de witte button met "choose file" en selecteer je
-                            foto (jpg/jpeg/png)
+                            foto (jpg/jpeg/png).
                         </li>
-                        <li className="margin-left1">Je kan maar 1 foto per recept uploaden van maximaal 5Mb</li>
-                        <li className="margin-left1">Je krijgt nu een preview van je foto te zien</li>
-                        <li className="margin-left1">Als je toch een andere foto wilt, klik je opnieuw op de witte
-                            button
-                            met "choose file"
+                        <li className="margin-left1">Je kan maar 1 foto per recept uploaden van maximaal 5Mb.</li>
+                        <li className="margin-left1">Je krijgt nu een preview van je foto te zien.</li>
+                        <li className="margin-left1">Als je toch een andere foto wilt, klik je opnieuw op de witte button met "choose file".
                         </li>
-                        <li className="margin-left1">Klik op de groene button met "uploaden"</li>
+                        <li className="margin-left1">Is het de goede foto, dan klik je op de groene button met "uploaden".</li>
 
                     </ol>
                     <label htmlFor="image" className="margin-top1">
@@ -708,7 +690,6 @@ function NewRecipe() {
                         <input
                             type="file"
                             name="image"
-                            id="image"
                             className="image__input"
                             onChange={handleImageChange}/>
                     </label>
@@ -731,7 +712,6 @@ function NewRecipe() {
                     {addSuccesPhoto && <h3>De upload van je foto is geslaagd.</h3>}
 
                 </form>
-
 
             </article>
         </>
