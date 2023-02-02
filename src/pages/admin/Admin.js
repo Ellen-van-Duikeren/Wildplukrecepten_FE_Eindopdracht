@@ -116,6 +116,7 @@ function Admin() {
 
 
     async function sendMail(data) {
+        data.username = "e.vanduikeren@gmail.com";
         try {
             const response = await axios.post('http://localhost:8081/sendMail', {
                 data
@@ -196,7 +197,7 @@ function Admin() {
                     className="recipes__select"
                     onChange={e => setIdOfUserToPatch(e.currentTarget.value)}
                 >
-                    <option>selecteer een emailadres</option>
+                    <option>selecteer een username</option>
                     {users.map(user => (
                         <option
                             key={user.username}
