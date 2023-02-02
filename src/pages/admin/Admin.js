@@ -116,7 +116,6 @@ function Admin() {
 
 
     async function sendMail(data) {
-        data.username = "e.vanduikeren@gmail.com";
         try {
             const response = await axios.post('http://localhost:8081/sendMail', {
                 data
