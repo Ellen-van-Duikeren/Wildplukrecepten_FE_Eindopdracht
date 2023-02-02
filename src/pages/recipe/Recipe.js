@@ -232,7 +232,9 @@ function Recipe() {
                     "Authorization": `Bearer ${token}`,
                 }
             });
-            setDeleted(true);
+            if (response.status === 204) {
+                setDeleted(true);
+            }
         } catch (e) {
             console.error(e);
         }
