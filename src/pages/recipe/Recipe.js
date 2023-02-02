@@ -748,10 +748,10 @@ function Recipe() {
 
                         <h2>Eet smakelijk!</h2>
 
+
                         {/*printing*/}
                         {/*Because after patching an utensil, ingredient or instruction one have to press enter to make it work, the form to print is automatically shown.*/}
                         {/*To prevent this I have decided to prevent printing when patching.*/}
-
                         {!admin && <button
                             onClick={handlePrint}
                             className="button--ellips recipes__button margin-top1"

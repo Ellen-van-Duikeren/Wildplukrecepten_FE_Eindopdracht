@@ -15,7 +15,7 @@ function AboutMe() {
                     eens buiten kom, na lange uren achter de pc. In de natuur kom ik
                     tot rust, kom ik tot mezelf en daar kan ik mijn hoofd, dat soms overuren draait, weer resetten.</p>
                 <p className="margin-bottom1">Het herkennen van de planten heb ik met name geleerd op de opleiding <a
-                    href={"https://natuurkok.nl/"}>Natuurkok</a>.
+                    href="https://natuurkok.nl/" target="_blank">Natuurkok</a>.
                     Een geweldige jaaropleiding, die ik iedereen aanraad. Je leert landschappen lezen, planten
                     herkennen, koken op vuur en met de dutch oven. Je trekt een heel jaar op met 20 geweldige,
                     gezellige, enthousiaste, gemotiveerde mensen. Een hoop humor en veel warmte van het vuur en iedereen

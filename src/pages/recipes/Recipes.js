@@ -57,8 +57,6 @@ function Recipe() {
 
     // method to get an overview of all recipes
     useEffect(() => {
-        const controller = new AbortController();
-
         async function fetchRecipes() {
             try {
                 const response = await axios.get('http://localhost:8081/recipes', {
@@ -66,7 +64,6 @@ function Recipe() {
                         "Content-Type": "application/json",
                         "Authorization": `Bearer ${token}`,
                     },
-                    signal: controller.signal,
                 });
                 response.data.sort((a, b) => a.id - b.id);
                 setRecipes(response.data);
@@ -77,9 +74,6 @@ function Recipe() {
         }
 
         void fetchRecipes();
-        return function cleanup() {
-            controller.abort();
-        }
     }, [token])
 
 
@@ -249,7 +243,7 @@ function Recipe() {
                                         alt={recipe.name}
                                         className="recipes__image"
                                     />}
-                                <p>{admin && recipe.id} {recipe.title}</p>
+                                {admin ? <p>{recipe.id}: {recipe.title}</p> : <p>{recipe.title}</p>}
                                 {!month.includes("selecteer") && (recipe.months[0].toLowerCase().includes("jaarrond") ?
                                     <p>jaarrond</p> : <p>{month}</p>)}
                             </li>

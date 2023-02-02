@@ -709,7 +709,7 @@ function NewRecipe() {
                     >
                         uploaden
                     </Button>
-                    {addSuccesPhoto && <h3>De upload van je foto is geslaagd.</h3>}
+                    {addSuccesPhoto && <h3 className="margin-top1">De upload van je foto is geslaagd.</h3>}
 
                 </form>
 

@@ -4,7 +4,7 @@
 De applicatie wildplukrecepten is een receptenwebsite waarin als ingredient wildpluksel is gebruikt. Wildpluksels zijn bladeren, stengels, wortels, bloemen, vruchten van planten, struiken of bomen, die eetbaar zijn.
 Het onderscheidende van deze website ten opzichte van vele andere receptenwebsites is dat het hier mogelijk is om te zoeken op maand waarin het wildpluksel geoogst kan worden.
 
-## Beveiliging
+## Rollen
 De applicatie maakt gebruik van 2 rollen: user en admin.
 
 ## Functionaliteiten
@@ -26,7 +26,11 @@ En specifiek voor de rol admin:
 * User wijzigen
 * User verwijderen
   
+## Token
+Ten behoeve van de beveiliging van deze webapplicatie is er een token nodig. Deze wordt automatisch aangeleverd vanuit de backend wanneer ingelogd wordt.
   
+  
+
 Have fun met wildplukken en eet smakelijk.  
 Ellen van Duikeren  
 februari 2023
